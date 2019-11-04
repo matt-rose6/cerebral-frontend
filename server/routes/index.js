@@ -2,12 +2,12 @@
 var express = require('express')
 var router = express.Router()
 const users = require("./users")
-const restaurants = require("./restaurants")
-const preferences = require("./preferences")
+const entries = require("./entries")
+const emotions = require("./emotions")
 
 router.use('/users', users)
-router.use('/restaurants', restaurants)
-router.use('/preferences', preferences)
+router.use('/entries', entries)
+router.use('/emotions', emotions)
 
 module.exports = router;
 

@@ -1,5 +1,5 @@
 {
-  "name": "lunch-roulette",
+  "name": "cerebral",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,5 +18,6 @@
   "homepage": "https://github.com/matt-rose6/lunch-roulette#readme",
   "dependencies": {
     "express": "^4.17.1"
-  }
+  },
+  "devDependencies": {}
 }
