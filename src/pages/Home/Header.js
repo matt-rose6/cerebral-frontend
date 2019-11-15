@@ -15,6 +15,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import ProfilePic from "../public/profile_pic_2.jpg";
 import { withStyles } from '@material-ui/core/styles';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
@@ -76,7 +77,7 @@ function Header(props) {
             </Grid>
             <Grid item>
               <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
+                <Avatar src= {ProfilePic} alt="My Avatar" />                                                                                                                                               
               </IconButton>
             </Grid>
           </Grid>
