@@ -1,5 +1,4 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -12,6 +11,7 @@ import BrainIcon from './public/cerebralicon.png';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+{/*import Avatar from '@material-ui/core/Avatar';*/}
 
 function Copyright() {
   return (
@@ -60,7 +60,7 @@ export default function SignIn() {
       <div className={classes.paper}>
         {/*<Avatar className={classes.avatar}>*/}
           {/*<LockOutlinedIcon />*/}
-          <img style={{width: '75px', height: '75px'}} src={BrainIcon} />
+          <img style={{width: '75px', height: '75px'}} src={BrainIcon} alt = "Cerebral Logo" />
         {/*</Avatar>*/}
         <Typography component="h1" variant="h5">
           Sign in

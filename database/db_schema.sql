@@ -1,8 +1,13 @@
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS entries;
+DROP TABLE IF EXISTS emotions;
+
 CREATE TABLE users (
 	uid INT NOT NULL,
 	firstname VARCHAR(255) NOT NULL,
-	lastname VARCHAR(255),
-	email VARCHAR(255),
+	lastname VARCHAR(255) NOT NULL,
+	email VARCHAR(255) NOT NULL,
+	outreach BOOLEAN NOT NULL,
 	PRIMARY KEY (uid)
 );
 
