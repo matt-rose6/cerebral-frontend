@@ -8,7 +8,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import BrainIcon from '../public/cerebralicon.png';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -58,9 +58,10 @@ export default function SignUp() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        {/*<Avatar className={classes.avatar}>*/}
+          {/*<BrainIcon />*/}
+          <img style={{width: '75px', height: '75px'}} src={BrainIcon} />
+        {/*</Avatar>*/}
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
@@ -115,7 +116,7 @@ export default function SignUp() {
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
+                label="I want to receive inspiration, journaling reminders and updates via email."
               />
             </Grid>
           </Grid>
