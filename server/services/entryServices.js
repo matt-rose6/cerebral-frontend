@@ -4,7 +4,7 @@ const pool = new Pool({
   host: 'localhost',
   database: 'cerebral',
   password: 'test',
-  port: 3001,
+  port: 5432,
 })
 
 const getEntries = (request, response) => {

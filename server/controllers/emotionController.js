@@ -4,23 +4,23 @@ const emotionServices = require("../services/emotionServices.js")
 module.exports = {
 	
 	getEmotionList(req, res) {
-		return emotionServices.getEmotions;
-	}
+		return emotionServices.getEmotions(req, res);
+	},
 
 	getEmotionById(req, res) {
-		return emtionServices.getEmotionById;
-	}
+		return emtionServices.getEmotionById(req, res);
+	},
 
 	addEmotion(req, res) {
-		return emotionServices.createEmotion;
-	}
+		return emotionServices.createEmotion(req, res);
+	},
 
 	updateEmotion(req, res) {
-		return emotionServices.updateEmotion;
-	}
+		return emotionServices.updateEmotion(req, res);
+	},
 
 	deleteEmotion(req, res) {
-		return emotionServices.deleteEmotion;
+		return emotionServices.deleteEmotion(req, res);
 	}
 
 }

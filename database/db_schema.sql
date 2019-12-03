@@ -3,12 +3,11 @@ DROP TABLE IF EXISTS entries;
 DROP TABLE IF EXISTS emotions;
 
 CREATE TABLE users (
-	uid INT NOT NULL,
+	uid SERIAL PRIMARY KEY,
 	firstname VARCHAR(255) NOT NULL,
 	lastname VARCHAR(255) NOT NULL,
 	email VARCHAR(255) NOT NULL,
-	outreach BOOLEAN NOT NULL,
-	PRIMARY KEY (uid)
+	outreach BOOLEAN NOT NULL
 );
 
 CREATE TABLE entries (
@@ -24,3 +23,6 @@ CREATE TABLE emotions (
 	ratings INT,
 	PRIMARY KEY (uid, dates)
 );
+
+INSERT INTO users (firstname, lastname, email, outreach)
+  VALUES ('Jerry', 'Johnson', 'jerry@example.com', TRUE), ('George', 'Gackley','george@example.com', TRUE);

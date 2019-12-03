@@ -4,33 +4,33 @@ const pool = new Pool({
   host: 'localhost',
   database: 'cerebral',
   password: 'test',
-  port: 3001,
+  port: 5432,
 })
 
 const getEmotions = (request, response) => {
-  pool.query('SELECT * FROM emotions ORDER BY id ASC', (error, results) => {
+  pool.query('SELECT * FROM emotions ORDER BY id ASC', (error, result) => {
     if (error) {
       throw error
     }
-    response.status(200).json(results.rows)
+    response.status(200).json(result.rows)
   })
 }
 
 const getEmotionById = (request, response) => {
   const id = parseInt(request.params.id)
 
-  pool.query('SELECT * FROM emotions WHERE id = $1', [id], (error, results) => {
+  pool.query('SELECT * FROM emotions WHERE id = $1', [id], (error, result) => {
     if (error) {
       throw error
     }
-    response.status(200).json(results.rows)
+    response.status(200).json(result.rows)
   })
 }
 
 const createEmotion = (request, response) => {
   const { name, email } = request.body
 
-  pool.query('INSERT INTO emotions (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
+  pool.query('INSERT INTO emotions (name, email) VALUES ($1, $2)', [name, email], (error, result) => {
     if (error) {
       throw error
     }
@@ -45,7 +45,7 @@ const updateEmotion = (request, response) => {
   pool.query(
     'UPDATE emotions SET name = $1, email = $2 WHERE id = $3',
     [name, email, id],
-    (error, results) => {
+    (error, result) => {
       if (error) {
         throw error
       }
@@ -57,7 +57,7 @@ const updateEmotion = (request, response) => {
 const deleteEmotion = (request, response) => {
   const id = parseInt(request.params.id)
 
-  pool.query('DELETE FROM emotions WHERE id = $1', [id], (error, results) => {
+  pool.query('DELETE FROM emotions WHERE id = $1', [id], (error, result) => {
     if (error) {
       throw error
     }

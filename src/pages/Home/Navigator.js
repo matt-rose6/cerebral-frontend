@@ -23,22 +23,22 @@ const categories = [
   {
     id: 'Develop',
     children: [
-      { id: 'Authentication', icon: <PeopleIcon />, active: true },
-      { id: 'Database', icon: <DnsRoundedIcon /> },
-      { id: 'Storage', icon: <PermMediaOutlinedIcon /> },
-      { id: 'Hosting', icon: <PublicIcon /> },
-      { id: 'Functions', icon: <SettingsEthernetIcon /> },
-      { id: 'ML Kit', icon: <SettingsInputComponentIcon /> },
+      { id: 'Profile', icon: <PeopleIcon />, active: true },
+      { id: 'Entries', icon: <DnsRoundedIcon /> },
+      { id: 'Emotions', icon: <PermMediaOutlinedIcon /> },
+      //{ id: 'Hosting', icon: <PublicIcon /> },
+      //{ id: 'Functions', icon: <SettingsEthernetIcon /> },
+      { id: 'Thought Patterns', icon: <SettingsInputComponentIcon /> },
     ],
   },
-  {
-    id: 'Quality',
-    children: [
-      { id: 'Analytics', icon: <SettingsIcon /> },
-      { id: 'Performance', icon: <TimerIcon /> },
-      { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },
-    ],
-  },
+  // {
+  //   id: 'Quality',
+  //   children: [
+  //     { id: 'Analytics', icon: <SettingsIcon /> },
+  //     { id: 'Performance', icon: <TimerIcon /> },
+  //     { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },
+  //   ],
+  // },
 ];
 
 const styles = theme => ({
@@ -100,7 +100,7 @@ function Navigator(props) {
               primary: classes.itemPrimary,
             }}
           >
-            Project Overview
+            Home
           </ListItemText>
         </ListItem>
         {categories.map(({ id, children }) => (
