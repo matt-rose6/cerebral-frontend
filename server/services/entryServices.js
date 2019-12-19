@@ -8,7 +8,7 @@ const pool = new Pool({
 })
 
 const getEntries = (request, response) => {
-  pool.query('SELECT * FROM entries ORDER BY id ASC', (error, results) => {
+  pool.query('SELECT * FROM entries', (error, results) => {
     if (error) {
       throw error
     }

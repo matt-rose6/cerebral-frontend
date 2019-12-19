@@ -8,7 +8,7 @@ const pool = new Pool({
 })
 
 const getEmotions = (request, response) => {
-  pool.query('SELECT * FROM emotions ORDER BY id ASC', (error, result) => {
+  pool.query('SELECT * FROM emotions', (error, result) => {
     if (error) {
       throw error
     }
@@ -17,9 +17,10 @@ const getEmotions = (request, response) => {
 }
 
 const getEmotionById = (request, response) => {
-  const id = parseInt(request.params.id)
+  const uid = parseInt(request.params.id)
+  const {dates} = request.body
 
-  pool.query('SELECT * FROM emotions WHERE id = $1', [id], (error, result) => {
+  pool.query('SELECT * FROM emotions WHERE uid = $1 AND dates = $2', [uid, dates], (error, result) => {
     if (error) {
       throw error
     }
@@ -28,40 +29,40 @@ const getEmotionById = (request, response) => {
 }
 
 const createEmotion = (request, response) => {
-  const { name, email } = request.body
+  const { uid, dates, rating } = request.body
 
-  pool.query('INSERT INTO emotions (name, email) VALUES ($1, $2)', [name, email], (error, result) => {
+  pool.query('INSERT INTO emotions (uid, dates, rating) VALUES ($1, $2, $3)', [uid, dates, rating], (error, result) => {
     if (error) {
       throw error
     }
-    response.status(201).send(`Emotion added with ID: ${result.insertId}`)
+    response.status(201).send(`Emotion added with ID: ${uid}`)
   })
 }
 
 const updateEmotion = (request, response) => {
-  const id = parseInt(request.params.id)
-  const { name, email } = request.body
+  const uid = parseInt(request.params.id)
+  const { dates, rating } = request.body
 
   pool.query(
-    'UPDATE emotions SET name = $1, email = $2 WHERE id = $3',
-    [name, email, id],
+    'UPDATE emotions SET name = $1, email = $2 WHERE uid = $3',
+    [name, email, uid],
     (error, result) => {
       if (error) {
         throw error
       }
-      response.status(200).send(`Emotion modified with ID: ${id}`)
+      response.status(200).send(`Emotion modified with ID: ${uid}`)
     }
   )
 }
 
 const deleteEmotion = (request, response) => {
-  const id = parseInt(request.params.id)
+  const uid = parseInt(request.params.id)
 
-  pool.query('DELETE FROM emotions WHERE id = $1', [id], (error, result) => {
+  pool.query('DELETE FROM emotions WHERE uid = $1', [uid], (error, result) => {
     if (error) {
       throw error
     }
-    response.status(200).send(`Emotion deleted with ID: ${id}`)
+    response.status(200).send(`Emotion deleted with ID: ${uid}`)
   })
 }
 

@@ -11,18 +11,17 @@ CREATE TABLE users (
 );
 
 CREATE TABLE entries (
-	uid INT NOT NULL,
+	uid FOREIGN KEY,
 	dates DATE NOT NULL,
-	content VARCHAR(1000),
-	PRIMARY KEY (uid, dates)
+	entry VARCHAR(1000),
+	FOREIGN KEY (uid) REFERENCES users(uid),
+	PRIMARY KEY(uid, dates)
 );
 
 CREATE TABLE emotions (
-	uid INT NOT NULL,
+	uid FOREIGN KEY,
 	dates DATE NOT NULL,
 	ratings INT,
-	PRIMARY KEY (uid, dates)
+	FOREIGN KEY (uid) REFERENCES users(uid),
+	PRIMARY KEY(uid, dates)
 );
-
-INSERT INTO users (firstname, lastname, email, outreach)
-  VALUES ('Jerry', 'Johnson', 'jerry@example.com', TRUE), ('George', 'Gackley','george@example.com', TRUE);
