@@ -17,9 +17,10 @@ const getEntries = (request, response) => {
 }
 
 const getEntryById = (request, response) => {
-  const id = parseInt(request.params.id)
+  const uid = parseInt(request.params.id)
+  const {dates} = request.body
 
-  pool.query('SELECT * FROM entries WHERE id = $1', [id], (error, results) => {
+  pool.query('SELECT * FROM entries WHERE uid = $1 AND dates = $2', [uid, dates], (error, results) => {
     if (error) {
       throw error
     }
@@ -28,40 +29,41 @@ const getEntryById = (request, response) => {
 }
 
 const createEntry = (request, response) => {
-  const { name, email } = request.body
+  const { uid, dates, entry } = request.body
 
-  pool.query('INSERT INTO entries (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
+  pool.query('INSERT INTO entries (uid, dates, entry) VALUES ($1, $2, $3)', [uid, dates, entry], (error, results) => {
     if (error) {
       throw error
     }
-    response.status(201).send(`Entry added with ID: ${result.insertId}`)
+    response.status(201).send(`Entry added with date: ${dates}`)e
   })
 }
 
 const updateEntry = (request, response) => {
-  const id = parseInt(request.params.id)
-  const { name, email } = request.body
+  const uid = parseInt(request.params.id)
+  const { dates, entry } = request.body
 
   pool.query(
-    'UPDATE entries SET name = $1, email = $2 WHERE id = $3',
-    [name, email, id],
+    'UPDATE entries SET entry = $1 WHERE uid = $2 AND dates = $3',
+    [entry, uid, dates],
     (error, results) => {
       if (error) {
         throw error
       }
-      response.status(200).send(`Entry modified with ID: ${id}`)
+      response.status(200).send(`Entry modified with date: ${dates}`)
     }
   )
 }
 
 const deleteEntry = (request, response) => {
-  const id = parseInt(request.params.id)
+  const uid = parseInt(request.params.id)
+  const {dates} = request.body
 
-  pool.query('DELETE FROM entries WHERE id = $1', [id], (error, results) => {
+  pool.query('DELETE FROM entries WHERE uid = $1 AND dates = $2', [uid, dates], (error, results) => {
     if (error) {
       throw error
     }
-    response.status(200).send(`Entry deleted with ID: ${id}`)
+    response.status(200).send(`Entry deleted with date: ${dates}`)
   })
 }
 

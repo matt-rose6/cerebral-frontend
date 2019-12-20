@@ -35,7 +35,7 @@ const createEmotion = (request, response) => {
     if (error) {
       throw error
     }
-    response.status(201).send(`Emotion added with ID: ${uid}`)
+    response.status(201).send(`Emotion added with date: ${dates}`)
   })
 }
 
@@ -44,25 +44,26 @@ const updateEmotion = (request, response) => {
   const { dates, rating } = request.body
 
   pool.query(
-    'UPDATE emotions SET name = $1, email = $2 WHERE uid = $3',
-    [name, email, uid],
+    'UPDATE emotions SET rating = $1 WHERE uid = $3 AND dates = $4',
+    [rating, uid, dates],
     (error, result) => {
       if (error) {
         throw error
       }
-      response.status(200).send(`Emotion modified with ID: ${uid}`)
+      response.status(200).send(`Emotion modified with date: ${dates}`)
     }
   )
 }
 
 const deleteEmotion = (request, response) => {
   const uid = parseInt(request.params.id)
+  const {dates} = request.body
 
-  pool.query('DELETE FROM emotions WHERE uid = $1', [uid], (error, result) => {
+  pool.query('DELETE FROM emotions WHERE uid = $1 AND dates = $2', [uid, dates], (error, result) => {
     if (error) {
       throw error
     }
-    response.status(200).send(`Emotion deleted with ID: ${uid}`)
+    response.status(200).send(`Emotion deleted with date: ${dates}`)
   })
 }
 
