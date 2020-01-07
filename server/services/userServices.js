@@ -28,23 +28,27 @@ const getUserById = (request, response) => {
 }
 
 const createUser = (request, response) => {
-  const { firstname, lastname, email, outreach } = request.body
+  const { firstname, lastname, email, pass, outreach } = request.body
 
-  pool.query('INSERT INTO users (firstname, lastname, email, outreach) VALUES ($1, $2, $3, $4)', [firstname, lastname, email, outreach], (error, result) => {
+  pool.query('INSERT INTO users (firstname, lastname, email, pass, outreach) VALUES ($1, $2, $3, $4, $5)', [firstname, lastname, email, pass, outreach], (error, result) => {
     if (error) {
       throw error
     }
-    response.status(201).send(`User added with ID: ${result.insertId}`)
+    //response.header('Access-Control-Allow-Origin', ['*'])
+    response.status(201).send(`User added with name: ${firstname}`)
+    response.append('Access-Control-Allow-Origin', ['*']);
+    response.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    response.append('Access-Control-Allow-Headers', 'Content-Type');
   })
 }
 
 const updateUser = (request, response) => {
   const uid = parseInt(request.params.id)
-  const { firstname, lastname, email, outreach} = request.body
+  const { firstname, lastname, email, pass, outreach} = request.body
 
   pool.query(
-    'UPDATE users SET firstname = $1, lastname = $2, email = $3, outreach = $4 WHERE uid = $5',
-    [firstname, lastname, email, outreach, uid],
+    'UPDATE users SET firstname = $1, lastname = $2, email = $3, pass = $4, outreach = $5 WHERE uid = $6',
+    [firstname, lastname, email, pass, outreach, uid],
     (error, result) => {
       if (error) {
         throw error

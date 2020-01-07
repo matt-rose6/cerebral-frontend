@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Axios from 'axios';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,8 +12,8 @@ import BrainIcon from './public/cerebralicon.png';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-{/*import Style from '../App.css';*/}
-{/*import Avatar from '@material-ui/core/Avatar';*/}
+//import Style from '../App.css';
+//import Avatar from '@material-ui/core/Avatar';
 
 function Copyright() {
   return (
@@ -53,31 +53,42 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignUp() {
-  {/*constructor(props){
-    super(props);
-    this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      outreach: ''
-    };
-  }*/}
+const SignUp = props => {
+  const [ signUpState, setSignUpState ] = useState({
+    firstname: 'default',
+    lastname: 'default',
+    email: 'default',
+    password: 'default',
+    outreach: 'FALSE'
+  });
 
   const classes = useStyles();
-  {/*render() {*/}
-    /*const classes = 'useStyles';*/
 
-    return (
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className={classes.paper}>
-          {/*<Avatar className={classes.avatar}>*/}
-            {/*<BrainIcon />*/}
-            <img style={{width: '75px', height: '75px'}} src={BrainIcon} alt = "Cerebral Logo"/>
+  const handleSubmit = () => {
+    console.log(signUpState.firstname)
+    Axios({
+      method: 'post',
+      url: 'http://localhost:3001/api/users/addUser',
+      data: {
+        "firstname": "matthew", //signUpState.firstname,
+        "lastname": "rose", //signUpState.lastname,
+        "email": "matt.rose@fdsfdsfds", //signUpState.email,
+        "pass": "hello", //signUpState.password,
+        "outreach": "TRUE"
+      }
+    })
+  };
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        {/*<Avatar className={classes.avatar}>*/}
+          {/*<BrainIcon />*/}
+          <img style={{width: '75px', height: '75px'}} src={BrainIcon} alt = "Cerebral Logo"/>
           {/*</Avatar>*/}
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign Up
           </Typography>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
@@ -91,6 +102,12 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  onChange={(event, newVal) => setSignUpState({
+                    firstname: newVal,
+                    lastname: signUpState.lastname,
+                    email: signUpState.email,
+                    password: signUpState.password
+                  })}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -102,6 +119,12 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="lname"
+                  onChange={(event, newVal) => setSignUpState({
+                    firstname: signUpState.firstname,
+                    lastname: newVal,
+                    email: signUpState.email,
+                    password: signUpState.password
+                  })}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -113,6 +136,12 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={(event, newVal) => setSignUpState({
+                    firstname: signUpState.firstname,
+                    lastname: signUpState.lastname,
+                    email: newVal,
+                    password: signUpState.password
+                  })}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -125,22 +154,28 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  onChange={(event, newVal) => setSignUpState({
+                    firstname: signUpState.firstname,
+                    lastname: signUpState.lastname,
+                    email: signUpState.email,
+                    password: newVal
+                  })}
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive journaling reminders and updates via email."
+                  label="I want to receive journaling reminders and updates via email"
                 />
               </Grid>
             </Grid>
             <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              href = "home"
-              className={classes.submit}
+              // type="submit"
+              // fullWidth
+              // variant="contained"
+              // color="primary"
+              // className={classes.submit}
+              onClick={handleSubmit}
             >
               Sign Up
             </Button>
@@ -158,5 +193,6 @@ export default function SignUp() {
         </Box>
       </Container>
     );
-  {/* } */}
 }
+
+export default SignUp;

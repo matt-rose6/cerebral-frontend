@@ -7,6 +7,7 @@ CREATE TABLE users (
 	firstname VARCHAR(255) NOT NULL,
 	lastname VARCHAR(255) NOT NULL,
 	email VARCHAR(255) NOT NULL,
+	pass VARCHAR(255) NOT NULL,
 	outreach BOOLEAN NOT NULL
 );
 

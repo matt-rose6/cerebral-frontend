@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -11,7 +11,7 @@ import BrainIcon from './public/cerebralicon.png';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-{/*import Avatar from '@material-ui/core/Avatar';*/}
+//import Avatar from '@material-ui/core/Avatar';
 
 function Copyright() {
   return (
@@ -52,7 +52,20 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SignIn() {
+
+  const [ signInState, setSignInState] = useState({
+    email: '',
+    pass: '',
+    remember: 'FALSE'
+  })
+
   const classes = useStyles();
+
+  const handleSubmit = () => {
+    // Axios({
+    //   Implement JWT tokens for authentication
+    // })
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -63,7 +76,7 @@ export default function SignIn() {
           <img style={{width: '75px', height: '75px'}} src={BrainIcon} alt = "Cerebral Logo" />
         {/*</Avatar>*/}
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign In
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -76,6 +89,11 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange = {(event, newVal) => setSignInState({
+              email: newVal,
+              pass: signInState.pass,
+              remember: signInState.remember
+            })}
           />
           <TextField
             variant="outlined"
@@ -87,6 +105,11 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange = {(event, newVal) => setSignInState({
+              email: signInState.email,
+              pass: newVal,
+              remember: signInState.remember
+            })}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -105,6 +128,7 @@ export default function SignIn() {
             <Grid item xs>
               <Link href="#" variant="body2">
                 Forgot password?
+
               </Link>
             </Grid>
             <Grid item>
