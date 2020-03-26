@@ -12,8 +12,6 @@ import HomeIcon from '@material-ui/icons/Home';
 import PeopleIcon from '@material-ui/icons/People';
 import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
 import PermMediaOutlinedIcon from '@material-ui/icons/PhotoSizeSelectActual';
-//import PublicIcon from '@material-ui/icons/Public';
-//import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponent';
 //import TimerIcon from '@material-ui/icons/Timer';
 //import SettingsIcon from '@material-ui/icons/Settings';
@@ -26,19 +24,9 @@ const categories = [
       { id: 'Profile', icon: <PeopleIcon />, active: true },
       { id: 'Entries', icon: <DnsRoundedIcon /> },
       { id: 'Emotions', icon: <PermMediaOutlinedIcon /> },
-      //{ id: 'Hosting', icon: <PublicIcon /> },
-      //{ id: 'Functions', icon: <SettingsEthernetIcon /> },
       { id: 'Thought Patterns', icon: <SettingsInputComponentIcon /> },
     ],
   },
-  // {
-  //   id: 'Quality',
-  //   children: [
-  //     { id: 'Analytics', icon: <SettingsIcon /> },
-  //     { id: 'Performance', icon: <TimerIcon /> },
-  //     { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },
-  //   ],
-  // },
 ];
 
 const styles = theme => ({

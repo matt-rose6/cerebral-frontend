@@ -36,9 +36,6 @@ const createUser = (request, response) => {
     }
     //response.header('Access-Control-Allow-Origin', ['*'])
     response.status(201).send(`User added with name: ${firstname}`)
-    response.append('Access-Control-Allow-Origin', ['*']);
-    response.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    response.append('Access-Control-Allow-Headers', 'Content-Type');
   })
 }
 

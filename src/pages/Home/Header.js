@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
@@ -10,13 +10,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import ProfilePic from "../public/profile_pic_2.jpg";
 import { withStyles } from '@material-ui/core/styles';
+import Axios from 'axios';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -44,6 +43,31 @@ const styles = theme => ({
 
 function Header(props) {
   const { classes, onDrawerToggle } = props;
+
+  const [ headerState, setHeaderState ] = useState({
+    username:''
+  });
+
+  //var username = 'User'
+
+  const getUsername = () => Axios({
+    method: 'get',
+    url: 'http://localhost:3001/api/users/getUser/1'
+  })
+  .then(response => {
+    setHeaderState({
+      username: response.data[0].firstname
+    })
+  })
+  .catch(error => console.log(error));
+
+  //getUsername()
+
+  // var username = getUsername().then(function (response) {
+  //   return response.data[0].firstname; // now the data is accessable from here.
+  // }).catch(function (response) {
+  //   console.log(response);
+  // });
 
   return (
     <React.Fragment>
@@ -94,11 +118,11 @@ function Header(props) {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="inherit" variant="h5" component="h1">
-                Welcome User
+                {"Welcome " + headerState.username}
               </Typography>
             </Grid>
             <Grid item>
-              <Button className={classes.button} variant="outlined" color="inherit" size="small">
+              <Button className={classes.button} variant="outlined" color="inherit" size="small" onClick = {() => getUsername()} >
                 Web setup
               </Button>
             </Grid>
@@ -119,12 +143,6 @@ function Header(props) {
         position="static"
         elevation={0}
       >
-        <Tabs value={0} textColor="inherit">
-          <Tab textColor="inherit" label="Users" />
-          <Tab textColor="inherit" label="Sign-in method" />
-          <Tab textColor="inherit" label="Templates" />
-          <Tab textColor="inherit" label="Usage" />
-        </Tabs>
       </AppBar>
     </React.Fragment>
   );

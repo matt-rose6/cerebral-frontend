@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Component} from 'react';
 import Axios from 'axios';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,10 +10,9 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import BrainIcon from './public/cerebralicon.png';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-//import Style from '../App.css';
-//import Avatar from '@material-ui/core/Avatar';
+import { Redirect } from 'react-router-dom';
+import {withStyles } from '@material-ui/core/styles';
 
 function Copyright() {
   return (
@@ -28,7 +27,7 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   '@global': {
     body: {
       backgroundColor: theme.palette.common.white,
@@ -51,42 +50,69 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-}));
+});
 
-const SignUp = props => {
-  const [ signUpState, setSignUpState ] = useState({
-    firstname: 'default',
-    lastname: 'default',
-    email: 'default',
-    password: 'default',
-    outreach: 'FALSE'
-  });
+class SignUp extends Component {
 
-  const classes = useStyles();
+  constructor(props){
+    super(props);
+    this.state = {
+      firstname: '',
+      lastname: '',
+      email: '',
+      password: '',
+      outreach: false,
+      redirect: false
+    }
+  }
 
-  const handleSubmit = () => {
-    console.log(signUpState.firstname)
+  handleSubmit = () => {
     Axios({
       method: 'post',
       url: 'http://localhost:3001/api/users/addUser',
       data: {
-        "firstname": "matthew", //signUpState.firstname,
-        "lastname": "rose", //signUpState.lastname,
-        "email": "matt.rose@fdsfdsfds", //signUpState.email,
-        "pass": "hello", //signUpState.password,
-        "outreach": "TRUE"
+        "firstname": this.state.firstname,
+        "lastname": this.state.lastname,
+        "email": this.state.email,
+        "pass": this.state.password,
+        "outreach": this.state.outreach
       }
-    })
+    }).then(this.setState({ redirect: true }));
   };
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        {/*<Avatar className={classes.avatar}>*/}
-          {/*<BrainIcon />*/}
+  handleFirstNameChange = (event) => {
+    this.setState({firstname: event.target.value});
+  }
+
+  handleLastNameChange = (event) => {
+    this.setState({lastname: event.target.value});
+  }
+
+  handleEmailChange = (event) => {
+    this.setState({email: event.target.value});
+  }
+
+  handlePassChange = (event) => {
+    this.setState({password: event.target.value});
+  }
+
+  handleOutreachChange = (event) => {
+    this.setState({outreach: event.target.checked});
+  }
+
+  render() {
+    const { classes } = this.props;
+    if(this.state.redirect) return <Redirect to={{
+        pathname:'/home',
+        state: {uid: 1}
+      }}
+    />
+
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
           <img style={{width: '75px', height: '75px'}} src={BrainIcon} alt = "Cerebral Logo"/>
-          {/*</Avatar>*/}
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
@@ -102,12 +128,7 @@ const SignUp = props => {
                   id="firstName"
                   label="First Name"
                   autoFocus
-                  onChange={(event, newVal) => setSignUpState({
-                    firstname: newVal,
-                    lastname: signUpState.lastname,
-                    email: signUpState.email,
-                    password: signUpState.password
-                  })}
+                  onChange={(event) => this.handleFirstNameChange(event)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -119,12 +140,7 @@ const SignUp = props => {
                   label="Last Name"
                   name="lastName"
                   autoComplete="lname"
-                  onChange={(event, newVal) => setSignUpState({
-                    firstname: signUpState.firstname,
-                    lastname: newVal,
-                    email: signUpState.email,
-                    password: signUpState.password
-                  })}
+                  onChange={(event) => this.handleLastNameChange(event)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -136,12 +152,7 @@ const SignUp = props => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  onChange={(event, newVal) => setSignUpState({
-                    firstname: signUpState.firstname,
-                    lastname: signUpState.lastname,
-                    email: newVal,
-                    password: signUpState.password
-                  })}
+                  onChange={(event) => this.handleEmailChange(event)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -154,45 +165,43 @@ const SignUp = props => {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                  onChange={(event, newVal) => setSignUpState({
-                    firstname: signUpState.firstname,
-                    lastname: signUpState.lastname,
-                    email: signUpState.email,
-                    password: newVal
-                  })}
+                  onChange={(event) => this.handlePassChange(event)}
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
                   label="I want to receive journaling reminders and updates via email"
+                  onChange={(event) => this.handleOutreachChange(event)}
                 />
               </Grid>
-            </Grid>
-            <Button
-              // type="submit"
-              // fullWidth
-              // variant="contained"
-              // color="primary"
-              // className={classes.submit}
-              onClick={handleSubmit}
-            >
-              Sign Up
-            </Button>
-            <Grid container justify="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
               </Grid>
-            </Grid>
-          </form>
-        </div>
-        <Box mt={5}>
-          <Copyright />
-        </Box>
-      </Container>
-    );
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={this.handleSubmit}
+                //href="home"
+              >
+                Sign Up
+              </Button>
+              <Grid container justify="flex-end">
+                <Grid item>
+                  <Link href="/" variant="body2">
+                    Already have an account? Sign in
+                  </Link>
+                </Grid>
+              </Grid>
+            </form>
+          </div>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
+        </Container>
+      );
+  }
 }
 
-export default SignUp;
+export default withStyles (styles, {withTheme: true}) (SignUp);

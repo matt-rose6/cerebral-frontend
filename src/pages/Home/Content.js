@@ -50,7 +50,7 @@ function Content(props) {
             <Grid item xs>
               <TextField
                 fullWidth
-                placeholder="Search by email address, phone number, or user UID"
+                placeholder="Search by date"
                 InputProps={{
                   disableUnderline: true,
                   className: classes.searchInput,
@@ -59,7 +59,7 @@ function Content(props) {
             </Grid>
             <Grid item>
               <Button variant="contained" color="primary" className={classes.addUser}>
-                Add user
+                Add entry
               </Button>
               <Tooltip title="Reload">
                 <IconButton>
@@ -72,7 +72,7 @@ function Content(props) {
       </AppBar>
       <div className={classes.contentWrapper}>
         <Typography color="textSecondary" align="center">
-          No users for this project yet
+          No journal entries yet
         </Typography>
       </div>
     </Paper>
