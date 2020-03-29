@@ -8,6 +8,8 @@ import Link from '@material-ui/core/Link';
 import Navigator from './Navigator';
 import Content from './Content';
 import Header from './Header';
+import Entries from './Entries/Entries'
+import Emotions from './Emotions/Emotions'
 
 function Copyright() {
   return (
@@ -169,6 +171,8 @@ function Paperbase(props) {
     setMobileOpen(!mobileOpen);
   };
 
+  let mainPage = <Emotions />;
+
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
@@ -189,7 +193,7 @@ function Paperbase(props) {
         <div className={classes.app}>
           <Header onDrawerToggle={handleDrawerToggle} />
           <main className={classes.main}>
-            <Content />
+            {mainPage}
           </main>
           <footer className={classes.footer}>
             <Copyright />

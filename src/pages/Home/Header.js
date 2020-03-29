@@ -87,7 +87,7 @@ function Header(props) {
               </Grid>
             </Hidden>
             <Grid item xs />
-            <Grid item>
+            {/*<Grid item>
               <Link className={classes.link} href="#" variant="body2">
                 Go to docs
               </Link>
@@ -98,7 +98,7 @@ function Header(props) {
                   <NotificationsIcon />
                 </IconButton>
               </Tooltip>
-            </Grid>
+            </Grid>*/}
             <Grid item>
               <IconButton color="inherit" className={classes.iconButtonAvatar}>
                 <Avatar src= {ProfilePic} alt="My Avatar" />                                                                                                                                               

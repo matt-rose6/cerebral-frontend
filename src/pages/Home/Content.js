@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
@@ -58,9 +58,6 @@ function Content(props) {
               />
             </Grid>
             <Grid item>
-              <Button variant="contained" color="primary" className={classes.addUser}>
-                Add entry
-              </Button>
               <Tooltip title="Reload">
                 <IconButton>
                   <RefreshIcon className={classes.block} color="inherit" />

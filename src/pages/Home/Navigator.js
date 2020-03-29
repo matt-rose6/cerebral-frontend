@@ -22,9 +22,9 @@ const categories = [
     id: 'Develop',
     children: [
       { id: 'Profile', icon: <PeopleIcon />, active: true },
-      { id: 'Entries', icon: <DnsRoundedIcon /> },
-      { id: 'Emotions', icon: <PermMediaOutlinedIcon /> },
-      { id: 'Thought Patterns', icon: <SettingsInputComponentIcon /> },
+      { id: 'Entries', icon: <DnsRoundedIcon /> , active: false},
+      { id: 'Emotions', icon: <PermMediaOutlinedIcon /> , active: false},
+      { id: 'Thought Patterns', icon: <SettingsInputComponentIcon /> , active: false},
     ],
   },
 ];
