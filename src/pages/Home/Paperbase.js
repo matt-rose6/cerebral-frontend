@@ -171,7 +171,7 @@ function Paperbase(props) {
     setMobileOpen(!mobileOpen);
   };
 
-  let mainPage = <Content />;
+  let mainPage = <Entries />;
 
   return (
     <ThemeProvider theme={theme}>

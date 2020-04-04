@@ -13,7 +13,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import ProfilePic from "../public/profile_pic_2.jpg";
+import ProfilePic from "../../public/profile_pic_2.jpg";
 import { withStyles } from '@material-ui/core/styles';
 import Axios from 'axios';
 
