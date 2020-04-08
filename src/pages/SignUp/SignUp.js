@@ -5,22 +5,23 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+import MaterialLink from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import BrainIcon from '../../public/cerebral_icon.png';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import { Redirect } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+//import { Redirect } from 'react-router-dom';
 import {withStyles } from '@material-ui/core/styles';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://github.com/matt-rose6/">
+      <MaterialLink color="inherit" href="https://github.com/matt-rose6/">
         Matthew Rose,
-      </Link>{' '}
+      </MaterialLink>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -62,7 +63,7 @@ class SignUp extends Component {
       email: '',
       password: '',
       outreach: false,
-      redirect: false
+      //redirect: false
     }
   }
 
@@ -102,11 +103,11 @@ class SignUp extends Component {
 
   render() {
     const { classes } = this.props;
-    if(this.state.redirect) return <Redirect to={{
-        pathname:'/home',
-        state: {uid: 1}
-      }}
-    />
+    // if(this.state.redirect) return <Redirect to={{
+    //     pathname:'/home',
+    //     state: {uid: 1}
+    //   }}
+    // />
 
     return (
       <Container component="main" maxWidth="xs">
@@ -182,16 +183,18 @@ class SignUp extends Component {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={this.handleSubmit}
+                component={Link}
+                to="/"
+                //onClick={this.handleSubmit}
                 //href="home"
               >
                 Sign Up
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link href="/" variant="body2">
+                  <MaterialLink href="/" variant="body2">
                     Already have an account? Sign in
-                  </Link>
+                  </MaterialLink>
                 </Grid>
               </Grid>
             </form>

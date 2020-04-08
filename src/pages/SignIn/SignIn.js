@@ -4,22 +4,23 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+import MaterialLink from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import BrainIcon from '../../public/cerebral_icon.png';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import { Redirect } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+//import {Redirect} from 'react-router-dom';
 import {withStyles } from '@material-ui/core/styles';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://github.com/matt-rose6/">
+      <MaterialLink color="inherit" href="https://github.com/matt-rose6/">
         Matthew Rose, 
-      </Link>{''}
+      </MaterialLink>{''}
       {' ' + new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -59,7 +60,7 @@ class SignIn extends Component {
       email: '',
       pass: '',
       remember: false,
-      redirect: false
+      //redirect: false
     }
   }
 
@@ -75,16 +76,16 @@ class SignIn extends Component {
     this.setState({remember: event.target.checked});
   }
 
-  handleSubmit = () => {
-    // Axios({
-    //   Implement JWT tokens for authentication
-    // })
-    this.setState({ redirect: true }); //only execute if authentication works
-  }
+  // handleSubmit = () => {
+  //   // Axios({
+  //   //   Implement JWT tokens for authentication
+  //   // })
+  //   this.setState({ redirect: true }); //only execute if authentication works
+  // }
 
   render() {
     const { classes } = this.props;
-    if(this.state.redirect) return <Redirect to='/home'/>
+    //if(this.state.redirect) return <Redirect to='/home'/>
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -128,20 +129,22 @@ class SignIn extends Component {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick ={this.handleSubmit}
+              component={Link}
+              to="/"
+              //onClick ={this.handleSubmit}
             >
               Sign In
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <MaterialLink href="#" variant="body2">
                   Forgot password?
-                </Link>
+                </MaterialLink>
               </Grid>
               <Grid item>
-                <Link href="register" variant="body2">
+                <MaterialLink href="register" variant="body2">
                   {"Don't have an account? Sign Up"}
-                </Link>
+                </MaterialLink>
               </Grid>
             </Grid>
           </form>
