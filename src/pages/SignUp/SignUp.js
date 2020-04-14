@@ -11,8 +11,8 @@ import Box from '@material-ui/core/Box';
 import BrainIcon from '../../public/cerebral_icon.png';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import {Link} from 'react-router-dom';
-//import { Redirect } from 'react-router-dom';
+//import {Link} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import {withStyles } from '@material-ui/core/styles';
 
 function Copyright() {
@@ -63,11 +63,27 @@ class SignUp extends Component {
       email: '',
       password: '',
       outreach: false,
-      //redirect: false
+      redirect: false
     }
   }
 
+  checkValidity = (value) => {
+    return value.trim() !== '';
+  }
+
   handleSubmit = () => {
+    if(!this.checkValidity(this.state.firstname)){
+      const error = new Error('firstname bad');
+    }
+    if(!this.checkValidity(this.state.lastname)){
+      const error = new Error('lastname bad');
+    }
+    if(!this.checkValidity(this.state.email)){
+      const error = new Error('email bad');
+    }
+    if(this.state.password.length<5){
+      const error = new Error('password bad');
+    }
     Axios({
       method: 'post',
       url: 'http://localhost:3001/api/users/addUser',
@@ -103,7 +119,7 @@ class SignUp extends Component {
 
   render() {
     const { classes } = this.props;
-    // if(this.state.redirect) return <Redirect to={{
+     if(this.state.redirect) return <Redirect to= '/'/> //{{
     //     pathname:'/home',
     //     state: {uid: 1}
     //   }}
@@ -183,10 +199,9 @@ class SignUp extends Component {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                component={Link}
-                to="/"
-                //onClick={this.handleSubmit}
-                //href="home"
+                //component={Link}
+                //to="/"
+                onClick={this.handleSubmit}
               >
                 Sign Up
               </Button>

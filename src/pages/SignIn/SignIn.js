@@ -10,8 +10,8 @@ import Box from '@material-ui/core/Box';
 import BrainIcon from '../../public/cerebral_icon.png';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import {Link} from 'react-router-dom';
-//import {Redirect} from 'react-router-dom';
+//import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {withStyles } from '@material-ui/core/styles';
 
 function Copyright() {
@@ -60,7 +60,7 @@ class SignIn extends Component {
       email: '',
       pass: '',
       remember: false,
-      //redirect: false
+      redirect: false
     }
   }
 
@@ -76,16 +76,16 @@ class SignIn extends Component {
     this.setState({remember: event.target.checked});
   }
 
-  // handleSubmit = () => {
-  //   // Axios({
-  //   //   Implement JWT tokens for authentication
-  //   // })
-  //   this.setState({ redirect: true }); //only execute if authentication works
-  // }
+  handleSubmit = () => {
+    // Axios({
+    //   Implement JWT tokens for authentication
+    // })
+    this.setState({ redirect: true }); //only execute if authentication works
+  }
 
   render() {
     const { classes } = this.props;
-    //if(this.state.redirect) return <Redirect to='/home'/>
+    if(this.state.redirect) return <Redirect to='/'/>
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -129,9 +129,9 @@ class SignIn extends Component {
               variant="contained"
               color="primary"
               className={classes.submit}
-              component={Link}
-              to="/"
-              //onClick ={this.handleSubmit}
+              //component={Link}
+              //to="/"
+              onClick ={this.handleSubmit}
             >
               Sign In
             </Button>

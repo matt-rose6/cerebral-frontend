@@ -25,8 +25,8 @@ const categories = [
       { id: 'Entries', icon: <JournalIcon />, link: '/' },
       { id: 'Add Entry', icon: <WriteIcon /> , link:'/entries'},
       { id: 'Add Emotion', icon: <EmotionIcon /> , link:'/emotions'},
-      { id: 'Thought Patterns', icon: <PatternIcon /> , link:''},
-      { id: 'Profile', icon: <PeopleIcon />, link: '' }
+      { id: 'Thought Patterns', icon: <PatternIcon /> , link:'/patterns'},
+      { id: 'Profile', icon: <PeopleIcon />, link: '/profile' }
     ],
   },
 ];
