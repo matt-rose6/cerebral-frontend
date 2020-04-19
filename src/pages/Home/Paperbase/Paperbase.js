@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Switch, Route } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Navigator from '../Navigator/Navigator';
-import Content from '../Content/Content';
 import Header from '../Header/Header';
-//import Entries from '../Entries/Entries';
-//import Emotions from '../Emotions/Emotions';
+import {Emotions, Entries, Patterns, Profile, Timeline, NotFound} from '../Content'
 
 function Copyright() {
   return (
@@ -165,7 +164,7 @@ const styles = {
 
 function Paperbase(props) {
   const { classes } = props;
-  const mainPage = props.comp || <Content />;
+  //const mainPage = props.comp || <Content />;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -192,7 +191,32 @@ function Paperbase(props) {
         <div className={classes.app}>
           <Header onDrawerToggle={handleDrawerToggle} />
           <main className={classes.main}>
-            {mainPage}
+            <Switch>
+              <Route 
+                path= "/"
+                exact render={()=> <Timeline/>}
+              />
+              <Route
+                path= "/entries"
+                exact render={()=> <Entries/>}
+              />
+              <Route
+                path= "/emotions"
+                exact render={()=> <Emotions/>}
+              />
+              <Route
+                path= "/patterns"
+                exact render={()=> <Patterns />}
+              />
+              <Route
+                path= "/profile"
+                exact render={() => <Profile />}
+              />
+              <Route
+                path="/"
+                component={NotFound}
+              />
+            </Switch>
           </main>
           <footer className={classes.footer}>
             <Copyright />

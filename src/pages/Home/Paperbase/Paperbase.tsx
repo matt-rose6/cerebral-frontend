@@ -11,8 +11,8 @@ import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Navigator from '../Navigator/Navigator';
-import Content from '../Content/Content';
 import Header from '../Header/Header';
+//import {Emotions, Entries, Patterns, Profile, Timeline} from '../Content'
 
 function Copyright() {
   return (
@@ -196,7 +196,7 @@ function Paperbase(props: PaperbaseProps) {
         <div className={classes.app}>
           <Header onDrawerToggle={handleDrawerToggle} />
           <main className={classes.main}>
-            <Content />
+            {/* <Content /> */}
           </main>
           <footer className={classes.footer}>
             <Copyright />

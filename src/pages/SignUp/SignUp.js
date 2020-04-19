@@ -8,7 +8,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import MaterialLink from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import BrainIcon from '../../public/cerebral_icon.png';
+import Logo from '../../public/cerebral_icon.png';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 //import {Link} from 'react-router-dom';
@@ -129,7 +129,7 @@ class SignUp extends Component {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <img style={{width: '75px', height: '75px'}} src={BrainIcon} alt = "Cerebral Logo"/>
+          <img style={{width: '75px', height: '75px'}} src={Logo} alt = "Cerebral Logo"/>
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
