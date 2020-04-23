@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Axios from 'axios';
+//import Axios from 'axios';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -14,6 +14,7 @@ import Container from '@material-ui/core/Container';
 //import {Link} from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import {withStyles } from '@material-ui/core/styles';
+import {createUser} from '../../services/UserServices/userServices';
 
 function Copyright() {
   return (
@@ -72,29 +73,35 @@ class SignUp extends Component {
   }
 
   handleSubmit = () => {
-    if(!this.checkValidity(this.state.firstname)){
-      const error = new Error('firstname bad');
-    }
-    if(!this.checkValidity(this.state.lastname)){
-      const error = new Error('lastname bad');
-    }
-    if(!this.checkValidity(this.state.email)){
-      const error = new Error('email bad');
-    }
-    if(this.state.password.length<5){
-      const error = new Error('password bad');
-    }
-    Axios({
-      method: 'post',
-      url: 'http://localhost:3001/api/users/addUser',
-      data: {
-        "firstname": this.state.firstname,
-        "lastname": this.state.lastname,
-        "email": this.state.email,
-        "pass": this.state.password,
-        "outreach": this.state.outreach
-      }
-    }).then(this.setState({ redirect: true }));
+    // if(!this.checkValidity(this.state.firstname)){
+    //   const error = new Error('firstname bad');
+    //   throw error
+    // }
+    // if(!this.checkValidity(this.state.lastname)){
+    //   const error = new Error('lastname bad');
+    // }
+    // if(!this.checkValidity(this.state.email)){
+    //   const error = new Error('email bad');
+    // }
+    // if(this.state.password.length<5){
+    //   const error = new Error('password bad');
+    // }
+    // Axios({
+    //   method: 'post',
+    //   url: 'http://localhost:3001/api/users/addUser',
+    //   data: {
+    //     "firstname": this.state.firstname,
+    //     "lastname": this.state.lastname,
+    //     "email": this.state.email,
+    //     "pass": this.state.password,
+    //     "outreach": this.state.outreach
+    //   }
+    // }).then(this.setState({ redirect: true }));
+    console.log('hello world')
+    createUser(this.state.firstname, this.state.lastname, this.state.email, this.state.password, this.state.outreach).then(res => { 
+      //console.log(res.uid);
+    this.setState({ redirect: true })
+    })
   };
 
   handleFirstNameChange = (event) => {
@@ -119,11 +126,7 @@ class SignUp extends Component {
 
   render() {
     const { classes } = this.props;
-     if(this.state.redirect) return <Redirect to= '/'/> //{{
-    //     pathname:'/home',
-    //     state: {uid: 1}
-    //   }}
-    // />
+    if(this.state.redirect) return <Redirect to='/'/>
 
     return (
       <Container component="main" maxWidth="xs">
@@ -194,7 +197,7 @@ class SignUp extends Component {
               </Grid>
               </Grid>
               <Button
-                type="submit"
+                //type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
@@ -207,7 +210,7 @@ class SignUp extends Component {
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <MaterialLink href="/" variant="body2">
+                  <MaterialLink href="/login" variant="body2">
                     Already have an account? Sign in
                   </MaterialLink>
                 </Grid>

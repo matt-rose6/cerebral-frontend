@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
+//import Avatar from '@material-ui/core/Avatar';
 //import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import HelpIcon from '@material-ui/icons/Help';
@@ -11,9 +11,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import ProfilePic from "../../../public/profile_pic_2.jpg";
+//import ProfilePic from "../../../public/profile_pic_2.jpg";
 import { withStyles } from '@material-ui/core/styles';
-import Axios from 'axios';
+import {getUser} from '../../../services/UserServices/userServices';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -47,17 +47,9 @@ function Header(props) {
   });
 
   useEffect(() => {
-    const getUsername = () => Axios({
-      method: 'get',
-      url: 'http://localhost:3001/api/users/getUser/2',
+    getUser(1).then(res => {
+      setHeaderState({username: res.firstname})
     })
-    .then(response => {
-      setHeaderState({
-        username: response.data[0].firstname
-      })
-    })
-    .catch(error => console.log(error));
-    getUsername();
   }, []);
   
   return (
@@ -77,12 +69,12 @@ function Header(props) {
                 </IconButton>
               </Grid>
             </Hidden>
-            <Grid item xs />
+          {/* <Grid item xs />
             <Grid item>
               <IconButton color="inherit" className={classes.iconButtonAvatar}>
                 <Avatar src= {ProfilePic} alt="My Avatar" />                                                                                                                                               
               </IconButton>
-            </Grid>
+          </Grid> */}
           </Grid>
         </Toolbar>
       </AppBar>

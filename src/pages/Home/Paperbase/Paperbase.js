@@ -194,23 +194,23 @@ function Paperbase(props) {
             <Switch>
               <Route 
                 path= "/"
-                exact render={()=> <Timeline/>}
+                exact component ={Timeline}
               />
               <Route
                 path= "/entries"
-                exact render={()=> <Entries/>}
+                exact component={Entries}
               />
               <Route
                 path= "/emotions"
-                exact render={()=> <Emotions/>}
+                exact component={Emotions}
               />
               <Route
                 path= "/patterns"
-                exact render={()=> <Patterns />}
+                exact component={Patterns}
               />
               <Route
                 path= "/profile"
-                exact render={() => <Profile />}
+                exact component={Profile}
               />
               <Route
                 path="/"

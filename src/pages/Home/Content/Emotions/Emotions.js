@@ -71,7 +71,7 @@ function Emotions(props) {
 						color="primary" 
 						//onClick={() => {handleAddEntry(text)}}
 					>
-						Add ratings
+						Add survey
 					</Button>
 					</Grid>
 				</Grid>

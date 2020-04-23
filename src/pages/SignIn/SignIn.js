@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container';
 //import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router-dom';
 import {withStyles } from '@material-ui/core/styles';
+import {authenticateUser} from '../../services/AuthServices/authServices';
 
 function Copyright() {
   return (
@@ -77,15 +78,20 @@ class SignIn extends Component {
   }
 
   handleSubmit = () => {
-    // Axios({
-    //   Implement JWT tokens for authentication
-    // })
-    this.setState({ redirect: true }); //only execute if authentication works
+    authenticateUser(this.state.email, this.state.pass).then(res => {
+      console.log(res)
+      if(res.success) {
+        this.setState({ redirect: true }); //only execute if authentication works
+      }
+    })
   }
 
   render() {
     const { classes } = this.props;
-    if(this.state.redirect) return <Redirect to='/'/>
+    if(this.state.redirect){
+      console.log("test")
+      return <Redirect to='/'/>
+    }
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -124,7 +130,7 @@ class SignIn extends Component {
               label="Remember me"
             />
             <Button
-              type="submit"
+              //type="submit"
               fullWidth
               variant="contained"
               color="primary"
