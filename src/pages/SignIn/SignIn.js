@@ -82,6 +82,8 @@ class SignIn extends Component {
       console.log(res)
       if(res.success) {
         this.setState({ redirect: true }); //only execute if authentication works
+      } else {
+        alert(res.err)
       }
     })
   }
