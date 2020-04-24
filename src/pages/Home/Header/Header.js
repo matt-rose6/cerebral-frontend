@@ -47,7 +47,8 @@ function Header(props) {
   });
 
   useEffect(() => {
-    getUser(1).then(res => {
+    console.log(localStorage.getItem('uid'))
+    getUser(localStorage.getItem('uid')).then(res => {
       setHeaderState({username: res.firstname})
     })
   }, []);

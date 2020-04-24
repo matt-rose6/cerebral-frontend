@@ -86,18 +86,7 @@ class SignUp extends Component {
     // if(this.state.password.length<5){
     //   const error = new Error('password bad');
     // }
-    // Axios({
-    //   method: 'post',
-    //   url: 'http://localhost:3001/api/users/addUser',
-    //   data: {
-    //     "firstname": this.state.firstname,
-    //     "lastname": this.state.lastname,
-    //     "email": this.state.email,
-    //     "pass": this.state.password,
-    //     "outreach": this.state.outreach
-    //   }
-    // }).then(this.setState({ redirect: true }));
-    console.log('hello world')
+    //console.log('hello world')
     createUser(this.state.firstname, this.state.lastname, this.state.email, this.state.password, this.state.outreach).then(res => { 
       //console.log(res.uid);
     this.setState({ redirect: true })

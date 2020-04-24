@@ -1,9 +1,11 @@
 import axios from 'axios'
+axios.defaults.baseURL = 'http://localhost:3001/api/'
+//axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
 const getUser = async (id) => {
     let result = await axios({
         method: 'get',
-        url: 'http://localhost:3001/api/users/getUser/'.concat(id), //change this url later
+        url: 'users/getUser/'.concat(id), //change this url later
     })
     .catch(error => console.log(error));
     return result.data[0]
@@ -11,8 +13,11 @@ const getUser = async (id) => {
 
 const createUser = async (firstname, lastname, email, pass, outreach) => {
     let result = await axios({
+        // headers: {
+        //     Authorization: 'Bearer ' + token, 
+        // },
         method: 'post',
-        url: 'http://localhost:3001/api/users/addUser',
+        url: 'users/addUser',
         data: {
             "firstname": firstname,
             "lastname": lastname,
@@ -29,7 +34,7 @@ const createUser = async (firstname, lastname, email, pass, outreach) => {
 const updateUser = (id, firstname, lastname, email, pass, outreach) => {
     axios({
         method: 'put',
-        url: 'http://localhost:3001/api/users/updateUser',
+        url: 'users/updateUser',
         data: {
             "id": id,
             "firstname": firstname,

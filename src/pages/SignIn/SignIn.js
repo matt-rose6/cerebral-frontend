@@ -81,6 +81,9 @@ class SignIn extends Component {
     authenticateUser(this.state.email, this.state.pass).then(res => {
       console.log(res)
       if(res.success) {
+        localStorage.clear()
+        localStorage.setItem("token", res.token)
+        localStorage.setItem("uid", res.user.uid)
         this.setState({ redirect: true }); //only execute if authentication works
       } else {
         alert(res.err)
@@ -91,7 +94,7 @@ class SignIn extends Component {
   render() {
     const { classes } = this.props;
     if(this.state.redirect){
-      console.log("test")
+      //console.log("test")
       return <Redirect to='/'/>
     }
     return (

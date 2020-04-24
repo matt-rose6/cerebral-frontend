@@ -1,9 +1,10 @@
 import axios from 'axios'
+axios.defaults.baseURL = 'http://localhost:3001/api/'
 
 const authenticateUser = async (email, pass) => {
     let result = await axios({
         method: 'post',
-        url: 'http://localhost:3001/api/auth/login',
+        url: 'auth/login',
         data: {
             "email": email,
             "pass": pass
