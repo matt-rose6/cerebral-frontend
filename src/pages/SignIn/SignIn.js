@@ -95,7 +95,7 @@ class SignIn extends Component {
     const { classes } = this.props;
     if(this.state.redirect){
       //console.log("test")
-      return <Redirect to='/'/>
+      return <Redirect to='/'/> 
     }
     return (
       <Container component="main" maxWidth="xs">
