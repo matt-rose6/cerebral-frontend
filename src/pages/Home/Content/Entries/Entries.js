@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Axios from 'axios';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
+import { createEntry } from '../../../../services/EntryServices/entryService';
 
 const styles = theme => ({
   paper: {
@@ -36,15 +36,7 @@ const styles = theme => ({
 const handleAddEntry = (text) => {
   var tempDate = new Date();
   var date = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
-  Axios({
-    method: 'post',
-    url: 'http://localhost:3001/api/entries/addEntry',
-    data: {
-      "uid": 2,
-      "dates": date,
-      "entry": text
-    }
-  });
+  if(localStorage.getItem('uid')) createEntry(localStorage.getItem('uid'), date, text);
 };
 
 function Entries(props) {

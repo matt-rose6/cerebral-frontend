@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import { getEntries } from '../../../../services/EntryServices/entryService';
 
 const styles = theme => ({
   paper: {
@@ -34,6 +35,28 @@ const styles = theme => ({
     margin: '40px 16px',
   },
 });
+
+const showEntries = () => {
+  let lst = (
+    <Typography color="textSecondary" align="center">
+      No journal entries yet
+    </Typography>
+  );
+  // if(localStorage.getItem('uid')){
+  //   getEntries(localStorage.getItem('uid')).then(res => {
+  //     if(res && res.data.length > 0) {
+  //       const entryList = res.data.map((child) => {
+  //         <li key={child.dates}>
+  //           {child.entry}
+  //           {child.dates}
+  //         </li>
+  //       });
+  //     lst = <ul>{entryList}</ul>
+  //     } 
+  //   })
+  // }
+  return (<div>{lst}</div>);
+} 
 
 function Content(props) {
   const { classes } = props;
@@ -67,9 +90,10 @@ function Content(props) {
         </Toolbar>
       </AppBar>
       <div className={classes.contentWrapper}>
-        <Typography color="textSecondary" align="center">
+        {showEntries()}
+        {/* <Typography color="textSecondary" align="center">
           No journal entries yet
-        </Typography>
+        </Typography> */}
       </div>
     </Paper>
   );

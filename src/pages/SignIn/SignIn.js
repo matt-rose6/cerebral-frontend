@@ -10,10 +10,9 @@ import Box from '@material-ui/core/Box';
 import Logo from '../../public/cerebral_icon.png';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-//import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router-dom';
-import {withStyles } from '@material-ui/core/styles';
-import {authenticateUser} from '../../services/AuthServices/authServices';
+import { Redirect } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
+import { authenticateUser } from '../../services/AuthServices/authServices';
 
 function Copyright() {
   return (
@@ -39,10 +38,6 @@ const styles = theme => ({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
     },
     form: {
       width: '100%', // Fix IE 11 issue.
@@ -79,14 +74,17 @@ class SignIn extends Component {
 
   handleSubmit = () => {
     authenticateUser(this.state.email, this.state.pass).then(res => {
-      console.log(res)
-      if(res.success) {
+      //console.log(res)
+      if(res && res.data.success) {
         localStorage.clear()
-        localStorage.setItem("token", res.token)
-        localStorage.setItem("uid", res.user.uid)
+        console.log(res.data.token)
+        localStorage.setItem('token', res.data.token)
+        localStorage.setItem('uid', res.data.user.uid)
         this.setState({ redirect: true }); //only execute if authentication works
+      } else if(res){
+        alert(res.data.err)
       } else {
-        alert(res.err)
+        alert('Login request could not be processed.')
       }
     })
   }
@@ -94,7 +92,6 @@ class SignIn extends Component {
   render() {
     const { classes } = this.props;
     if(this.state.redirect){
-      //console.log("test")
       return <Redirect to='/'/> 
     }
     return (
@@ -135,13 +132,10 @@ class SignIn extends Component {
               label="Remember me"
             />
             <Button
-              //type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
-              //component={Link}
-              //to="/"
               onClick ={this.handleSubmit}
             >
               Sign In

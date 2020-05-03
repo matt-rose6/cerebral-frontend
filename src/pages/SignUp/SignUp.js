@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-//import Axios from 'axios';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -11,10 +10,9 @@ import Box from '@material-ui/core/Box';
 import Logo from '../../public/cerebral_icon.png';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-//import {Link} from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
-import {withStyles } from '@material-ui/core/styles';
-import {createUser} from '../../services/UserServices/userServices';
+import { withStyles } from '@material-ui/core/styles';
+import { createUser } from '../../services/UserServices/userServices';
 
 function Copyright() {
   return (
@@ -40,10 +38,6 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -73,23 +67,9 @@ class SignUp extends Component {
   }
 
   handleSubmit = () => {
-    // if(!this.checkValidity(this.state.firstname)){
-    //   const error = new Error('firstname bad');
-    //   throw error
-    // }
-    // if(!this.checkValidity(this.state.lastname)){
-    //   const error = new Error('lastname bad');
-    // }
-    // if(!this.checkValidity(this.state.email)){
-    //   const error = new Error('email bad');
-    // }
-    // if(this.state.password.length<5){
-    //   const error = new Error('password bad');
-    // }
-    //console.log('hello world')
-    createUser(this.state.firstname, this.state.lastname, this.state.email, this.state.password, this.state.outreach).then(res => { 
-      //console.log(res.uid);
-    this.setState({ redirect: true })
+    //error handling
+    createUser(this.state.firstname, this.state.lastname, this.state.email, this.state.password, this.state.outreach).then(() => { 
+      this.setState({ redirect: true })
     })
   };
 

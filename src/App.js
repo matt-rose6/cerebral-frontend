@@ -11,8 +11,6 @@ function App() {
         <Route exact path="/login" component={SignIn} />
         <Route exact path="/register" component={SignUp} />
         <Route path="/" component={Home}  isPrivate />
-        {/* <Route component={SignIn} /> */}
-        {/* <Route component = loggedIn? {Home}:{SignIn}>*/}
       </Switch>
     </BrowserRouter>
   );

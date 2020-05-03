@@ -11,7 +11,8 @@ const authenticateUser = async (email, pass) => {
         }
     })
     .catch(error => console.log(error));
-    return result.data
+    console.log(result)
+    return result
 }
 
 export {authenticateUser}

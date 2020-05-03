@@ -1,21 +1,18 @@
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:3001/api/'
-//axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+axios.defaults.headers.common['Authorization'] = 'Bearer' + localStorage.getItem('token');
 
-const getUser = async (id) => {
+const getUser = async (uid) => {
     let result = await axios({
         method: 'get',
-        url: 'users/getUser/'.concat(id), //change this url later
+        url: 'users/getUser/'.concat(uid), //change this url later
     })
     .catch(error => console.log(error));
-    return result.data[0]
+    return result
 }
 
 const createUser = async (firstname, lastname, email, pass, outreach) => {
     let result = await axios({
-        // headers: {
-        //     Authorization: 'Bearer ' + token, 
-        // },
         method: 'post',
         url: 'users/addUser',
         data: {
@@ -27,16 +24,15 @@ const createUser = async (firstname, lastname, email, pass, outreach) => {
         }
     })
     .catch(error => console.log(error));
-    console.log(result)
-    //return id.data[0]
+    return result
 }
 
-const updateUser = (id, firstname, lastname, email, pass, outreach) => {
+const updateUser = (uid, firstname, lastname, email, pass, outreach) => {
     axios({
         method: 'put',
         url: 'users/updateUser',
         data: {
-            "id": id,
+            "uid": uid,
             "firstname": firstname,
             "lastname": lastname,
             "email": email,

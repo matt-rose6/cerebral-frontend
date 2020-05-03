@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
-//import Avatar from '@material-ui/core/Avatar';
-//import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import HelpIcon from '@material-ui/icons/Help';
 import Hidden from '@material-ui/core/Hidden';
@@ -11,11 +9,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-//import ProfilePic from "../../../public/profile_pic_2.jpg";
 import { withStyles } from '@material-ui/core/styles';
-import {getUser} from '../../../services/UserServices/userServices';
-
-const lightColor = 'rgba(255, 255, 255, 0.7)';
+import { getUser } from '../../../services/UserServices/userServices';
 
 const styles = theme => ({
   secondaryBar: {
@@ -23,19 +18,6 @@ const styles = theme => ({
   },
   menuButton: {
     marginLeft: -theme.spacing(1),
-  },
-  iconButtonAvatar: {
-    padding: 4,
-  },
-  link: {
-    textDecoration: 'none',
-    color: lightColor,
-    '&:hover': {
-      color: theme.palette.common.white,
-    },
-  },
-  button: {
-    borderColor: lightColor,
   },
 });
 
@@ -47,10 +29,12 @@ function Header(props) {
   });
 
   useEffect(() => {
-    console.log(localStorage.getItem('uid'))
-    getUser(localStorage.getItem('uid')).then(res => {
-      setHeaderState({username: res.firstname})
-    })
+    //console.log(localStorage.getItem('uid'))
+    if(localStorage.getItem('uid')){
+      getUser(localStorage.getItem('uid')).then(res => {
+        if(res) setHeaderState({username: res.data[0].firstname})
+      })
+    }
   }, []);
   
   return (
@@ -70,12 +54,6 @@ function Header(props) {
                 </IconButton>
               </Grid>
             </Hidden>
-          {/* <Grid item xs />
-            <Grid item>
-              <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                <Avatar src= {ProfilePic} alt="My Avatar" />                                                                                                                                               
-              </IconButton>
-          </Grid> */}
           </Grid>
         </Toolbar>
       </AppBar>

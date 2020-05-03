@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
@@ -8,7 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Navigator from '../Navigator/Navigator';
 import Header from '../Header/Header';
-import {Emotions, Entries, Patterns, Profile, Timeline, NotFound} from '../Content'
+import {Emotions, Entries, Patterns, Profile, Timeline, NotFound} from '../Content';
+import { Redirect } from 'react-router-dom';
+import * as jwt from 'jsonwebtoken';
+
+
+const ACCESS_TOKEN_SECRET = 'secretkey'
 
 function Copyright() {
   return (
@@ -162,14 +167,26 @@ const styles = {
   },
 };
 
+
 function Paperbase(props) {
   const { classes } = props;
   //const mainPage = props.comp || <Content />;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  //check if there is a valid jwt token in local storage
+  let redirect = false;
+  if(!localStorage.getItem('token')){
+    redirect = true;
+  } else {
+    jwt.verify(localStorage.getItem('token'), ACCESS_TOKEN_SECRET, (err) => {
+      if(err) redirect = true;
+    })
+  }
+  if(redirect) return <Redirect to='/login'/>
 
   return (
     <ThemeProvider theme={theme}>
