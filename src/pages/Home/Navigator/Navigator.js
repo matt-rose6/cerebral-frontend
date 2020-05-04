@@ -10,7 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import JournalIcon from '@material-ui/icons/Message'
-import PeopleIcon from '@material-ui/icons/People';
+import PeopleIcon from '@material-ui/icons/Person';
 import WriteIcon from '@material-ui/icons/Create';
 import EmotionIcon from '@material-ui/icons/Mood';
 import PatternIcon from '@material-ui/icons/AllInclusive';

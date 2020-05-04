@@ -62,7 +62,7 @@ const EmotionSlider = (props) => {
               marks={marks}
               className={classes.slider}
         />
-        </div>
+      </div>
       </ Paper>
     )
 };

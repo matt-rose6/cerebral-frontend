@@ -25,18 +25,23 @@ const styles = theme => ({
   block: {
     display: 'block',
   },
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '115ch',
-    },
+  textfield: {
+    marginLeft: '7px',
+  },
+  contentWrapper: {
+    margin: '40px 16px',
   },
 });
 
 const handleAddEntry = (text) => {
   var tempDate = new Date();
   var date = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
-  if(localStorage.getItem('uid')) createEntry(localStorage.getItem('uid'), date, text);
+  if(localStorage.getItem('uid')) {
+    createEntry(localStorage.getItem('uid'), date, text);
+    alert('Your entry was successfully recorded');
+    window.location.reload(false);
+  }
+  else(alert('You are not registered to make a journal entry'));
 };
 
 function Entries(props) {
@@ -46,15 +51,19 @@ function Entries(props) {
 
   return (
     <Paper className={classes.paper}>
-      <div className={classes.root}>
-        <TextField
-          id="standard-multiline-static"
-          label="New Entry"
-          multiline
-          rows="10"
-          onChange={(event)=> setText(event.target.value)}
-        />
-      </div>
+      <Grid container>
+        <Grid item xs>
+          <TextField
+            className={classes.textfield}
+            id="standard-multiline-static"
+            fullWidth
+            label="New Entry"
+            multiline
+            rows="10"
+            onChange={(event)=> setText(event.target.value)}
+          />
+        </Grid>
+      </ Grid>
       <AppBar className={classes.enterBar} position="static" color="default" elevation={0}>
         <Toolbar>
           <Grid container spacing={2} alignItems="center">

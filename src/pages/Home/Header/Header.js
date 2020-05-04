@@ -33,6 +33,7 @@ function Header(props) {
     if(localStorage.getItem('uid')){
       getUser(localStorage.getItem('uid')).then(res => {
         if(res) setHeaderState({username: res.data[0].firstname})
+        else setHeaderState({username: "user"})
       })
     }
   }, []);

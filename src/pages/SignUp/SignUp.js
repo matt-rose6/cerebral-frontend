@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import { Redirect } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { createUser } from '../../services/UserServices/userServices';
+import { authenticateUser } from '../../services/AuthServices/authServices';
 
 function Copyright() {
   return (
@@ -62,15 +63,40 @@ class SignUp extends Component {
     }
   }
 
-  checkValidity = (value) => {
-    return value.trim() !== '';
+  //validate email using regular expressions
+  validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
   }
 
   handleSubmit = () => {
     //error handling
-    createUser(this.state.firstname, this.state.lastname, this.state.email, this.state.password, this.state.outreach).then(() => { 
-      this.setState({ redirect: true })
-    })
+    if(this.state.firstname.length===0){
+      alert('Please enter your first name.');
+    } else if(this.state.lastname.length===0){
+      alert('Please enter your last name.');
+    } else if(!this.validateEmail(this.state.email)){
+      alert('Please enter a valid email address.');
+    }else if(this.state.password.length<5){
+      alert('Please enter a password that is 5 characters or longer');
+    }
+    else {
+      createUser(this.state.firstname, this.state.lastname, this.state.email, this.state.password, this.state.outreach).then(() => { 
+        authenticateUser(this.state.email, this.state.password).then((res) => {
+          if(res && res.data.success) {
+            localStorage.clear()
+            console.log(res.data.token)
+            localStorage.setItem('token', res.data.token)
+            localStorage.setItem('uid', res.data.user.uid)
+            this.setState({ redirect: true }); //only execute if authentication works
+          } else if(res){
+            alert(res.data.err)
+          } else {
+            alert('Login request could not be processed.')
+          }
+        })
+      })
+    }
   };
 
   handleFirstNameChange = (event) => {
@@ -166,13 +192,10 @@ class SignUp extends Component {
               </Grid>
               </Grid>
               <Button
-                //type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                //component={Link}
-                //to="/"
                 onClick={this.handleSubmit}
               >
                 Sign Up

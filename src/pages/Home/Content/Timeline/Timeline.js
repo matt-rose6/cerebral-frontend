@@ -28,9 +28,6 @@ const styles = theme => ({
   block: {
     display: 'block',
   },
-  addUser: {
-    marginRight: theme.spacing(1),
-  },
   contentWrapper: {
     margin: '40px 16px',
   },
@@ -42,20 +39,41 @@ const showEntries = () => {
       No journal entries yet
     </Typography>
   );
-  // if(localStorage.getItem('uid')){
-  //   getEntries(localStorage.getItem('uid')).then(res => {
-  //     if(res && res.data.length > 0) {
-  //       const entryList = res.data.map((child) => {
-  //         <li key={child.dates}>
-  //           {child.entry}
-  //           {child.dates}
-  //         </li>
-  //       });
-  //     lst = <ul>{entryList}</ul>
-  //     } 
-  //   })
-  // }
-  return (<div>{lst}</div>);
+  let temp = null;
+  if(localStorage.getItem('uid')){
+    getEntries(localStorage.getItem('uid')).then(res => {
+      temp = res
+      // if(res && res.data.length > 0) {
+      //   console.log(res.data.length)
+      //   const lst = (
+      //     <div>
+      //     {res.data.map((child) => {
+      //       return <li key={child.dates}>
+      //         {child.entry}
+      //         {child.dates}
+      //       </li>
+      //     })}
+      //     </div>
+      //   )
+      //   return <ul>{lst}</ul>
+      // }
+    })
+    if(temp && temp.data.length > 0) {
+      console.log(temp.data.length)
+      const lst = (
+        <div>
+        {temp.data.map((child) => {
+          return <li key={child.dates}>
+            {child.entry}
+            {child.dates}
+          </li>
+        })}
+        </div>
+      )
+      return <ul>{lst}</ul>
+    }
+  }
+return <ul>{lst}</ul>;
 } 
 
 function Content(props) {
