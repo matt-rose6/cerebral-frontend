@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import EmotionSlider from './EmotionSlider';
+import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -21,10 +22,6 @@ const styles = theme => ({
   block: {
     display: 'block',
   },
-  title: {
-	  marginLeft: '93px',
-	  marginBottom: '30px',
-  }
 });
 
 function Emotions(props) {
@@ -32,9 +29,9 @@ function Emotions(props) {
 
   return (
 	<Fragment>
-		<div className={classes.title}>
-			<h2>Over the last 2 weeks, how often have you been bothered by any of the following problems?</h2>
-		</div>
+		<Typography align="center" paragraph variant="h6">
+			Over the last 2 weeks, how often have you been bothered by any of the following problems?
+		</Typography>
 		<EmotionSlider
 			title='Little interest or pleasure in doing things.'
 		/>

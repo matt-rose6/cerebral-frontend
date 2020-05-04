@@ -26,7 +26,7 @@ const styles = theme => ({
     display: 'block',
   },
   textfield: {
-    marginLeft: '7px',
+    marginLeft: '3px',
   },
   contentWrapper: {
     margin: '40px 16px',
