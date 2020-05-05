@@ -61,7 +61,7 @@ function Content(props) {
   ) : 
   (
     timelineState.posts.map((child)=> {
-      return <Post text={child.entry} date={child.dates} />
+      return <Post text={child.entry} date={child.dates} key={child.dates}/>
     })
   )
 
@@ -85,8 +85,8 @@ function Content(props) {
             </Grid>
             <Grid item>
               <Tooltip title="Reload">
-                <IconButton>
-                  <RefreshIcon className={classes.block} color="inherit" onClick={()=> window.location.reload(false)}/>
+                <IconButton onClick={()=> window.location.reload(false)}>
+                  <RefreshIcon className={classes.block} color="inherit"/>
                 </IconButton>
               </Tooltip>
             </Grid>
