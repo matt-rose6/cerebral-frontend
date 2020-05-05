@@ -58,8 +58,10 @@ class SignUp extends Component {
       lastname: '',
       email: '',
       password: '',
+      repassword: '',
       outreach: false,
-      redirect: false
+      redirect: false,
+      errors: []
     }
   }
 
@@ -71,21 +73,23 @@ class SignUp extends Component {
 
   handleSubmit = () => {
     //error handling
-    if(this.state.firstname.length===0){
-      alert('Please enter your first name.');
-    } else if(this.state.lastname.length===0){
-      alert('Please enter your last name.');
-    } else if(!this.validateEmail(this.state.email)){
-      alert('Please enter a valid email address.');
-    }else if(this.state.password.length<5){
-      alert('Please enter a password that is 5 characters or longer');
-    }
-    else {
+    var temp = this.state.errors.slice();
+    if(this.state.firstname.length===0) temp[0] = true;
+    else temp[0] = false; 
+    if(this.state.lastname.length===0) temp[1] = true;
+    else temp[1] = false;
+    if(!this.validateEmail(this.state.email)) temp[2] = true;
+    else temp[2] = false;
+    if(this.state.password.length<5) temp[3] = true;
+    else temp[3] = false;
+    this.setState({errors: temp})
+
+    if(!temp[0] && !temp[1] && !temp[2] && !temp[3] && this.state.password === this.state.repassword) {
       createUser(this.state.firstname, this.state.lastname, this.state.email, this.state.password, this.state.outreach).then(() => { 
         authenticateUser(this.state.email, this.state.password).then((res) => {
           if(res && res.data.success) {
             localStorage.clear()
-            console.log(res.data.token)
+            //console.log(res.data.token)
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('uid', res.data.user.uid)
             this.setState({ redirect: true }); //only execute if authentication works
@@ -99,29 +103,11 @@ class SignUp extends Component {
     }
   };
 
-  handleFirstNameChange = (event) => {
-    this.setState({firstname: event.target.value});
-  }
-
-  handleLastNameChange = (event) => {
-    this.setState({lastname: event.target.value});
-  }
-
-  handleEmailChange = (event) => {
-    this.setState({email: event.target.value});
-  }
-
-  handlePassChange = (event) => {
-    this.setState({password: event.target.value});
-  }
-
-  handleOutreachChange = (event) => {
-    this.setState({outreach: event.target.checked});
-  }
-
   render() {
     const { classes } = this.props;
     if(this.state.redirect) return <Redirect to='/'/>
+
+    console.log(this.state.errors)
 
     return (
       <Container component="main" maxWidth="xs">
@@ -135,6 +121,7 @@ class SignUp extends Component {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  error={this.state.firstname.length<1 && this.state.errors[0]}
                   autoComplete="fname"
                   name="firstName"
                   variant="outlined"
@@ -143,11 +130,13 @@ class SignUp extends Component {
                   id="firstName"
                   label="First Name"
                   autoFocus
-                  onChange={(event) => this.handleFirstNameChange(event)}
+                  helperText={this.state.firstname.length<1 && this.state.errors[0] ? "Enter first name." : null}
+                  onChange={(event) => this.setState({firstname: event.target.value})}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  error={this.state.lastname.length<1 && this.state.errors[1]}
                   variant="outlined"
                   required
                   fullWidth
@@ -155,11 +144,13 @@ class SignUp extends Component {
                   label="Last Name"
                   name="lastName"
                   autoComplete="lname"
-                  onChange={(event) => this.handleLastNameChange(event)}
+                  helperText={this.state.lastname.length<1 && this.state.errors[1] ? "Enter last name." : null}
+                  onChange={(event) => this.setState({lastname: event.target.value})}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  error = {!this.validateEmail(this.state.email) && this.state.errors[2]}
                   variant="outlined"
                   required
                   fullWidth
@@ -167,11 +158,13 @@ class SignUp extends Component {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  onChange={(event) => this.handleEmailChange(event)}
+                  helperText={!this.validateEmail(this.state.email) && this.state.errors[2] ? "Enter a valid email." : null}
+                  onChange={(event) => this.setState({email: event.target.value})}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  error={this.state.password.length<5 && this.state.errors[3]}
                   variant="outlined"
                   required
                   fullWidth
@@ -180,14 +173,30 @@ class SignUp extends Component {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                  onChange={(event) => this.handlePassChange(event)}
+                  helperText={this.state.password.length<5 && this.state.errors[3] ? "Enter a valid email." : null}
+                  onChange={(event) => this.setState({password: event.target.value})}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  error={this.state.password !== this.state.repassword}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="repassword"
+                  label="Re-Enter Password"
+                  type="password"
+                  id="repassword"
+                  autoComplete="current-password"
+                  helperText={this.state.password !==this.state.repassword ? "Passwords don't match." : null}
+                  onChange={(event) => this.setState({repassword: event.target.value})}
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
                   label="I want to receive journaling reminders and updates via email"
-                  onChange={(event) => this.handleOutreachChange(event)}
+                  onChange={(event) => this.setState({outreach: event.target.checked})}
                 />
               </Grid>
               </Grid>

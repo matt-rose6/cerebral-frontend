@@ -53,34 +53,25 @@ class SignIn extends Component {
     this.state = {
       email: '',
       pass: '',
-      remember: false,
-      redirect: false
+      //remember: false,
+      redirect: false,
+      errors: []
     }
   }
 
-  handleEmailChange = (event) => {
-    this.setState({email: event.target.value});
-  }
-
-  handlePassChange = (event) => {
-    this.setState({pass: event.target.value});
-  }
-
-  handleRememberChange = (event) => {
-    this.setState({remember: event.target.checked});
-  }
-
   handleSubmit = () => {
+    
     authenticateUser(this.state.email, this.state.pass).then(res => {
-      //console.log(res)
       if(res && res.data.success) {
         localStorage.clear()
-        console.log(res.data.token)
         localStorage.setItem('token', res.data.token)
         localStorage.setItem('uid', res.data.user.uid)
         this.setState({ redirect: true }); //only execute if authentication works
       } else if(res){
-        alert(res.data.err)
+        var temp = this.state.errors.splice();
+        if(res.data.err === 'Account with this email cannot be found') temp[0] = true;
+        if(res.data.err === 'Password is incorrect') temp[1] = true;
+        this.setState({ errors: temp});
       } else {
         alert('Login request could not be processed.')
       }
@@ -102,6 +93,7 @@ class SignIn extends Component {
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
+              error={this.state.errors[0]}
               variant="outlined"
               margin="normal"
               required
@@ -111,9 +103,11 @@ class SignIn extends Component {
               name="email"
               autoComplete="email"
               autoFocus
-              onChange = {(event) => this.handleEmailChange(event)}
+              helperText={this.state.errors[0]? 'Account with this email cannot be found' : null}
+              onChange = {(event) => this.setState({email: event.target.value})}
             />
             <TextField
+              error={this.state.errors[1]}
               variant="outlined"
               margin="normal"
               required
@@ -123,7 +117,8 @@ class SignIn extends Component {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange = {(event) => this.handlePassChange(event)}
+              helperText={this.state.errors[1]? 'Password is incorrect': null}
+              onChange = {(event) => this.setState({pass: event.target.value})}
             />
             <Button
               fullWidth

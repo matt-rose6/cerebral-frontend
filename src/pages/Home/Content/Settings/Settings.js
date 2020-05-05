@@ -26,7 +26,7 @@ const styles = theme => ({
       },
   });
 
-function Profile(props){
+function Settings(props){
     const {classes} =  props;
 
     const [ profileState, setProfileState ] = useState({
@@ -70,7 +70,7 @@ function Profile(props){
                                 variant="contained"
                                 color="primary"
                                 onClick={handleEdit}>
-                                Edit Profile
+                                Edit
                             </Button>
                             <Button
                                 variant="contained" 
@@ -85,4 +85,4 @@ function Profile(props){
     )
 }
 
-export default withStyles(styles)(Profile);
+export default withStyles(styles)(Settings);

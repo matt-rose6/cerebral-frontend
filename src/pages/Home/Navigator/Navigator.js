@@ -10,7 +10,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import JournalIcon from '@material-ui/icons/Message'
-import PeopleIcon from '@material-ui/icons/Person';
+import SettingsIcon from '@material-ui/icons/Settings';
 import WriteIcon from '@material-ui/icons/Create';
 import EmotionIcon from '@material-ui/icons/Mood';
 import PatternIcon from '@material-ui/icons/AllInclusive';
@@ -27,7 +27,7 @@ const categories = [
       { id: 'Add Entry', icon: <WriteIcon /> , link:'/entries'},
       { id: 'Add Emotion', icon: <EmotionIcon /> , link:'/emotions'},
       { id: 'Thought Patterns', icon: <PatternIcon /> , link:'/patterns'},
-      { id: 'Profile', icon: <PeopleIcon />, link: '/profile'},
+      { id: 'Settings', icon: <SettingsIcon />, link: '/settings'},
       { id: 'About', icon: <InfoIcon />, link: '/about'}
     ],
   },
