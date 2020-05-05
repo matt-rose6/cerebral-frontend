@@ -17,7 +17,7 @@ const createEntry = async (uid, date, entry) => {
         url: 'entries/addEntry',
         data: {
             "uid": uid,
-            "date": date,
+            "dates": date,
             "entry": entry,
         }
     })

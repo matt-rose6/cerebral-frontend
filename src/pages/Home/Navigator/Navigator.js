@@ -5,28 +5,30 @@ import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
+import HomeIcon from '@material-ui/icons/Home';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import HomeIcon from '@material-ui/icons/Home';
 import JournalIcon from '@material-ui/icons/Message'
 import PeopleIcon from '@material-ui/icons/Person';
 import WriteIcon from '@material-ui/icons/Create';
 import EmotionIcon from '@material-ui/icons/Mood';
 import PatternIcon from '@material-ui/icons/AllInclusive';
+import InfoIcon from '@material-ui/icons/DonutSmall';
 import {Link} from 'react-router-dom';
 import {withRouter} from 'react-router';
 import {compose} from 'recompose';
 
 const categories = [
   {
-    id: 'Menu',
+    id: "Menu",
     children: [
       { id: 'Entries', icon: <JournalIcon />, link: '/' },
       { id: 'Add Entry', icon: <WriteIcon /> , link:'/entries'},
       { id: 'Add Emotion', icon: <EmotionIcon /> , link:'/emotions'},
       { id: 'Thought Patterns', icon: <PatternIcon /> , link:'/patterns'},
-      { id: 'Profile', icon: <PeopleIcon />, link: '/profile' }
+      { id: 'Profile', icon: <PeopleIcon />, link: '/profile'},
+      { id: 'About', icon: <InfoIcon />, link: '/about'}
     ],
   },
 ];
@@ -67,6 +69,9 @@ const styles = theme => ({
     minWidth: 'auto',
     marginRight: theme.spacing(2),
   },
+  list: {
+    marginTop: '20px',
+  },
   divider: {
     marginTop: theme.spacing(2),
   },
@@ -97,15 +102,7 @@ function Navigator(props) {
         </ListItem>
         {categories.map(({ id, children }) => (
           <React.Fragment key={id}>
-            <ListItem className={classes.categoryHeader}>
-              <ListItemText
-                classes={{
-                  primary: classes.categoryHeaderPrimary,
-                }}
-              >
-                {id}
-              </ListItemText>
-            </ListItem>
+            <div className={classes.list}>
             {children.map(({ id: childId, icon, link }) => (
               <ListItem
                 key={childId}
@@ -124,7 +121,7 @@ function Navigator(props) {
                 </ListItemText>
               </ListItem>
             ))}
-
+            </div>
             <Divider className={classes.divider} />
           </React.Fragment>
         ))}

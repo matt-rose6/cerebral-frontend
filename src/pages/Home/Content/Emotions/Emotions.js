@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import EmotionSlider from './EmotionSlider';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import {phq9, cesdr} from './Survey/Survey';
 
 const styles = theme => ({
   entryBar: {
@@ -22,43 +24,27 @@ const styles = theme => ({
   block: {
     display: 'block',
   },
+  paper: {
+    maxWidth: 936,
+    margin: 'auto',
+    overflow: 'hidden',
+    backgroundColor: '#f2f2f2',
+  },
+  title: {
+	  marginTop: '20px',
+  }
 });
 
 function Emotions(props) {
   const { classes } = props;
-
   return (
-	<Fragment>
-		<Typography align="center" paragraph variant="h6">
-			Over the last 2 weeks, how often have you been bothered by any of the following problems?
+	<Paper className={classes.paper}>
+		<Typography align="center" paragraph variant="h6" className={classes.title}>
+			Over the last week, how often have you been bothered by any of the following problems?
 		</Typography>
-		<EmotionSlider
-			title='Little interest or pleasure in doing things.'
-		/>
-		<EmotionSlider
-			title='Feeling down, depressed, or hopeless.'
-		/>
-		<EmotionSlider
-			title='Trouble falling or staying asleep, or sleeping too much.'
-		/>
-		<EmotionSlider
-			title='Feeling tired or having little energy.'
-		/>
-		<EmotionSlider
-			title='Poor appetite or overeating.'
-		/>
-		<EmotionSlider
-			title='Feeling bad about yourself or that you are a failure or have let yourself or your family down.'
-		/>
-		<EmotionSlider
-			title='Trouble concentrating on things, such as reading the newspaper or watching television.'
-		/>
-		<EmotionSlider
-			title='Moving or speaking so slowly that other people could have noticed. Or the opposite: being so figety or restless that you have been moving around a lot more than usual.'
-		/>
-		<EmotionSlider
-			title='Thoughts that you would be better off dead, or of hurting yourself.'
-		/>
+		{cesdr.map((question, index) => {
+			return <EmotionSlider title={question} key={index}/>
+		})}
 		<AppBar className={classes.entryBar} position="static" color="default" elevation={0}>
 			<Toolbar>
 				<Grid container spacing={2} alignItems="center">
@@ -74,7 +60,7 @@ function Emotions(props) {
 				</Grid>
 			</Toolbar>
 		</AppBar>
-	</Fragment>
+	</Paper>
   );
 }
 

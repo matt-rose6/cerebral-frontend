@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,12 +12,14 @@ import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { getEntries } from '../../../../services/EntryServices/entryService';
+import Post from './Post/Post';
 
 const styles = theme => ({
   paper: {
     maxWidth: 936,
     margin: 'auto',
     overflow: 'hidden',
+    backgroundColor: '#f2f2f2',
   },
   searchBar: {
     borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
@@ -33,51 +35,35 @@ const styles = theme => ({
   },
 });
 
-const showEntries = () => {
-  let lst = (
+function Content(props) {
+  const { classes } = props;
+
+  const [ timelineState, setTimelineState ] = useState({
+    posts: []
+  });
+
+  useEffect(()=> {
+    if(localStorage.getItem('uid')){
+      getEntries(localStorage.getItem('uid')).then(res => {
+        if(res && res.data.length > 0) {
+          console.log(res.data)
+          //reverse the array so most recent entries show up first
+          setTimelineState({posts: res.data.reverse()})
+        }
+      })
+    }
+  }, []);
+
+  let lst = timelineState.posts.length===0? (
     <Typography color="textSecondary" align="center">
       No journal entries yet
     </Typography>
-  );
-  let temp = null;
-  if(localStorage.getItem('uid')){
-    getEntries(localStorage.getItem('uid')).then(res => {
-      temp = res
-      // if(res && res.data.length > 0) {
-      //   console.log(res.data.length)
-      //   const lst = (
-      //     <div>
-      //     {res.data.map((child) => {
-      //       return <li key={child.dates}>
-      //         {child.entry}
-      //         {child.dates}
-      //       </li>
-      //     })}
-      //     </div>
-      //   )
-      //   return <ul>{lst}</ul>
-      // }
+  ) : 
+  (
+    timelineState.posts.map((child)=> {
+      return <Post text={child.entry} date={child.dates} />
     })
-    if(temp && temp.data.length > 0) {
-      console.log(temp.data.length)
-      const lst = (
-        <div>
-        {temp.data.map((child) => {
-          return <li key={child.dates}>
-            {child.entry}
-            {child.dates}
-          </li>
-        })}
-        </div>
-      )
-      return <ul>{lst}</ul>
-    }
-  }
-return <ul>{lst}</ul>;
-} 
-
-function Content(props) {
-  const { classes } = props;
+  )
 
   return (
     <Paper className={classes.paper}>
@@ -100,7 +86,7 @@ function Content(props) {
             <Grid item>
               <Tooltip title="Reload">
                 <IconButton>
-                  <RefreshIcon className={classes.block} color="inherit" />
+                  <RefreshIcon className={classes.block} color="inherit" onClick={()=> window.location.reload(false)}/>
                 </IconButton>
               </Tooltip>
             </Grid>
@@ -108,10 +94,7 @@ function Content(props) {
         </Toolbar>
       </AppBar>
       <div className={classes.contentWrapper}>
-        {showEntries()}
-        {/* <Typography color="textSecondary" align="center">
-          No journal entries yet
-        </Typography> */}
+        {lst}
       </div>
     </Paper>
   );

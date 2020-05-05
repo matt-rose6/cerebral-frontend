@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Navigator from '../Navigator/Navigator';
 import Header from '../Header/Header';
-import {Emotions, Entries, Patterns, Profile, Timeline, NotFound} from '../Content';
+import {Emotions, Entries, Patterns, Profile, Timeline, About, NotFound} from '../Content';
 import { Redirect } from 'react-router-dom';
 import * as jwt from 'jsonwebtoken';
 
@@ -181,7 +181,7 @@ function Paperbase(props) {
   if(!localStorage.getItem('token')){
     redirect = true;
   } else {
-    jwt.verify(localStorage.getItem('token'), ACCESS_TOKEN_SECRET, (err) => {
+    jwt.verify(localStorage.getItem('token'), ACCESS_TOKEN_SECRET, (err) => { //make a api/auth call
       if(err) redirect = true;
     })
   }
@@ -227,6 +227,10 @@ function Paperbase(props) {
               <Route
                 path= "/profile"
                 exact component={Profile}
+              />
+              <Route
+                path="/about"
+                exact component={About}
               />
               <Route
                 path="/"

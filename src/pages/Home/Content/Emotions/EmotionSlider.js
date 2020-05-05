@@ -14,7 +14,7 @@ const styles = theme => ({
 	root: {
       margin: theme.spacing(1),
       marginTop: '12px',
-      width: 750,
+      width: '80%',
       marginLeft: '20px',
   },
   slider: {
@@ -22,22 +22,43 @@ const styles = theme => ({
   }
 });
 
+//phqr labels
+// const marks = [
+//   {
+//     value: 0,
+//     label: 'Not at all',
+//   },
+//   {
+//     value: 33,
+//     label: 'Several days',
+//   },
+//   {
+//     value: 67,
+//     label: 'More than half the days',
+//   },
+//   {
+//     value: 100,
+//     label: 'Nearly every day',
+//   },
+// ];
+
+//cesdr labels
 const marks = [
   {
     value: 0,
-    label: 'Not at all',
+    label: 'Less than 1 day',
   },
   {
     value: 33,
-    label: 'Several days',
+    label: '1-2 days',
   },
   {
     value: 67,
-    label: 'More than half the days',
+    label: '3-4 days',
   },
   {
     value: 100,
-    label: 'Nearly every day',
+    label: '5-7 days',
   },
 ];
 
@@ -49,22 +70,20 @@ const EmotionSlider = (props) => {
 	const {classes} = props;
 	return (
     <Paper className={classes.paper}>
-      <div className= {classes.root}>
-            <Typography id="discrete-slider-restrict" gutterBottom>
-              {props.title}
-            </Typography>
-            <Slider
-              defaultValue={0}
-              //valueLabelFormat={valueLabelFormat}
-              aria-labelledby="discrete-slider-restrict"
-              step={null}
-              //valueLabelDisplay="auto"
-              marks={marks}
-              className={classes.slider}
+      <div className={classes.root}>
+        <Typography id="discrete-slider-restrict" paragraph>
+          {props.title}
+        </Typography>
+        <Slider
+          defaultValue={0}
+          aria-labelledby="discrete-slider-restrict"
+          step={null}
+          marks={marks}
+          className={classes.slider}
         />
       </div>
-      </ Paper>
-    )
+    </ Paper>
+  )
 };
 
 export default withStyles(styles)(EmotionSlider);
