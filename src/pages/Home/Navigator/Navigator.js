@@ -23,7 +23,7 @@ const categories = [
   {
     id: "Menu",
     children: [
-      { id: 'Entries', icon: <JournalIcon />, link: '/' },
+      { id: 'Timeline', icon: <JournalIcon />, link: '/' },
       { id: 'Add Entry', icon: <WriteIcon /> , link:'/entries'},
       { id: 'Add Emotion', icon: <EmotionIcon /> , link:'/emotions'},
       { id: 'Thought Patterns', icon: <PatternIcon /> , link:'/patterns'},

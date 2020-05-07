@@ -73,7 +73,7 @@ class SignUp extends Component {
 
   handleSubmit = () => {
     //error handling
-    var temp = this.state.errors.slice();
+    var temp = [...this.state.errors];
     if(this.state.firstname.length===0) temp[0] = true;
     else temp[0] = false; 
     if(this.state.lastname.length===0) temp[1] = true;

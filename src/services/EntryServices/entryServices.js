@@ -31,7 +31,7 @@ const updateEntry = (uid, date, entry) => {
         url: 'entries/updateEntry',
         data: {
             "id": uid,
-            "date": date,
+            "dates": date,
             "entry": entry,
         }
     }).catch(error => console.log(error));

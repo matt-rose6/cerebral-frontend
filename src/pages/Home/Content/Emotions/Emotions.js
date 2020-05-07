@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
@@ -8,15 +8,12 @@ import Button from '@material-ui/core/Button';
 import EmotionSlider from './EmotionSlider';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import {phq9, cesdr} from './Survey/Survey';
+import { phq9, cesdr } from './Survey/Survey';
+import { createEmotion } from '../../../../services/EmotionServices/emotionServices';
 
 const styles = theme => ({
   entryBar: {
-	borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
 	alignItems: 'center',
-	maxWidth: 936,
-	margin: 'auto',
-    overflow: 'hidden',
   },
   searchInput: {
     fontSize: theme.typography.fontSize,
@@ -37,13 +34,38 @@ const styles = theme => ({
 
 function Emotions(props) {
   const { classes } = props;
+
+  const [emotionState, setEmotionState] = useState({
+	responses: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+  });
+
+  const handleSubmit = () => {
+	var tempDate = new Date();
+	var date = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
+	if(localStorage.getItem('uid')){
+		createEmotion(localStorage.getItem('uid'), date, emotionState.responses);
+		alert('Your survey was successfully recorded');
+    	//window.location.reload(false);
+	} else alert('You are not registered to enter a survey');
+  }
+
+  const handleSlider = (rating, index) => { 
+	var temp = [...emotionState.responses]
+	temp[index] = rating; 
+	setEmotionState({responses: temp});
+  }
+
   return (
 	<Paper className={classes.paper}>
 		<Typography align="center" paragraph variant="h6" className={classes.title}>
 			Over the last week, how often have you been bothered by any of the following problems?
 		</Typography>
 		{cesdr.map((question, index) => {
-			return <EmotionSlider title={question} key={index}/>
+			return <EmotionSlider 
+				title={question} 
+				key={index}
+				index={index}
+				handleSlider={handleSlider}/>
 		})}
 		<AppBar className={classes.entryBar} position="static" color="default" elevation={0}>
 			<Toolbar>
@@ -52,7 +74,7 @@ function Emotions(props) {
 					<Button 
 						variant="contained" 
 						color="primary" 
-						//onClick={() => {handleAddEntry(text)}}
+						onClick={handleSubmit}
 					>
 						Add survey
 					</Button>

@@ -43,7 +43,7 @@ const handleAddEntry = (text) => {
     alert('Your entry was successfully recorded');
     window.location.reload(false);
   }
-  else(alert('You are not registered to make a journal entry'));
+  else alert('You are not registered to make a journal entry');
 };
 
 function Entries(props) {
@@ -73,7 +73,7 @@ function Entries(props) {
               <Button
                 variant="contained" 
                 color="primary" 
-                onClick={() => {handleAddEntry(text)}}>
+                onClick={() => handleAddEntry(text)}>
                   Add entry
               </Button>
             </Grid>
