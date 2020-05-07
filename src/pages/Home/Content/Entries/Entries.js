@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import { createEntry } from '../../../../services/EntryServices/entryService';
+import { createEntry } from '../../../../services/EntryServices/entryServices';
 
 const styles = theme => ({
   paper: {
@@ -26,7 +26,9 @@ const styles = theme => ({
     display: 'block',
   },
   textfield: {
-    marginLeft: '3px',
+    width: '96%',
+    marginLeft: '2%', //change this 
+    marginRight: '2%'
   },
   contentWrapper: {
     margin: '40px 16px',
@@ -56,7 +58,7 @@ function Entries(props) {
           <TextField
             className={classes.textfield}
             id="standard-multiline-static"
-            fullWidth
+            margin="dense"
             label="New Entry"
             multiline
             rows="10"

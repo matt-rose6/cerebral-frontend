@@ -13,7 +13,6 @@ const styles = theme => ({
       root: {
         margin: theme.spacing(1),
         marginTop: '12px',
-        width: 750,
         marginLeft: '20px',
     },
   });

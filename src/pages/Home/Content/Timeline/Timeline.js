@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import { getEntries } from '../../../../services/EntryServices/entryService';
+import { getEntries } from '../../../../services/EntryServices/entryServices';
 import Post from './Post/Post';
 
 const styles = theme => ({
@@ -46,7 +46,7 @@ function Content(props) {
     if(localStorage.getItem('uid')){
       getEntries(localStorage.getItem('uid')).then(res => {
         if(res && res.data.length > 0) {
-          console.log(res.data)
+          //console.log(res.data)
           //reverse the array so most recent entries show up first
           setTimelineState({posts: res.data.reverse()})
         }

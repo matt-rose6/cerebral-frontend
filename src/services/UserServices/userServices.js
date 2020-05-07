@@ -27,12 +27,11 @@ const createUser = async (firstname, lastname, email, pass, outreach) => {
     return result
 }
 
-const updateUser = (uid, firstname, lastname, email, pass, outreach) => {
+const updateUser = async (uid, firstname, lastname, email, pass, outreach) => {
     axios({
         method: 'put',
-        url: 'users/updateUser',
+        url: 'users/updateUser/'.concat(uid),
         data: {
-            "uid": uid,
             "firstname": firstname,
             "lastname": lastname,
             "email": email,
