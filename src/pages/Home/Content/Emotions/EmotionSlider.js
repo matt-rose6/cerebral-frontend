@@ -80,7 +80,7 @@ const EmotionSlider = (props) => {
           step={null}
           marks={marks}
           className={classes.slider}
-          onChangeCommitted={(_event, value) => props.handleSlider(value, props.index)}
+          onChangeCommitted={(_event, value) => props.handleSlider(parseInt(value/33), props.index)}
           // onChangeCommitted={()=> console.log('temp')}
         />
       </div>

@@ -74,14 +74,10 @@ class SignUp extends Component {
   handleSubmit = () => {
     //error handling
     var temp = [...this.state.errors];
-    if(this.state.firstname.length===0) temp[0] = true;
-    else temp[0] = false; 
-    if(this.state.lastname.length===0) temp[1] = true;
-    else temp[1] = false;
-    if(!this.validateEmail(this.state.email)) temp[2] = true;
-    else temp[2] = false;
-    if(this.state.password.length<5) temp[3] = true;
-    else temp[3] = false;
+    temp[0] = this.state.firstname.trim().length===0;
+    temp[1] = this.state.lastname.trim().length===0;
+    temp[2] = !this.validateEmail(this.state.email)
+    temp[3] = this.state.password.trim().length<5;
     this.setState({errors: temp})
 
     if(!temp[0] && !temp[1] && !temp[2] && !temp[3] && this.state.password === this.state.repassword) {
@@ -121,7 +117,7 @@ class SignUp extends Component {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  error={this.state.firstname.length<1 && this.state.errors[0]}
+                  error={this.state.firstname.trim().length<1 && this.state.errors[0]}
                   autoComplete="fname"
                   name="firstName"
                   variant="outlined"
@@ -130,13 +126,13 @@ class SignUp extends Component {
                   id="firstName"
                   label="First Name"
                   autoFocus
-                  helperText={this.state.firstname.length<1 && this.state.errors[0] ? "Enter first name." : null}
+                  helperText={this.state.firstname.trim().length<1 && this.state.errors[0] ? "Enter first name." : null}
                   onChange={(event) => this.setState({firstname: event.target.value})}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  error={this.state.lastname.length<1 && this.state.errors[1]}
+                  error={this.state.lastname.trim().length<1 && this.state.errors[1]}
                   variant="outlined"
                   required
                   fullWidth
@@ -144,7 +140,7 @@ class SignUp extends Component {
                   label="Last Name"
                   name="lastName"
                   autoComplete="lname"
-                  helperText={this.state.lastname.length<1 && this.state.errors[1] ? "Enter last name." : null}
+                  helperText={this.state.lastname.trim().length<1 && this.state.errors[1] ? "Enter last name." : null}
                   onChange={(event) => this.setState({lastname: event.target.value})}
                 />
               </Grid>
@@ -164,7 +160,7 @@ class SignUp extends Component {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error={this.state.password.length<5 && this.state.errors[3]}
+                  error={this.state.password.trim().length<5 && this.state.errors[3]}
                   variant="outlined"
                   required
                   fullWidth
@@ -173,7 +169,7 @@ class SignUp extends Component {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                  helperText={this.state.password.length<5 && this.state.errors[3] ? "Enter a valid email." : null}
+                  helperText={this.state.password.trim().length<5 && this.state.errors[3] ? "Enter a valid email." : null}
                   onChange={(event) => this.setState({password: event.target.value})}
                 />
               </Grid>

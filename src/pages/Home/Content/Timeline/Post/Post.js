@@ -2,6 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
+import { Button } from '@material-ui/core';
 
 const styles = theme => ({
     paper: {
@@ -10,11 +11,14 @@ const styles = theme => ({
       overflow: 'hidden',
       marginBottom: '10px',
     },
-      root: {
-        margin: theme.spacing(1),
-        marginTop: '12px',
-        marginLeft: '20px',
+    root: {
+      margin: theme.spacing(1),
+      marginTop: '12px',
+      marginLeft: '20px',
     },
+    deleteButton: {
+      float: 'right'
+    }
   });
 
   const Post = (props) => {
@@ -28,6 +32,9 @@ const styles = theme => ({
             <Typography paragraph>
               {props.date}
             </Typography>
+      </div>
+      <div className={classes.deleteButton}>
+      <Button color="primary" onClick={props.deletePost}>Delete</Button>
       </div>
     </ Paper>
     )

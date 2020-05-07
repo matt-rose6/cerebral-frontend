@@ -35,24 +35,37 @@ function EditBox(props){
         lastname: '',
         email: '',
         pass: '',
-        outreach: false
+        outreach: false,
+        errors: []
     });
 
     useEffect(() => {
         if(localStorage.getItem('uid')){
           getUser(localStorage.getItem('uid')).then(res => {
             const user=res.data[0];
-            if(res) setBoxState({firstname: user.firstname, lastname: user.lastname, email: user.email, pass: user.pass, outreach: user.outreach})
+            if(res) setBoxState({...editBoxState, firstname: user.firstname, lastname: user.lastname, email: user.email, pass: user.pass, outreach: user.outreach})
           })
         }
     }, []);
 
+    //validate email using regular expressions
+    const validateEmail = (email) => {
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
     const handleSubmit = () => {
-        console.log(editBoxState);
-        if(localStorage.getItem('uid')){
-            updateUser(localStorage.getItem('uid'), editBoxState.firstname, editBoxState.lastname, editBoxState.email, editBoxState.pass, editBoxState.outreach).then(()=> {
-                window.location.reload(false);
-            })
+        var temp = [...editBoxState.errors];
+        temp[0] = editBoxState.firstname.trim().length===0;
+        temp[1] = editBoxState.lastname.trim().length===0;
+        temp[2] = !validateEmail(editBoxState.email);
+        setBoxState({...editBoxState, errors: temp});
+        if(!temp[0] && !temp[1] && !temp[2]) {
+            if(localStorage.getItem('uid')){
+                updateUser(localStorage.getItem('uid'), editBoxState.firstname, editBoxState.lastname, editBoxState.email, editBoxState.pass, editBoxState.outreach).then(()=> {
+                    window.location.reload(false);
+                })
+            }
         }
     }
 
@@ -65,14 +78,20 @@ function EditBox(props){
         <Paper className={classes.paper}>
             <div className= {classes.root}>
                 <TextField value={editBoxState.firstname || ''} 
+                    error={editBoxState.firstname.trim().length<1 && editBoxState.errors[0]}
+                    helperText={editBoxState.firstname.trim().length<1 && editBoxState.errors[0] ? "Enter first name." : null}
                     fullWidth 
                     onChange={(event)=>setBoxState({...editBoxState, firstname: event.target.value})} //double check this syntax
                     label="First Name"/> 
                 <TextField value={editBoxState.lastname || ''} 
+                    error={editBoxState.lastname.trim().length<1 && editBoxState.errors[1]}
+                    helperText={editBoxState.firstname.trim().length<1 && editBoxState.errors[0] ? "Enter last name." : null}
                     fullWidth 
                     onChange={(event)=>setBoxState({...editBoxState, lastname: event.target.value})}
                     label="Last Name"/>
                 <TextField value={editBoxState.email || ''} 
+                    error = {!validateEmail(editBoxState.email) && editBoxState.errors[2]}
+                    helperText={!validateEmail(editBoxState.email) && editBoxState.errors[2] ? "Enter a valid email." : null}
                     fullWidth
                     color="primary"
                     onChange={(event)=>setBoxState({...editBoxState, email: event.target.value})}

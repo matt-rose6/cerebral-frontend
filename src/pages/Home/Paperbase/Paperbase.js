@@ -217,7 +217,7 @@ function Paperbase(props) {
                 exact component={Entries}
               />
               <Route
-                path= "/emotions"
+                path= "/survey"
                 exact component={Emotions}
               />
               <Route

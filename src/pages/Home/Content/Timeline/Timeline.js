@@ -46,7 +46,6 @@ function Content(props) {
     if(localStorage.getItem('uid')){
       getEntries(localStorage.getItem('uid')).then(res => {
         if(res && res.data.length > 0) {
-          //console.log(res.data)
           //reverse the array so most recent entries show up first
           setTimelineState({posts: res.data.reverse()})
         }
@@ -54,14 +53,20 @@ function Content(props) {
     }
   }, []);
 
+  const deletePost = (id) => {
+    const temp = timelineState.posts.filter((_el, index) => index !== id)
+    //console.log(temp)
+    setTimelineState({posts: temp})
+  }
+
   let lst = timelineState.posts.length===0? (
     <Typography color="textSecondary" align="center">
       No journal entries yet
     </Typography>
   ) : 
   (
-    timelineState.posts.map((child)=> {
-      return <Post text={child.entry} date={child.dates} key={child.dates}/>
+    timelineState.posts.map((child, index)=> {
+      return <Post text={child.entry} date={child.dates} key={child.dates} deletePost={()=>deletePost(index)}/>
     })
   )
 

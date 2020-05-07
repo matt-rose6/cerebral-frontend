@@ -25,7 +25,7 @@ const categories = [
     children: [
       { id: 'Timeline', icon: <JournalIcon />, link: '/' },
       { id: 'Add Entry', icon: <WriteIcon /> , link:'/entries'},
-      { id: 'Add Emotion', icon: <EmotionIcon /> , link:'/emotions'},
+      { id: 'Add Survey', icon: <EmotionIcon /> , link:'/survey'},
       { id: 'Thought Patterns', icon: <PatternIcon /> , link:'/patterns'},
       { id: 'Settings', icon: <SettingsIcon />, link: '/settings'},
       { id: 'About', icon: <InfoIcon />, link: '/about'}
