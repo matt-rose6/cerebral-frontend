@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
-import HomeIcon from '@material-ui/icons/Home';
+// import HomeIcon from '@material-ui/icons/Home';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -13,6 +13,7 @@ import JournalIcon from '@material-ui/icons/Message'
 import SettingsIcon from '@material-ui/icons/Settings';
 import WriteIcon from '@material-ui/icons/Create';
 import EmotionIcon from '@material-ui/icons/Mood';
+import SurveyIcon from '@material-ui/icons/Assignment'
 import PatternIcon from '@material-ui/icons/AllInclusive';
 import InfoIcon from '@material-ui/icons/DonutSmall';
 import {Link} from 'react-router-dom';
@@ -23,12 +24,13 @@ const categories = [
   {
     id: "Menu",
     children: [
-      { id: 'Timeline', icon: <JournalIcon />, link: '/' },
-      { id: 'Add Entry', icon: <WriteIcon /> , link:'/entries'},
-      { id: 'Add Survey', icon: <EmotionIcon /> , link:'/survey'},
+      { id: 'Entries', icon: <JournalIcon />, link: '/' },
+      { id: 'Surveys', icon: <SurveyIcon />, link: '/surveys' },
+      { id: 'Add Entry', icon: <WriteIcon /> , link:'/addEntry'},
+      { id: 'Add Survey', icon: <EmotionIcon /> , link:'/addSurvey'},
       { id: 'Thought Patterns', icon: <PatternIcon /> , link:'/patterns'},
       { id: 'Settings', icon: <SettingsIcon />, link: '/settings'},
-      { id: 'About', icon: <InfoIcon />, link: '/about'}
+      // { id: 'About', icon: <InfoIcon />, link: '/about'}
     ],
   },
 ];
@@ -88,16 +90,16 @@ function Navigator(props) {
         <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
           Cerebral
         </ListItem>
-        <ListItem className={clsx(classes.item, classes.itemCategory)}>
+        <ListItem className={clsx(classes.item, classes.itemCategory)} component={Link} to='/about'>
           <ListItemIcon className={classes.itemIcon}>
-            <HomeIcon />
+            <InfoIcon />
           </ListItemIcon>
           <ListItemText
             classes={{
               primary: classes.itemPrimary,
             }}
           >
-            Home
+            About
           </ListItemText>
         </ListItem>
         {categories.map(({ id, children }) => (

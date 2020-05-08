@@ -12,8 +12,8 @@ const About = () => (
             </Typography>
             <Typography variant="body1">
                 Cerebral is an app designed to help you keep track of your emotions and experiences in an organized and
-                simple way to help deliver cognitive therapy. The app uses a journaling component and weekly surveys that
-                measures feelings and behaviors associated with depression to try to find relationships between your thought 
+                simple way. The app uses a journaling component and weekly surveys that
+                measure feelings and behaviors associated with depression to try to find relationships between your thought 
                 patterns and symptoms. 
                 <br/> <br />
                 The survey follows a well-documented and historically reliable scale called the CESD-R (Center for 

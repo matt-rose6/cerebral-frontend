@@ -12,7 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { getEntries } from '../../../../services/EntryServices/entryServices';
-import Post from './Post/Post';
+import Post from './Post/EntryPost';
 
 const styles = theme => ({
   paper: {

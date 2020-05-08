@@ -43,7 +43,7 @@ function EditBox(props){
         if(localStorage.getItem('uid')){
           getUser(localStorage.getItem('uid')).then(res => {
             const user=res.data[0];
-            if(res) setBoxState({...editBoxState, firstname: user.firstname, lastname: user.lastname, email: user.email, pass: user.pass, outreach: user.outreach})
+            if(res) setBoxState({firstname: user.firstname, lastname: user.lastname, email: user.email, pass: user.pass, outreach: user.outreach, errors: []})
           })
         }
     }, []);
@@ -85,7 +85,7 @@ function EditBox(props){
                     label="First Name"/> 
                 <TextField value={editBoxState.lastname || ''} 
                     error={editBoxState.lastname.trim().length<1 && editBoxState.errors[1]}
-                    helperText={editBoxState.firstname.trim().length<1 && editBoxState.errors[0] ? "Enter last name." : null}
+                    helperText={editBoxState.lastname.trim().length<1 && editBoxState.errors[1] ? "Enter last name." : null}
                     fullWidth 
                     onChange={(event)=>setBoxState({...editBoxState, lastname: event.target.value})}
                     label="Last Name"/>
@@ -101,7 +101,7 @@ function EditBox(props){
                         checked={editBoxState.outreach} 
                         onClick={handleCheckBox}
                         color="primary" />} 
-                    label={"Email preferences: " + editBoxState.outreach? "Subscribed to notifications and reminders": "Not subscribed to notifications or reminders"} />
+                    label={"Subscribed to notifications and reminders"} />
             </div>
             <AppBar className={classes.enterBar} position="static" color="default" elevation={0}>
                 <Toolbar>

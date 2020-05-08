@@ -60,7 +60,7 @@ function SettingsBox(props){
                 <Typography> {"Primary Email Address: " + settingBoxState.email} </Typography>
                 <FormControlLabel 
                     control={<Checkbox color="primary" checked={settingBoxState.outreach} disableRipple/>} 
-                    label={settingBoxState.outreach? "Subscribed to notifications and reminders": "Not subscribed to notifications or reminders"} />
+                    label={"Subscribed to notifications and reminders"} />
                 
             </div>
             <AppBar className={classes.enterBar} position="static" color="default" elevation={0}>

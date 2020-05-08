@@ -2,10 +2,10 @@ import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:3001/api/'
 axios.defaults.headers.common['Authorization'] = 'Bearer' + localStorage.getItem('token');
 
-const getEmotion = async (id) => {
+const getEmotions = async (id) => {
     let result = await axios({
         method: 'get',
-        url: 'entries/getEmotion/'.concat(id),
+        url: 'emotions/getEmotion/'.concat(id),
     })
     .catch(error => console.log(error));
     return result
@@ -28,13 +28,13 @@ const createEmotion = async (uid, date, emotion) => {
 const updateEmotion = (uid, date, emotion) => {
     axios({
         method: 'put',
-        url: 'entries/updateEntry',
+        url: 'emotions/updateEmotion',
         data: {
             "id": uid,
             "dates": date,
-            "entry": emotion,
+            "survey": emotion,
         }
     }).catch(error => console.log(error));
 }
 
-export {getEmotion, createEmotion, updateEmotion}
+export {getEmotions, createEmotion, updateEmotion}

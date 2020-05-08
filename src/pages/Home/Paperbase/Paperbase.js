@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Navigator from '../Navigator/Navigator';
 import Header from '../Header/Header';
-import {Emotions, Entries, Patterns, Settings, Timeline, About, NotFound} from '../Content';
+import {Emotions, Entries, Patterns, Settings, Timeline, About, Surveys, NotFound} from '../Content';
 import { Redirect } from 'react-router-dom';
 import * as jwt from 'jsonwebtoken';
 
@@ -213,11 +213,15 @@ function Paperbase(props) {
                 exact component ={Timeline}
               />
               <Route
-                path= "/entries"
+                path= "/surveys"
+                exact component={Surveys}
+              />
+              <Route
+                path= "/addEntry"
                 exact component={Entries}
               />
               <Route
-                path= "/survey"
+                path= "/addSurvey"
                 exact component={Emotions}
               />
               <Route

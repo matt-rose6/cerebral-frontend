@@ -21,7 +21,7 @@ const styles = theme => ({
     }
   });
 
-  const Post = (props) => {
+  const EntryPost = (props) => {
 	const {classes} = props;
 	return (
     <Paper className={classes.paper}>
@@ -29,8 +29,9 @@ const styles = theme => ({
             <Typography  paragraph>
               {props.text}
             </Typography>
-            <Typography paragraph>
-              {props.date}
+            <Typography>
+              {/* not sure if this is proper */}
+              {props.date.substring(0, 10)} 
             </Typography>
       </div>
       <div className={classes.deleteButton}>
@@ -40,4 +41,4 @@ const styles = theme => ({
     )
 };
 
-export default withStyles(styles)(Post);
+export default withStyles(styles)(EntryPost);
