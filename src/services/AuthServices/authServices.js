@@ -14,15 +14,17 @@ const authenticateUser = async (email, pass) => {
     return result
 }
 
-const authenticateJWT = async (token) => {
-    await axios({
+const validateJWT = async (token) => {
+    let result = await axios({
         method: 'post',
-        url: 'auth/authenticate',
+        url: 'auth/validateToken',
         data: {
-            token,
+            "token": token,
         }
     })
+    .catch(error => console.log(error));
+    return result
 
 }
 
-export {authenticateUser, authenticateJWT}
+export {authenticateUser, validateJWT}

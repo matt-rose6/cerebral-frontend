@@ -9,11 +9,8 @@ import Link from '@material-ui/core/Link';
 import Navigator from '../Navigator/Navigator';
 import Header from '../Header/Header';
 import {Emotions, Entries, Patterns, Settings, Timeline, About, Surveys, NotFound} from '../Content';
-import { Redirect } from 'react-router-dom';
-import * as jwt from 'jsonwebtoken';
-
-
-const ACCESS_TOKEN_SECRET = 'secretkey'
+import history from '../../../services/history';
+import { validateJWT } from '../../../services/AuthServices/authServices';
 
 function Copyright() {
   return (
@@ -167,6 +164,10 @@ const styles = {
   },
 };
 
+const redirectToLogin = () => {
+  history.push('/login')
+  window.location.reload(false);
+}
 
 function Paperbase(props) {
   const { classes } = props;
@@ -177,15 +178,15 @@ function Paperbase(props) {
   };
 
   //check if there is a valid jwt token in local storage
-  let redirect = false;
   if(!localStorage.getItem('token')){
-    redirect = true;
+    redirectToLogin();
   } else {
-    jwt.verify(localStorage.getItem('token'), ACCESS_TOKEN_SECRET, (err) => { //make a api/auth call
-      if(err) redirect = true;
+    validateJWT(localStorage.getItem('token')).then(res => {
+      if(res && res.data.error){
+        redirectToLogin();
+      }
     })
   }
-  if(redirect) return <Redirect to='/login'/>
 
   return (
     <ThemeProvider theme={theme}>

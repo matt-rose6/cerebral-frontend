@@ -123,7 +123,7 @@ class SignUp extends Component {
         <CssBaseline />
         <div className={classes.paper}>
           <img
-            style={{ width: '75px', height: '75px' }}
+            style={{ width: '75px', height: '75px' , marginBottom: '5px'}}
             src={Logo}
             alt="Cerebral Logo"
           />
