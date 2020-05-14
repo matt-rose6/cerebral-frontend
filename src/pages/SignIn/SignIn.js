@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -17,37 +17,37 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <MaterialLink color="inherit" href="https://github.com/matt-rose6/">
-        Matthew Rose, 
-      </MaterialLink>{''}
+        Matthew Rose,
+      </MaterialLink>
+      {''}
       {' ' + new Date().getFullYear()}
       {'.'}
     </Typography>
   );
 }
 
-const styles = theme => ({
+const styles = (theme) => ({
   '@global': {
-      body: {
-        backgroundColor: theme.palette.common.white,
-      },
+    body: {
+      backgroundColor: theme.palette.common.white,
     },
-    paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-    form: {
-      width: '100%', // Fix IE 11 issue.
-      marginTop: theme.spacing(1),
-    },
-    submit: {
-      margin: theme.spacing(3, 0, 2),
-    },
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
 });
 
 class SignIn extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -55,39 +55,43 @@ class SignIn extends Component {
       pass: '',
       //remember: false,
       redirect: false,
-      errors: []
-    }
+      errors: [],
+    };
   }
 
   handleSubmit = () => {
-    
-    authenticateUser(this.state.email, this.state.pass).then(res => {
-      if(res && res.data.success) {
-        localStorage.clear()
-        localStorage.setItem('token', res.data.token)
-        localStorage.setItem('uid', res.data.user.uid)
+    authenticateUser(this.state.email, this.state.pass).then((res) => {
+      if (res && res.data.success) {
+        localStorage.clear();
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('uid', res.data.user.uid);
         this.setState({ redirect: true }); //only execute if authentication works
-      } else if(res){
+      } else if (res) {
         var temp = this.state.errors.splice();
-        if(res.data.err === 'Account with this email cannot be found') temp[0] = true;
-        if(res.data.err === 'Password is incorrect') temp[1] = true;
-        this.setState({ errors: temp});
+        if (res.data.err === 'Account with this email cannot be found')
+          temp[0] = true;
+        if (res.data.err === 'Password is incorrect') temp[1] = true;
+        this.setState({ errors: temp });
       } else {
-        alert('Login request could not be processed.')
+        //alert('Login request could not be processed.');
       }
-    })
-  }
+    });
+  };
 
   render() {
     const { classes } = this.props;
-    if(this.state.redirect){
-      return <Redirect to='/'/> 
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
     }
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-            <img style={{width: '75px', height: '75px'}} src={Logo} alt = "Cerebral Logo" />
+          <img
+            style={{ width: '75px', height: '75px' }}
+            src={Logo}
+            alt="Cerebral Logo"
+          />
           <Typography component="h1" variant="h5">
             Sign In
           </Typography>
@@ -103,8 +107,12 @@ class SignIn extends Component {
               name="email"
               autoComplete="email"
               autoFocus
-              helperText={this.state.errors[0]? 'Account with this email cannot be found' : null}
-              onChange = {(event) => this.setState({email: event.target.value})}
+              helperText={
+                this.state.errors[0]
+                  ? 'Account with this email cannot be found'
+                  : null
+              }
+              onChange={(event) => this.setState({ email: event.target.value })}
             />
             <TextField
               error={this.state.errors[1]}
@@ -117,15 +125,15 @@ class SignIn extends Component {
               type="password"
               id="password"
               autoComplete="current-password"
-              helperText={this.state.errors[1]? 'Password is incorrect': null}
-              onChange = {(event) => this.setState({pass: event.target.value})}
+              helperText={this.state.errors[1] ? 'Password is incorrect' : null}
+              onChange={(event) => this.setState({ pass: event.target.value })}
             />
             <Button
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick ={this.handleSubmit}
+              onClick={this.handleSubmit}
             >
               Sign In
             </Button>
@@ -151,4 +159,4 @@ class SignIn extends Component {
   }
 }
 
-export default withStyles (styles, {withTheme: true}) (SignIn);
+export default withStyles(styles, { withTheme: true })(SignIn);

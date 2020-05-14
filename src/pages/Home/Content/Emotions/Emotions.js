@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import EmotionSlider from './EmotionSlider';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import { phq9, cesdr } from './Survey/Survey';
+import { cesdr } from './Survey/Survey'; //can import phq9 as well
 import { createEmotion } from '../../../../services/EmotionServices/emotionServices';
 
 const styles = theme => ({

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -28,7 +28,7 @@ function Copyright() {
   );
 }
 
-const styles = theme => ({
+const styles = (theme) => ({
   '@global': {
     body: {
       backgroundColor: theme.palette.common.white,
@@ -50,8 +50,7 @@ const styles = theme => ({
 });
 
 class SignUp extends Component {
-
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       firstname: '',
@@ -61,8 +60,8 @@ class SignUp extends Component {
       repassword: '',
       outreach: false,
       redirect: false,
-      errors: []
-    }
+      errors: [],
+    };
   }
 
   //validate email using regular expressions
@@ -74,42 +73,60 @@ class SignUp extends Component {
   handleSubmit = () => {
     //error handling
     var temp = [...this.state.errors];
-    temp[0] = this.state.firstname.trim().length===0;
-    temp[1] = this.state.lastname.trim().length===0;
-    temp[2] = !this.validateEmail(this.state.email)
-    temp[3] = this.state.password.trim().length<5;
-    this.setState({errors: temp})
+    temp[0] = this.state.firstname.trim().length === 0;
+    temp[1] = this.state.lastname.trim().length === 0;
+    temp[2] = !this.validateEmail(this.state.email);
+    temp[3] = this.state.password.trim().length < 5;
+    this.setState({ errors: temp });
 
-    if(!temp[0] && !temp[1] && !temp[2] && !temp[3] && this.state.password === this.state.repassword) {
-      createUser(this.state.firstname, this.state.lastname, this.state.email, this.state.password, this.state.outreach).then(() => { 
-        authenticateUser(this.state.email, this.state.password).then((res) => {
-          if(res && res.data.success) {
-            localStorage.clear()
-            //console.log(res.data.token)
-            localStorage.setItem('token', res.data.token)
-            localStorage.setItem('uid', res.data.user.uid)
-            this.setState({ redirect: true }); //only execute if authentication works
-          } else if(res){
-            alert(res.data.err)
-          } else {
-            alert('Login request could not be processed.')
-          }
-        })
-      })
+    if (
+      !temp[0] &&
+      !temp[1] &&
+      !temp[2] &&
+      !temp[3] &&
+      this.state.password === this.state.repassword
+    ) {
+      createUser(
+        this.state.firstname,
+        this.state.lastname,
+        this.state.email,
+        this.state.password,
+        this.state.outreach
+      ).then((result) => {
+        //check if this email already exists in database
+        if(result.data.error){
+          temp[4] = true;
+          this.setState({errors:temp});
+        } else{
+            authenticateUser(this.state.email, this.state.password).then((res) => {
+            if (res && res.data.success) {
+              localStorage.clear();
+              console.log(res.data.token)
+              localStorage.setItem('token', res.data.token);
+              localStorage.setItem('uid', res.data.user.uid);
+              this.setState({ redirect: true }); //only execute if authentication works
+            } else {
+              alert('Login request could not be processed.')
+            }
+          });
+        }
+      });
     }
   };
 
   render() {
     const { classes } = this.props;
-    if(this.state.redirect) return <Redirect to='/'/>
-
-    console.log(this.state.errors)
+    if (this.state.redirect) return <Redirect to="/" />;
 
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <img style={{width: '75px', height: '75px'}} src={Logo} alt = "Cerebral Logo"/>
+          <img
+            style={{ width: '75px', height: '75px' }}
+            src={Logo}
+            alt="Cerebral Logo"
+          />
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
@@ -117,7 +134,10 @@ class SignUp extends Component {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  error={this.state.firstname.trim().length<1 && this.state.errors[0]}
+                  error={
+                    this.state.firstname.trim().length < 1 &&
+                    this.state.errors[0]
+                  }
                   autoComplete="fname"
                   name="firstName"
                   variant="outlined"
@@ -126,13 +146,23 @@ class SignUp extends Component {
                   id="firstName"
                   label="First Name"
                   autoFocus
-                  helperText={this.state.firstname.trim().length<1 && this.state.errors[0] ? "Enter first name." : null}
-                  onChange={(event) => this.setState({firstname: event.target.value})}
+                  helperText={
+                    this.state.firstname.trim().length < 1 &&
+                    this.state.errors[0]
+                      ? 'Enter first name.'
+                      : null
+                  }
+                  onChange={(event) =>
+                    this.setState({ firstname: event.target.value })
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  error={this.state.lastname.trim().length<1 && this.state.errors[1]}
+                  error={
+                    this.state.lastname.trim().length < 1 &&
+                    this.state.errors[1]
+                  }
                   variant="outlined"
                   required
                   fullWidth
@@ -140,13 +170,24 @@ class SignUp extends Component {
                   label="Last Name"
                   name="lastName"
                   autoComplete="lname"
-                  helperText={this.state.lastname.trim().length<1 && this.state.errors[1] ? "Enter last name." : null}
-                  onChange={(event) => this.setState({lastname: event.target.value})}
+                  helperText={
+                    this.state.lastname.trim().length < 1 &&
+                    this.state.errors[1]
+                      ? 'Enter last name.'
+                      : null
+                  }
+                  onChange={(event) =>
+                    this.setState({ lastname: event.target.value })
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error = {!this.validateEmail(this.state.email) && this.state.errors[2]}
+                  error={
+                    !this.validateEmail(this.state.email) &&
+                    this.state.errors[2] ||
+                    this.state.errors[4]
+                  }
                   variant="outlined"
                   required
                   fullWidth
@@ -154,13 +195,26 @@ class SignUp extends Component {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  helperText={!this.validateEmail(this.state.email) && this.state.errors[2] ? "Enter a valid email." : null}
-                  onChange={(event) => this.setState({email: event.target.value})}
+                  helperText={
+                    !this.validateEmail(this.state.email) &&
+                    this.state.errors[2]
+                      ? 'Enter a valid email.'
+                      : null ||
+                      this.state.errors[4] 
+                      ? 'A user already exists with this email.'
+                      : null
+                  }
+                  onChange={(event) =>
+                    this.setState({ email: event.target.value })
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error={this.state.password.trim().length<5 && this.state.errors[3]}
+                  error={
+                    this.state.password.trim().length < 5 &&
+                    this.state.errors[3]
+                  }
                   variant="outlined"
                   required
                   fullWidth
@@ -169,8 +223,15 @@ class SignUp extends Component {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                  helperText={this.state.password.trim().length<5 && this.state.errors[3] ? "Enter a valid email." : null}
-                  onChange={(event) => this.setState({password: event.target.value})}
+                  helperText={
+                    this.state.password.trim().length < 5 &&
+                    this.state.errors[3]
+                      ? 'Enter a valid email.'
+                      : null
+                  }
+                  onChange={(event) =>
+                    this.setState({ password: event.target.value })
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
@@ -184,42 +245,52 @@ class SignUp extends Component {
                   type="password"
                   id="repassword"
                   autoComplete="current-password"
-                  helperText={this.state.password !==this.state.repassword ? "Passwords don't match." : null}
-                  onChange={(event) => this.setState({repassword: event.target.value})}
+                  helperText={
+                    this.state.password !== this.state.repassword
+                      ? "Passwords don't match."
+                      : null
+                  }
+                  onChange={(event) =>
+                    this.setState({ repassword: event.target.value })
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  control={
+                    <Checkbox value="allowExtraEmails" color="primary" />
+                  }
                   label="I want to receive journaling reminders and updates via email"
-                  onChange={(event) => this.setState({outreach: event.target.checked})}
+                  onChange={(event) =>
+                    this.setState({ outreach: event.target.checked })
+                  }
                 />
               </Grid>
+            </Grid>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={this.handleSubmit}
+            >
+              Sign Up
+            </Button>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <MaterialLink href="/login" variant="body2">
+                  Already have an account? Sign in
+                </MaterialLink>
               </Grid>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={this.handleSubmit}
-              >
-                Sign Up
-              </Button>
-              <Grid container justify="flex-end">
-                <Grid item>
-                  <MaterialLink href="/login" variant="body2">
-                    Already have an account? Sign in
-                  </MaterialLink>
-                </Grid>
-              </Grid>
-            </form>
-          </div>
-          <Box mt={5}>
-            <Copyright />
-          </Box>
-        </Container>
-      );
+            </Grid>
+          </form>
+        </div>
+        <Box mt={5}>
+          <Copyright />
+        </Box>
+      </Container>
+    );
   }
 }
 
-export default withStyles (styles, {withTheme: true}) (SignUp);
+export default withStyles(styles, { withTheme: true })(SignUp);
