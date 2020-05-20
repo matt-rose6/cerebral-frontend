@@ -10,7 +10,7 @@ import Box from '@material-ui/core/Box';
 import Logo from '../../public/cerebral_icon.png';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import { Redirect } from 'react-router-dom';
+import history from '../../services/history';
 import { withStyles } from '@material-ui/core/styles';
 import { createUser } from '../../services/UserServices/userServices';
 import { authenticateUser } from '../../services/AuthServices/authServices';
@@ -101,10 +101,11 @@ class SignUp extends Component {
             authenticateUser(this.state.email, this.state.password).then((res) => {
             if (res && res.data.success) {
               localStorage.clear();
-              console.log(res.data.token)
               localStorage.setItem('token', res.data.token);
               localStorage.setItem('uid', res.data.user.uid);
+              this.props.setAuth(true)
               this.setState({ redirect: true }); //only execute if authentication works
+              //history.push('/')
             } else {
               alert('Login request could not be processed.')
             }
@@ -116,8 +117,9 @@ class SignUp extends Component {
 
   render() {
     const { classes } = this.props;
-    if (this.state.redirect) return <Redirect to="/" />;
-
+    if(this.state.redirect){
+      history.push('/')
+    }
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />

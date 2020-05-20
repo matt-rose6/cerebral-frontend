@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { cesdr } from './Survey/Survey'; //can import phq9 as well
 import { createEmotion } from '../../../../services/EmotionServices/emotionServices';
+import history from '../../../../services/history';
 
 const styles = theme => ({
   entryBar: {
@@ -44,8 +45,11 @@ function Emotions(props) {
 	var date = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
 	if(localStorage.getItem('uid')){
 		createEmotion(localStorage.getItem('uid'), date, emotionState.responses);
-		alert('Your survey was successfully recorded');
-    	window.location.reload(false);
+		//alert('Your survey was successfully recorded');
+		history.push('/surveys') 
+
+		//TODO: change this after demo
+		//window.location.reload(false)
 	} else alert('You are not registered to enter a survey');
   }
 
@@ -77,6 +81,11 @@ function Emotions(props) {
 						onClick={handleSubmit}
 					>
 						Add survey
+					</Button>
+					<Button
+						variant="contained" 
+						onClick={() => history.push('/surveys')}>
+						Cancel
 					</Button>
 					</Grid>
 				</Grid>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -13,6 +14,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { getEntries } from '../../../../services/EntryServices/entryServices';
 import Post from './Post/EntryPost';
+import history from '../../../../services/history';
 
 const styles = theme => ({
   paper: {
@@ -33,6 +35,9 @@ const styles = theme => ({
   contentWrapper: {
     margin: '40px 16px',
   },
+  entryBar: {
+    alignItems: 'center'
+  }
 });
 
 function Content(props) {
@@ -53,11 +58,11 @@ function Content(props) {
     }
   }, []);
 
-  const deletePost = (id) => {
-    const temp = timelineState.posts.filter((_el, index) => index !== id)
-    //console.log(temp)
-    setTimelineState({posts: temp})
-  }
+  // const deletePost = (id) => {
+  //   const temp = timelineState.posts.filter((_el, index) => index !== id)
+  //   //console.log(temp)
+  //   setTimelineState({posts: temp})
+  // }
 
   let lst = timelineState.posts.length===0? (
     <Typography color="textSecondary" align="center">
@@ -66,12 +71,29 @@ function Content(props) {
   ) : 
   (
     timelineState.posts.map((child, index)=> {
-      return <Post text={child.entry} date={child.dates} key={child.dates} deletePost={()=>deletePost(index)}/>
+      return <Post text={child.entry} date={child.dates} key={child.dates} /> //deletePost={()=>deletePost(index)}/>
     })
   )
 
   return (
     <Paper className={classes.paper}>
+      <AppBar className={classes.entryBar} position="static" color="default" elevation={0}>
+        <Toolbar>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item>
+            <Button
+              variant="contained" 
+              color="primary" 
+              align="center"
+              onClick={() => {
+                history.push('/addEntry')
+              }}>
+                New entry
+            </Button>
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
       <AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
         <Toolbar>
           <Grid container spacing={2} alignItems="center">

@@ -11,8 +11,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import JournalIcon from '@material-ui/icons/Message'
 import SettingsIcon from '@material-ui/icons/Settings';
-import WriteIcon from '@material-ui/icons/Create';
-import EmotionIcon from '@material-ui/icons/Mood';
+//import WriteIcon from '@material-ui/icons/Create';
+//import EmotionIcon from '@material-ui/icons/Mood';
 import SurveyIcon from '@material-ui/icons/Assignment'
 import PatternIcon from '@material-ui/icons/AllInclusive';
 import InfoIcon from '@material-ui/icons/DonutSmall';
@@ -24,12 +24,12 @@ const categories = [
   {
     id: "Menu",
     children: [
-      { id: 'Entries', icon: <JournalIcon />, link: '/' },
-      { id: 'Surveys', icon: <SurveyIcon />, link: '/surveys' },
-      { id: 'Add Entry', icon: <WriteIcon /> , link:'/addEntry'},
-      { id: 'Add Survey', icon: <EmotionIcon /> , link:'/addSurvey'},
-      { id: 'Thought Patterns', icon: <PatternIcon /> , link:'/patterns'},
-      { id: 'Settings', icon: <SettingsIcon />, link: '/settings'},
+      { id: 'Entries', icon: <JournalIcon />, link: '/', sublink: '/addEntry' },
+      { id: 'Surveys', icon: <SurveyIcon />, link: '/surveys', sublink: '/addSurvey'},
+      // { id: 'Add Entry', icon: <WriteIcon /> , link:'/addEntry'},
+      // { id: 'Add Survey', icon: <EmotionIcon /> , link:'/addSurvey'},
+      { id: 'Thought Patterns', icon: <PatternIcon /> , link:'/patterns', sublink: null},
+      { id: 'Account', icon: <SettingsIcon />, link: '/settings', sublink: null},
       // { id: 'About', icon: <InfoIcon />, link: '/about'}
     ],
   },
@@ -105,13 +105,13 @@ function Navigator(props) {
         {categories.map(({ id, children }) => (
           <React.Fragment key={id}>
             <div className={classes.list}>
-            {children.map(({ id: childId, icon, link }) => (
+            {children.map(({ id: childId, icon, link, sublink }) => (
               <ListItem
                 key={childId}
                 button
                 component={Link}
                 to = {link}
-                className={clsx(classes.item, pathname===link && classes.itemActiveItem)}
+                className={clsx(classes.item, (pathname===link || pathname===sublink) && classes.itemActiveItem)}
               >
                 <ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
                 <ListItemText

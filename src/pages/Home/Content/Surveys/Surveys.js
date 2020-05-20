@@ -13,6 +13,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { getEmotions } from '../../../../services/EmotionServices/emotionServices';
 import Post from './Post/SurveyPost';
+import Button from '@material-ui/core/Button';
+import history from '../../../../services/history';
 
 const styles = theme => ({
   paper: {
@@ -33,6 +35,9 @@ const styles = theme => ({
   contentWrapper: {
     margin: '40px 16px',
   },
+  entryBar: {
+    alignItems: 'center'
+  }
 });
 
 function Content(props) {
@@ -46,18 +51,18 @@ function Content(props) {
     if(localStorage.getItem('uid')){
       getEmotions(localStorage.getItem('uid')).then(res => {
         if(res && res.data.length > 0) {
-          //reverse the array so most recent entries show up first
+          //reverse the array so most recent entries show up first (I could probably do this in SQL query)
           setTimelineState({surveys: res.data.reverse()})
         }
       })
     }
   }, []);
 
-  const deletePost = (id) => {
-    const temp = surveyTimelineState.surveys.filter((_el, index) => index !== id)
-    //console.log(temp)
-    setTimelineState({surveys: temp})
-  }
+  // const deletePost = (id) => {
+  //   const temp = surveyTimelineState.surveys.filter((_el, index) => index !== id)
+  //   //console.log(temp)
+  //   setTimelineState({surveys: temp})
+  // }
 
 let lst = surveyTimelineState.surveys.length===0? (
     <Typography color="textSecondary" align="center">
@@ -67,12 +72,29 @@ let lst = surveyTimelineState.surveys.length===0? (
   : 
   (
     surveyTimelineState.surveys.map((child, index)=> {
-      return <Post text="CESD-R Survey Response Recorded" date={child.dates} key={child.dates} deletePost={()=>deletePost(index)}/>
+      return <Post text="CESD-R Survey Response Recorded" date={child.dates} key={child.dates} /> // deletePost={()=>deletePost(index)}/>
     })
   )
 
   return (
     <Paper className={classes.paper}>
+      <AppBar className={classes.entryBar} position="static" color="default" elevation={0}>
+        <Toolbar>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item>
+            <Button
+              variant="contained" 
+              color="primary" 
+              //style={{marginLeft: '45%', marginBottom: '20px'}}
+              onClick={() => {
+                history.push('/addSurvey')
+              }}>
+            New survey
+        </Button>
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
       <AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
         <Toolbar>
           <Grid container spacing={2} alignItems="center">

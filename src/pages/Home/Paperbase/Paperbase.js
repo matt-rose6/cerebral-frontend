@@ -9,8 +9,6 @@ import Link from '@material-ui/core/Link';
 import Navigator from '../Navigator/Navigator';
 import Header from '../Header/Header';
 import {Emotions, Entries, Patterns, Settings, Timeline, About, Surveys, NotFound} from '../Content';
-import history from '../../../services/history';
-import { validateJWT } from '../../../services/AuthServices/authServices';
 
 function Copyright() {
   return (
@@ -164,11 +162,6 @@ const styles = {
   },
 };
 
-const redirectToLogin = () => {
-  history.push('/login')
-  window.location.reload(false);
-}
-
 function Paperbase(props) {
   const { classes } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -176,17 +169,6 @@ function Paperbase(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  //check if there is a valid jwt token in local storage
-  if(!localStorage.getItem('token')){
-    redirectToLogin();
-  } else {
-    validateJWT(localStorage.getItem('token')).then(res => {
-      if(res && res.data.error){
-        redirectToLogin();
-      }
-    })
-  }
 
   return (
     <ThemeProvider theme={theme}>

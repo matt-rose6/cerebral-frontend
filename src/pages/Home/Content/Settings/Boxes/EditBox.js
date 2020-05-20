@@ -8,6 +8,7 @@ import { TextField, Checkbox, FormControlLabel } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { getUser } from '../../../../../services/UserServices/userServices';
 import { updateUser } from '../../../../../services/UserServices/userServices';
+//import history from '../../../../../services/history';
 
 const styles = (theme) => ({
   paper: {
@@ -42,8 +43,8 @@ function EditBox(props) {
   useEffect(() => {
     if (localStorage.getItem('uid')) {
       getUser(localStorage.getItem('uid')).then((res) => {
-        const user = res.data[0];
-        if (res)
+        if (res && res.data[0]) {
+          const user = res.data[0];
           setBoxState({
             firstname: user.firstname,
             lastname: user.lastname,
@@ -52,6 +53,7 @@ function EditBox(props) {
             outreach: user.outreach,
             errors: [],
           });
+        }
       });
     }
   }, []);

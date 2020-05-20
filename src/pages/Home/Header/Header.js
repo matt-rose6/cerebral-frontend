@@ -29,10 +29,9 @@ function Header(props) {
   });
 
   useEffect(() => {
-    //console.log(localStorage.getItem('uid'))
     if(localStorage.getItem('uid')){
       getUser(localStorage.getItem('uid')).then(res => {
-        if(res) setHeaderState({username: res.data[0].firstname})
+        if(res && res.data[0]) setHeaderState({username: res.data[0].firstname})
         else setHeaderState({username: "user"})
       })
     }

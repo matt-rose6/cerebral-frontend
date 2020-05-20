@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
+//import { Button } from '@material-ui/core';
 
 const styles = theme => ({
     paper: {
@@ -17,7 +17,8 @@ const styles = theme => ({
       marginLeft: '20px',
     },
     deleteButton: {
-      float: 'right'
+      float: 'right',
+      marginRight: '10px'
     }
   });
 
@@ -29,14 +30,14 @@ const styles = theme => ({
             <Typography  paragraph>
               {props.text}
             </Typography>
-            <Typography>
+            <Typography paragraph className={classes.deleteButton}>
               {/* not sure if this is proper */}
               {props.date.substring(0, 10)} 
             </Typography>
       </div>
-      <div className={classes.deleteButton}>
+      {/* <div className={classes.deleteButton}>
       <Button color="primary" onClick={props.deletePost}>Delete</Button>
-      </div>
+      </div> */}
     </ Paper>
     )
 };

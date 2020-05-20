@@ -39,7 +39,7 @@ function SettingsBox(props){
     useEffect(() => {
         if(localStorage.getItem('uid')){
             getUser(localStorage.getItem('uid')).then(res => {
-                if(res){
+                if(res && res.data[0]){
                     const user=res.data[0];
                     setBoxState({firstname: user.firstname, lastname: user.lastname, email: user.email, outreach: user.outreach})
                 }

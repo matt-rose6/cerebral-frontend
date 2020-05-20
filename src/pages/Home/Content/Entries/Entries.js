@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { createEntry } from '../../../../services/EntryServices/entryServices';
+import history from '../../../../services/history';
 
 const styles = theme => ({
   paper: {
@@ -40,8 +41,11 @@ const handleAddEntry = (text) => {
   var date = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
   if(localStorage.getItem('uid')) {
     createEntry(localStorage.getItem('uid'), date, text);
-    alert('Your entry was successfully recorded');
-    window.location.reload(false);
+    //alert('Your entry was successfully recorded');
+    history.push('/')
+
+    //TODO: change this after demo
+    //window.location.reload(false)
   }
   else alert('You are not registered to make a journal entry');
 };
@@ -75,6 +79,11 @@ function Entries(props) {
                 color="primary" 
                 onClick={() => handleAddEntry(text)}>
                   Add entry
+              </Button>
+              <Button
+                variant="contained" 
+                onClick={() => history.push('/')}>
+                  Cancel
               </Button>
             </Grid>
           </Grid>
