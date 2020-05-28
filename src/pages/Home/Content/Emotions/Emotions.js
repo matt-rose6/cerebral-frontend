@@ -46,10 +46,10 @@ function Emotions(props) {
 	if(localStorage.getItem('uid')){
 		createEmotion(localStorage.getItem('uid'), date, emotionState.responses);
 		//alert('Your survey was successfully recorded');
-		history.push('/surveys') 
+		history.push('/surveys')
 
 		//TODO: change this after demo
-		//window.location.reload(false)
+		window.location.reload(false)
 	} else alert('You are not registered to enter a survey');
   }
 

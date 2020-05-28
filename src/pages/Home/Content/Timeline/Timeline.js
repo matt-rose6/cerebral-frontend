@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -12,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import { getEntries } from '../../../../services/EntryServices/entryServices';
+// import { getEntries } from '../../../../services/EntryServices/entryServices';
 import Post from './Post/EntryPost';
 import history from '../../../../services/history';
 
@@ -43,34 +44,14 @@ const styles = theme => ({
 function Content(props) {
   const { classes } = props;
 
-  const [ timelineState, setTimelineState ] = useState({
-    posts: []
-  });
-
-  useEffect(()=> {
-    if(localStorage.getItem('uid')){
-      getEntries(localStorage.getItem('uid')).then(res => {
-        if(res && res.data.length > 0) {
-          //reverse the array so most recent entries show up first
-          setTimelineState({posts: res.data.reverse()})
-        }
-      })
-    }
-  }, []);
-
-  // const deletePost = (id) => {
-  //   const temp = timelineState.posts.filter((_el, index) => index !== id)
-  //   //console.log(temp)
-  //   setTimelineState({posts: temp})
-  // }
-
-  let lst = timelineState.posts.length===0? (
+  let lst = props.entries.length===0? (
     <Typography color="textSecondary" align="center">
       No journal entries yet
     </Typography>
   ) : 
   (
-    timelineState.posts.map((child, index)=> {
+    props.entries.map((child, index)=> {
+      console.log(child)
       return <Post text={child.entry} date={child.dates} key={child.dates} /> //deletePost={()=>deletePost(index)}/>
     })
   )
@@ -131,4 +112,10 @@ Content.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Content);
+const mapStateToProps = state => {
+  return {
+    entries: state.entries
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(Content));

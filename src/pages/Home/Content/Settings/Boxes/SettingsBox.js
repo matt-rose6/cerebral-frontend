@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -6,7 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Typography, Checkbox, FormControlLabel } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { getUser } from '../../../../../services/UserServices/userServices';
+// import { getUser } from '../../../../../services/UserServices/userServices';
 
 const styles = theme => ({
     paper: {
@@ -29,24 +30,6 @@ const styles = theme => ({
 function SettingsBox(props){
     const {classes} =  props;
 
-    const [ settingBoxState, setBoxState ] = useState({
-        firstname: '',
-        lastname: '',
-        email: '',
-        outreach: false
-    });
-
-    useEffect(() => {
-        if(localStorage.getItem('uid')){
-            getUser(localStorage.getItem('uid')).then(res => {
-                if(res && res.data[0]){
-                    const user=res.data[0];
-                    setBoxState({firstname: user.firstname, lastname: user.lastname, email: user.email, outreach: user.outreach})
-                }
-            })
-        }
-      }, []);
-
     const handleLogout = () => {
         localStorage.clear();
         window.location.reload(false);
@@ -55,11 +38,11 @@ function SettingsBox(props){
     return (
         <Paper className={classes.paper}>
             <div className= {classes.root}>
-                <Typography > {"First Name: " + settingBoxState.firstname}</ Typography>
-                <Typography> {"Last Name: " + settingBoxState.lastname} </Typography>
-                <Typography> {"Primary Email Address: " + settingBoxState.email} </Typography>
+                <Typography > {"First Name: " + props.firstname}</ Typography>
+                <Typography> {"Last Name: " + props.lastname} </Typography>
+                <Typography> {"Primary Email Address: " + props.email} </Typography>
                 <FormControlLabel 
-                    control={<Checkbox color="primary" checked={settingBoxState.outreach} disableRipple/>} 
+                    control={<Checkbox color="primary" checked={props.outreach} disableRipple/>} 
                     label={"Subscribed to notifications and reminders"} />
                 
             </div>
@@ -86,4 +69,13 @@ function SettingsBox(props){
     )
 }
 
-export default withStyles(styles)(SettingsBox);
+const mapStateToProps = state => {
+    return {
+      firstname: state.firstname,
+      lastname: state.lastname,
+      email: state.email,
+      outreach: state.outreach
+    }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(SettingsBox));

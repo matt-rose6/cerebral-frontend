@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import * as actionTypes from '../../../../../store/actions';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -6,9 +8,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { TextField, Checkbox, FormControlLabel } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { getUser } from '../../../../../services/UserServices/userServices';
 import { updateUser } from '../../../../../services/UserServices/userServices';
-//import history from '../../../../../services/history';
 
 const styles = (theme) => ({
   paper: {
@@ -41,21 +41,13 @@ function EditBox(props) {
   });
 
   useEffect(() => {
-    if (localStorage.getItem('uid')) {
-      getUser(localStorage.getItem('uid')).then((res) => {
-        if (res && res.data[0]) {
-          const user = res.data[0];
-          setBoxState({
-            firstname: user.firstname,
-            lastname: user.lastname,
-            email: user.email,
-            pass: user.pass,
-            outreach: user.outreach,
-            errors: [],
-          });
-        }
-      });
-    }
+    setBoxState({
+      firstname: props.firstname,
+      lastname: props.lastname,
+      email: props.email,
+      outreach: props.outreach,
+      errors: [],
+    });
   }, []);
 
   //validate email using regular expressions
@@ -78,14 +70,20 @@ function EditBox(props) {
           editBoxState.firstname,
           editBoxState.lastname,
           editBoxState.email,
-          editBoxState.pass,
+          //editBoxState.pass,
           editBoxState.outreach
         ).then((result) => {
           if (result.data.error) {
             console.log(result.data.error)
             temp[3] = true;
             setBoxState({ ...editBoxState, errors: temp });
-          } else window.location.reload(false);
+          } else {
+            props.onSetFirstName(editBoxState.firstname);
+            props.onSetLastName(editBoxState.lastname);
+            props.onSetEmail(editBoxState.email);
+            props.onSetOutreach(editBoxState.outreach);
+            props.toggle();
+          }
         });
       }
     }
@@ -189,4 +187,22 @@ function EditBox(props) {
   );
 }
 
-export default withStyles(styles)(EditBox);
+const mapStateToProps = state => {
+  return {
+    firstname: state.firstname,
+    lastname: state.lastname,
+    email: state.email,
+    outreach: state.outreach
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSetFirstName: first => dispatch({type: actionTypes.SET_FIRSTNAME, val: first}),
+    onSetLastName: last => dispatch({type: actionTypes.SET_LASTNAME, val: last}),
+    onSetEmail: email => dispatch({type: actionTypes.SET_EMAIL, val: email}),
+    onSetOutreach: outreach => dispatch({type: actionTypes.SET_OUTREACH, val: outreach}),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EditBox));

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import { getEmotions } from '../../../../services/EmotionServices/emotionServices';
 import Post from './Post/SurveyPost';
 import Button from '@material-ui/core/Button';
 import history from '../../../../services/history';
@@ -43,35 +43,14 @@ const styles = theme => ({
 function Content(props) {
   const { classes } = props;
 
-  const [ surveyTimelineState, setTimelineState ] = useState({
-    surveys: []
-  });
-
-  useEffect(()=> {
-    if(localStorage.getItem('uid')){
-      getEmotions(localStorage.getItem('uid')).then(res => {
-        if(res && res.data.length > 0) {
-          //reverse the array so most recent entries show up first (I could probably do this in SQL query)
-          setTimelineState({surveys: res.data.reverse()})
-        }
-      })
-    }
-  }, []);
-
-  // const deletePost = (id) => {
-  //   const temp = surveyTimelineState.surveys.filter((_el, index) => index !== id)
-  //   //console.log(temp)
-  //   setTimelineState({surveys: temp})
-  // }
-
-let lst = surveyTimelineState.surveys.length===0? (
+  let lst = props.surveys.length===0? (
     <Typography color="textSecondary" align="center">
       No surveys entered yet
     </Typography>
   ) 
   : 
   (
-    surveyTimelineState.surveys.map((child, index)=> {
+    props.surveys.map((child, index)=> {
       return <Post text="CESD-R Survey Response Recorded" date={child.dates} key={child.dates} /> // deletePost={()=>deletePost(index)}/>
     })
   )
@@ -132,4 +111,10 @@ Content.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Content);
+const mapStateToProps = state => {
+  return {
+    surveys: state.surveys
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(Content));

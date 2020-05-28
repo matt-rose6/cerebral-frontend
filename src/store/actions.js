@@ -1,0 +1,10 @@
+export const SET_FIRSTNAME = 'SET_FIRSTNAME';
+export const SET_LASTNAME = 'SET_LASTNAME';
+export const SET_EMAIL = 'SET_EMAIL';
+export const SET_OUTREACH = 'SET_OUTREACH';
+export const SET_ENTRIES = 'SET_ENTRIES';
+export const ADD_ENTRY = 'ADD_ENTRY';
+export const SET_SURVEYS = 'SET_SURVEYS';
+export const ADD_SURVEY = 'ADD_SURVEY';
+export const SET_SENTIMENTS = 'SET_SENTIMENTS';
+export const ADD_SENTIMENT = 'ADD_SENTIMENT';

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as actionTypes from '../../../store/actions';
 import { Switch, Route } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,6 +11,9 @@ import Link from '@material-ui/core/Link';
 import Navigator from '../Navigator/Navigator';
 import Header from '../Header/Header';
 import {Emotions, Entries, Patterns, Settings, Timeline, About, Surveys, NotFound} from '../Content';
+import { getUser } from '../../../services/UserServices/userServices';
+import { getEntries } from '../../../services/EntryServices/entryServices';
+import { getEmotions } from '../../../services/EmotionServices/emotionServices';
 
 function Copyright() {
   return (
@@ -170,6 +175,31 @@ function Paperbase(props) {
     setMobileOpen(!mobileOpen);
   };
 
+  useEffect(() => {
+    if(localStorage.getItem('uid')){
+      getUser(localStorage.getItem('uid')).then(res => {
+        if(res && res.data[0]) {
+          props.onSetFirstName(res.data[0].firstname) //setHeaderState({username: res.data[0].firstname})
+          props.onSetLastName(res.data[0].lastname)
+          props.onSetEmail(res.data[0].email)
+          props.onSetOutreach(res.data[0].outreach)
+        }
+      })
+      getEntries(localStorage.getItem('uid')).then(res => {
+        if(res && res.data.length > 0) {
+          //reverse the array so most recent entries show up first
+          props.onSetEntries(res.data.reverse())
+        }
+      })
+      getEmotions(localStorage.getItem('uid')).then(res => {
+        if(res && res.data.length > 0) {
+          //reverse the array so most recent entries show up first (I could probably do this in SQL query)
+          props.onSetSurveys(res.data.reverse())
+        }
+      })
+    }
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
@@ -238,4 +268,20 @@ Paperbase.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Paperbase);
+const mapDispatchToProps = dispatch => {
+  return {
+    // set user's state
+    onSetFirstName: first => dispatch({type: actionTypes.SET_FIRSTNAME, val: first}),
+    onSetLastName: last => dispatch({type: actionTypes.SET_LASTNAME, val: last}),
+    onSetEmail: email => dispatch({type: actionTypes.SET_EMAIL, val: email}),
+    onSetOutreach: outreach => dispatch({type: actionTypes.SET_OUTREACH, val: outreach}),
+    // set entry []
+    onSetEntries: entries => dispatch({type: actionTypes.SET_ENTRIES, val: entries}),
+    // set survey []
+    onSetSurveys: surveys => dispatch({type: actionTypes.SET_SURVEYS, val: surveys}),
+    // set sentiment [] 
+    onSetSentiments: sentiments => dispatch({type: actionTypes.SET_SENTIMENTS, val: sentiments})
+  }
+}
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(Paperbase));

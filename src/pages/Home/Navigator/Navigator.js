@@ -5,14 +5,11 @@ import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
-// import HomeIcon from '@material-ui/icons/Home';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import JournalIcon from '@material-ui/icons/Message'
 import SettingsIcon from '@material-ui/icons/Settings';
-//import WriteIcon from '@material-ui/icons/Create';
-//import EmotionIcon from '@material-ui/icons/Mood';
 import SurveyIcon from '@material-ui/icons/Assignment'
 import PatternIcon from '@material-ui/icons/AllInclusive';
 import InfoIcon from '@material-ui/icons/DonutSmall';
@@ -26,8 +23,6 @@ const categories = [
     children: [
       { id: 'Entries', icon: <JournalIcon />, link: '/', sublink: '/addEntry' },
       { id: 'Surveys', icon: <SurveyIcon />, link: '/surveys', sublink: '/addSurvey'},
-      // { id: 'Add Entry', icon: <WriteIcon /> , link:'/addEntry'},
-      // { id: 'Add Survey', icon: <EmotionIcon /> , link:'/addSurvey'},
       { id: 'Thought Patterns', icon: <PatternIcon /> , link:'/patterns', sublink: null},
       { id: 'Account', icon: <SettingsIcon />, link: '/settings', sublink: null},
       // { id: 'About', icon: <InfoIcon />, link: '/about'}

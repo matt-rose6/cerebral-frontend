@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import * as actionTypes from '../../../../store/actions';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -36,24 +38,21 @@ const styles = theme => ({
   },
 });
 
-const handleAddEntry = (text) => {
-  var tempDate = new Date();
-  var date = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
-  if(localStorage.getItem('uid')) {
-    createEntry(localStorage.getItem('uid'), date, text);
-    //alert('Your entry was successfully recorded');
-    history.push('/')
-
-    //TODO: change this after demo
-    //window.location.reload(false)
-  }
-  else alert('You are not registered to make a journal entry');
-};
-
 function Entries(props) {
   const { classes } = props;
 
   const [text, setText] = useState("");
+
+  const handleAddEntry = (text) => {
+    var tempDate = new Date();
+    var date = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
+    if(localStorage.getItem('uid')) {
+      createEntry(localStorage.getItem('uid'), date, text);
+      props.onAddEntry(localStorage.getItem('uid'), date, text);
+      history.push('/')
+    }
+    else alert('You are not registered to make a journal entry');
+  };
 
   return (
     <Paper className={classes.paper}>
@@ -97,4 +96,10 @@ Entries.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Entries);
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddEntry: (uid, dates, entry) => dispatch({type: actionTypes.ADD_ENTRY, val: {uid: uid, dates: dates, entry: entry}})
+  }
+}
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(Entries));

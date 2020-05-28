@@ -228,7 +228,7 @@ class SignUp extends Component {
                   helperText={
                     this.state.password.trim().length < 5 &&
                     this.state.errors[3]
-                      ? 'Enter a valid email.'
+                      ? 'Password must be 5 characters or longer.'
                       : null
                   }
                   onChange={(event) =>
