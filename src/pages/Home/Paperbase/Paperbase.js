@@ -3,14 +3,27 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as actionTypes from '../../../store/actions';
 import { Switch, Route } from 'react-router-dom';
-import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
+import {
+  createMuiTheme,
+  ThemeProvider,
+  withStyles,
+} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Navigator from '../Navigator/Navigator';
 import Header from '../Header/Header';
-import {Emotions, Entries, Patterns, Settings, Timeline, About, Surveys, NotFound} from '../Content';
+import {
+  Emotions,
+  Entries,
+  Patterns,
+  Settings,
+  Timeline,
+  About,
+  Surveys,
+  NotFound,
+} from '../Content';
 import { getUser } from '../../../services/UserServices/userServices';
 import { getEntries } from '../../../services/EntryServices/entryServices';
 import { getEmotions } from '../../../services/EmotionServices/emotionServices';
@@ -176,27 +189,33 @@ function Paperbase(props) {
   };
 
   useEffect(() => {
-    if(localStorage.getItem('uid')){
-      getUser(localStorage.getItem('uid')).then(res => {
-        if(res && res.data[0]) {
-          props.onSetFirstName(res.data[0].firstname) //setHeaderState({username: res.data[0].firstname})
-          props.onSetLastName(res.data[0].lastname)
-          props.onSetEmail(res.data[0].email)
-          props.onSetOutreach(res.data[0].outreach)
+    if (localStorage.getItem('uid')) {
+      getUser(localStorage.getItem('uid')).then((res) => {
+        if (res && res.data) {
+          props.onSetFirstName(res.data.firstname); //setHeaderState({username: res.data[0].firstname})
+          props.onSetLastName(res.data.lastname);
+          props.onSetEmail(res.data.email);
+          props.onSetOutreach(res.data.outreach);
         }
-      })
-      getEntries(localStorage.getItem('uid')).then(res => {
-        if(res && res.data.length > 0) {
+      });
+      getEntries(localStorage.getItem('uid')).then((res) => {
+        if (res && res.data.length > 0) {
           //reverse the array so most recent entries show up first
-          props.onSetEntries(res.data.reverse())
+          res.data.sort(function (a, b) {
+            return new Date(b.dates) - new Date(a.dates);
+          });
+          props.onSetEntries(res.data);
         }
-      })
-      getEmotions(localStorage.getItem('uid')).then(res => {
-        if(res && res.data.length > 0) {
+      });
+      getEmotions(localStorage.getItem('uid')).then((res) => {
+        if (res && res.data.length > 0) {
           //reverse the array so most recent entries show up first (I could probably do this in SQL query)
-          props.onSetSurveys(res.data.reverse())
+          res.data.sort(function (a, b) {
+            return new Date(b.dates) - new Date(a.dates);
+          });
+          props.onSetSurveys(res.data);
         }
-      })
+      });
     }
   }, []);
 
@@ -221,38 +240,14 @@ function Paperbase(props) {
           <Header onDrawerToggle={handleDrawerToggle} />
           <main className={classes.main}>
             <Switch>
-              <Route 
-                path= "/"
-                exact component ={Timeline}
-              />
-              <Route
-                path= "/surveys"
-                exact component={Surveys}
-              />
-              <Route
-                path= "/addEntry"
-                exact component={Entries}
-              />
-              <Route
-                path= "/addSurvey"
-                exact component={Emotions}
-              />
-              <Route
-                path= "/patterns"
-                exact component={Patterns}
-              />
-              <Route
-                path= "/settings"
-                exact component={Settings}
-              />
-              <Route
-                path="/about"
-                exact component={About}
-              />
-              <Route
-                path="/"
-                component={NotFound}
-              />
+              <Route path="/" exact component={Timeline} />
+              <Route path="/surveys" exact component={Surveys} />
+              <Route path="/addEntry" exact component={Entries} />
+              <Route path="/addSurvey" exact component={Emotions} />
+              <Route path="/patterns" exact component={Patterns} />
+              <Route path="/settings" exact component={Settings} />
+              <Route path="/about" exact component={About} />
+              <Route path="/" component={NotFound} />
             </Switch>
           </main>
           <footer className={classes.footer}>
@@ -268,20 +263,27 @@ Paperbase.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     // set user's state
-    onSetFirstName: first => dispatch({type: actionTypes.SET_FIRSTNAME, val: first}),
-    onSetLastName: last => dispatch({type: actionTypes.SET_LASTNAME, val: last}),
-    onSetEmail: email => dispatch({type: actionTypes.SET_EMAIL, val: email}),
-    onSetOutreach: outreach => dispatch({type: actionTypes.SET_OUTREACH, val: outreach}),
+    onSetFirstName: (first) =>
+      dispatch({ type: actionTypes.SET_FIRSTNAME, val: first }),
+    onSetLastName: (last) =>
+      dispatch({ type: actionTypes.SET_LASTNAME, val: last }),
+    onSetEmail: (email) =>
+      dispatch({ type: actionTypes.SET_EMAIL, val: email }),
+    onSetOutreach: (outreach) =>
+      dispatch({ type: actionTypes.SET_OUTREACH, val: outreach }),
     // set entry []
-    onSetEntries: entries => dispatch({type: actionTypes.SET_ENTRIES, val: entries}),
+    onSetEntries: (entries) =>
+      dispatch({ type: actionTypes.SET_ENTRIES, val: entries }),
     // set survey []
-    onSetSurveys: surveys => dispatch({type: actionTypes.SET_SURVEYS, val: surveys}),
-    // set sentiment [] 
-    onSetSentiments: sentiments => dispatch({type: actionTypes.SET_SENTIMENTS, val: sentiments})
-  }
-}
+    onSetSurveys: (surveys) =>
+      dispatch({ type: actionTypes.SET_SURVEYS, val: surveys }),
+    // set sentiment []
+    onSetSentiments: (sentiments) =>
+      dispatch({ type: actionTypes.SET_SENTIMENTS, val: sentiments }),
+  };
+};
 
 export default connect(null, mapDispatchToProps)(withStyles(styles)(Paperbase));

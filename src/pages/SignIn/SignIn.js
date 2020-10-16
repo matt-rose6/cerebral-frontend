@@ -62,9 +62,10 @@ class SignIn extends Component {
   handleSubmit = () => {
     authenticateUser(this.state.email, this.state.pass).then((res) => {
       if (res && res.data.success) {
+        //console.log(res)
         localStorage.clear();
         localStorage.setItem('token', res.data.token);
-        localStorage.setItem('uid', res.data.user.uid);
+        localStorage.setItem('uid', res.data.uid);
         this.props.setAuth(true)
         this.setState({ redirect: true }) //only execute if authentication works
       } else if (res) {

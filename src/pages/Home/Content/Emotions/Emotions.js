@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import * as actionTypes from '../../../../store/actions';
 import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
@@ -8,13 +10,13 @@ import Button from '@material-ui/core/Button';
 import EmotionSlider from './EmotionSlider';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import { cesdr } from './Survey/Survey'; //can import phq9 as well
+import { bdi } from './Survey/Survey'; //can import phq9 as well
 import { createEmotion } from '../../../../services/EmotionServices/emotionServices';
 import history from '../../../../services/history';
 
-const styles = theme => ({
+const styles = (theme) => ({
   entryBar: {
-	alignItems: 'center',
+    alignItems: 'center',
   },
   searchInput: {
     fontSize: theme.typography.fontSize,
@@ -29,69 +31,98 @@ const styles = theme => ({
     backgroundColor: '#f2f2f2',
   },
   title: {
-	  marginTop: '20px',
-  }
+    marginTop: '20px',
+  },
 });
 
 function Emotions(props) {
   const { classes } = props;
 
   const [emotionState, setEmotionState] = useState({
-	responses: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    responses: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   });
 
   const handleSubmit = () => {
-	var tempDate = new Date();
-	var date = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
-	if(localStorage.getItem('uid')){
-		createEmotion(localStorage.getItem('uid'), date, emotionState.responses);
-		//alert('Your survey was successfully recorded');
-		history.push('/surveys')
+    var tempDate = new Date();
+    var date =
+      tempDate.getFullYear() +
+      '-' +
+      (tempDate.getMonth() + 1) +
+      '-' +
+      tempDate.getDate() +
+      ' ' +
+      tempDate.getHours() +
+      ':' +
+      tempDate.getMinutes() +
+      ':' +
+      tempDate.getSeconds();
+    if (localStorage.getItem('uid')) {
+      createEmotion(localStorage.getItem('uid'), date, emotionState.responses);
+      props.onAddSurvey(
+        localStorage.getItem('uid'),
+        date,
+        emotionState.responses
+      );
+      history.push('/surveys');
+    } else alert('You are not registered to enter a survey');
+  };
 
-		//TODO: change this after demo
-		window.location.reload(false)
-	} else alert('You are not registered to enter a survey');
-  }
-
-  const handleSlider = (rating, index) => { 
-	var temp = [...emotionState.responses]
-	temp[index] = rating; 
-	setEmotionState({responses: temp});
-  }
+  const handleChange = (rating, index) => {
+    var temp = [...emotionState.responses];
+    temp[index] = rating;
+    setEmotionState({ responses: temp });
+  };
 
   return (
-	<Paper className={classes.paper}>
-		<Typography align="center" paragraph variant="h6" className={classes.title}>
-			Over the last week, how often have you been bothered by any of the following problems?
-		</Typography>
-		{cesdr.map((question, index) => {
-			return <EmotionSlider 
-				title={question} 
-				key={index}
-				index={index}
-				handleSlider={handleSlider}/>
-		})}
-		<AppBar className={classes.entryBar} position="static" color="default" elevation={0}>
-			<Toolbar>
-				<Grid container spacing={2} alignItems="center">
-					<Grid item>
-					<Button 
-						variant="contained" 
-						color="primary" 
-						onClick={handleSubmit}
-					>
-						Add survey
-					</Button>
-					<Button
-						variant="contained" 
-						onClick={() => history.push('/surveys')}>
-						Cancel
-					</Button>
-					</Grid>
-				</Grid>
-			</Toolbar>
-		</AppBar>
-	</Paper>
+    <Paper className={classes.paper}>
+      <Typography
+        align="center"
+        paragraph
+        variant="h6"
+        className={classes.title}
+      >
+        Beck Depression Inventory
+      </Typography>
+      {bdi.map((question, index) => {
+        return (
+          <EmotionSlider
+            q1={question[0]}
+            q2={question[1]}
+            q3={question[2]}
+            q4={question[3]}
+            key={index}
+            index={index}
+            handleChange={handleChange}
+          />
+        );
+      })}
+      <AppBar
+        className={classes.entryBar}
+        position="static"
+        color="default"
+        elevation={0}
+      >
+        <Toolbar>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => history.push('/surveys')}
+              >
+                Cancel
+              </Button>
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+    </Paper>
   );
 }
 
@@ -99,4 +130,14 @@ Emotions.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Emotions);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAddSurvey: (uid, dates, survey) =>
+      dispatch({
+        type: actionTypes.ADD_SURVEY,
+        val: { uid: uid, dates: dates, survey: survey },
+      }),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(Emotions));

@@ -1,91 +1,73 @@
 import React from 'react';
-import Slider from '@material-ui/core/Slider';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
-const styles = theme => ({
+const styles = (theme) => ({
   paper: {
     maxWidth: 936,
     margin: 'auto',
     overflow: 'hidden',
     marginBottom: '10px',
   },
-	root: {
-      margin: theme.spacing(1),
-      marginTop: '12px',
-      width: '80%',
-      marginLeft: '20px',
+  root: {
+    margin: theme.spacing(1),
+    marginTop: '12px',
+    width: '80%',
+    marginLeft: '20px',
   },
   slider: {
     marginLeft: '55px',
-  }
+  },
+  sliderValue: {
+    width: '10%',
+  },
 });
 
-//phqr labels
-// const marks = [
-//   {
-//     value: 0,
-//     label: 'Not at all',
-//   },
-//   {
-//     value: 33,
-//     label: 'Several days',
-//   },
-//   {
-//     value: 67,
-//     label: 'More than half the days',
-//   },
-//   {
-//     value: 100,
-//     label: 'Nearly every day',
-//   },
-// ];
-
-//cesdr labels
-const marks = [
-  {
-    value: 0,
-    label: 'Less than 1 day',
-  },
-  {
-    value: 33,
-    label: '1-2 days',
-  },
-  {
-    value: 67,
-    label: '3-4 days',
-  },
-  {
-    value: 100,
-    label: '5-7 days',
-  },
-];
-
-// function valueLabelFormat(value) {
-//   return marks.findIndex(mark => mark.value === value);
-// }
-
 const EmotionSlider = (props) => {
-	const {classes} = props;
-	return (
+  const { classes } = props;
+  return (
     <Paper className={classes.paper}>
       <div className={classes.root}>
-        <Typography id="discrete-slider-restrict" paragraph>
-          {props.title}
-        </Typography>
-        <Slider
-          defaultValue={0}
-          aria-labelledby="discrete-slider-restrict"
-          step={null}
-          marks={marks}
-          className={classes.slider}
-          onChangeCommitted={(_event, value) => props.handleSlider(parseInt(value/33), props.index)}
-          // onChangeCommitted={()=> console.log('temp')}
-        />
+        <FormControl component="fieldset">
+          <FormLabel component="legend">{props.index + 1}</FormLabel>
+          <RadioGroup
+            aria-label={props.index + 1}
+            name={props.index + 1}
+            value={props.value}
+            onChange={(event) =>
+              props.handleChange(parseInt(event.target.value), props.index)
+            }
+          >
+            <FormControlLabel
+              value="1"
+              control={<Radio color="primary" />}
+              label={props.q1}
+            />
+            <FormControlLabel
+              value="2"
+              control={<Radio color="primary" />}
+              label={props.q2}
+            />
+            <FormControlLabel
+              value="3"
+              control={<Radio color="primary" />}
+              label={props.q3}
+            />
+            <FormControlLabel
+              value="4"
+              control={<Radio color="primary" />}
+              label={props.q4}
+            />
+          </RadioGroup>
+        </FormControl>
       </div>
-    </ Paper>
-  )
+    </Paper>
+  );
 };
 
 export default withStyles(styles)(EmotionSlider);

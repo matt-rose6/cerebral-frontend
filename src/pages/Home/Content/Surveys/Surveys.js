@@ -16,7 +16,7 @@ import Post from './Post/SurveyPost';
 import Button from '@material-ui/core/Button';
 import history from '../../../../services/history';
 
-const styles = theme => ({
+const styles = (theme) => ({
   paper: {
     maxWidth: 936,
     margin: 'auto',
@@ -36,45 +36,61 @@ const styles = theme => ({
     margin: '40px 16px',
   },
   entryBar: {
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
-function Content(props) {
+function Surveys(props) {
   const { classes } = props;
 
-  let lst = props.surveys.length===0? (
-    <Typography color="textSecondary" align="center">
-      No surveys entered yet
-    </Typography>
-  ) 
-  : 
-  (
-    props.surveys.map((child, index)=> {
-      return <Post text="CESD-R Survey Response Recorded" date={child.dates} key={child.dates} /> // deletePost={()=>deletePost(index)}/>
-    })
-  )
+  let lst =
+    props.surveys.length === 0 ? (
+      <Typography color="textSecondary" align="center">
+        No surveys entered yet
+      </Typography>
+    ) : (
+      props.surveys.map((child, index) => {
+        return (
+          <Post
+            text="BDI Response Recorded"
+            date={child.dates}
+            key={child.dates}
+          />
+        ); // deletePost={()=>deletePost(index)}/>
+      })
+    );
 
   return (
     <Paper className={classes.paper}>
-      <AppBar className={classes.entryBar} position="static" color="default" elevation={0}>
+      <AppBar
+        className={classes.entryBar}
+        position="static"
+        color="default"
+        elevation={0}
+      >
         <Toolbar>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
-            <Button
-              variant="contained" 
-              color="primary" 
-              //style={{marginLeft: '45%', marginBottom: '20px'}}
-              onClick={() => {
-                history.push('/addSurvey')
-              }}>
-            New survey
-        </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                //style={{marginLeft: '45%', marginBottom: '20px'}}
+                onClick={() => {
+                  history.push('/addSurvey');
+                }}
+              >
+                Complete survey
+              </Button>
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
-      <AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
+      <AppBar
+        className={classes.searchBar}
+        position="static"
+        color="default"
+        elevation={0}
+      >
         <Toolbar>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
@@ -92,29 +108,27 @@ function Content(props) {
             </Grid>
             <Grid item>
               <Tooltip title="Reload">
-                <IconButton onClick={()=> window.location.reload(false)}>
-                  <RefreshIcon className={classes.block} color="inherit"/>
+                <IconButton onClick={() => window.location.reload(false)}>
+                  <RefreshIcon className={classes.block} color="inherit" />
                 </IconButton>
               </Tooltip>
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
-      <div className={classes.contentWrapper}>
-        {lst}
-      </div>
+      <div className={classes.contentWrapper}>{lst}</div>
     </Paper>
   );
 }
 
-Content.propTypes = {
+Surveys.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    surveys: state.surveys
-  }
-}
+    surveys: state.surveys,
+  };
+};
 
-export default connect(mapStateToProps)(withStyles(styles)(Content));
+export default connect(mapStateToProps)(withStyles(styles)(Surveys));

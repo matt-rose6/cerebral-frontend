@@ -1,50 +1,49 @@
-import axios from 'axios'
-axios.defaults.baseURL = 'http://localhost:3001/api/'
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:3001/api/';
 //axios.defaults.baseURL = 'https://api-dot-cerebral-277223.uc.r.appspot.com/api/'
-//axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+axios.defaults.headers.common['Authorization'] =
+  'Bearer ' + localStorage.getItem('token');
 
 const getEmotions = async (id) => {
-    let result = await axios({
-        method: 'get',
-        url: 'emotions/getEmotion/'.concat(id),
-        headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
-    })
-    .catch(error => console.log(error));
-    return result
-}
+  let result = await axios({
+    method: 'get',
+    url: 'emotions/getEmotion/'.concat(id),
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    },
+  }).catch((error) => console.log(error));
+  return result;
+};
 
 const createEmotion = async (uid, date, emotion) => {
-    let result = await axios({
-        method: 'post',
-        url: 'emotions/addEmotion',
-        data: {
-            "uid": uid,
-            "dates": date,
-            "survey":  emotion
-        },
-        headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
-    })
-    .catch(error => console.log(error));
-    return result
-}
+  let result = await axios({
+    method: 'post',
+    url: 'emotions/addEmotion',
+    data: {
+      uid: uid,
+      dates: date,
+      survey: emotion,
+    },
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    },
+  }).catch((error) => console.log(error));
+  return result;
+};
 
 const updateEmotion = (uid, date, emotion) => {
-    axios({
-        method: 'put',
-        url: 'emotions/updateEmotion',
-        data: {
-            "id": uid,
-            "dates": date,
-            "survey": emotion,
-        },
-        headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
-    }).catch(error => console.log(error));
-}
+  axios({
+    method: 'put',
+    url: 'emotions/updateEmotion',
+    data: {
+      id: uid,
+      dates: date,
+      survey: emotion,
+    },
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    },
+  }).catch((error) => console.log(error));
+};
 
-export {getEmotions, createEmotion, updateEmotion}
+export { getEmotions, createEmotion, updateEmotion };

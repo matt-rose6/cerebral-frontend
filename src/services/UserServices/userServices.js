@@ -1,7 +1,7 @@
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:3001/api/' //change this url later
 //axios.defaults.baseURL = 'https://api-dot-cerebral-277223.uc.r.appspot.com/api/'
-//axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
 const getUser = async (uid) => {
     let result = await axios({

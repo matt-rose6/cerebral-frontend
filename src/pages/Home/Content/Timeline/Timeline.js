@@ -17,7 +17,7 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import Post from './Post/EntryPost';
 import history from '../../../../services/history';
 
-const styles = theme => ({
+const styles = (theme) => ({
   paper: {
     maxWidth: 936,
     margin: 'auto',
@@ -37,45 +37,56 @@ const styles = theme => ({
     margin: '40px 16px',
   },
   entryBar: {
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
-function Content(props) {
+function Timeline(props) {
   const { classes } = props;
 
-  let lst = props.entries.length===0? (
-    <Typography color="textSecondary" align="center">
-      No journal entries yet
-    </Typography>
-  ) : 
-  (
-    props.entries.map((child, index)=> {
-      console.log(child)
-      return <Post text={child.entry} date={child.dates} key={child.dates} /> //deletePost={()=>deletePost(index)}/>
-    })
-  )
+  let lst =
+    props.entries.length === 0 ? (
+      <Typography color="textSecondary" align="center">
+        No journal entries yet
+      </Typography>
+    ) : (
+      props.entries.map((child, index) => {
+        //console.log(child)
+        return <Post text={child.entry} date={child.dates} key={child.dates} />; //deletePost={()=>deletePost(index)}/>
+      })
+    );
 
   return (
     <Paper className={classes.paper}>
-      <AppBar className={classes.entryBar} position="static" color="default" elevation={0}>
+      <AppBar
+        className={classes.entryBar}
+        position="static"
+        color="default"
+        elevation={0}
+      >
         <Toolbar>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
-            <Button
-              variant="contained" 
-              color="primary" 
-              align="center"
-              onClick={() => {
-                history.push('/addEntry')
-              }}>
+              <Button
+                variant="contained"
+                color="primary"
+                align="center"
+                onClick={() => {
+                  history.push('/addEntry');
+                }}
+              >
                 New entry
-            </Button>
+              </Button>
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
-      <AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
+      <AppBar
+        className={classes.searchBar}
+        position="static"
+        color="default"
+        elevation={0}
+      >
         <Toolbar>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
@@ -93,29 +104,27 @@ function Content(props) {
             </Grid>
             <Grid item>
               <Tooltip title="Reload">
-                <IconButton onClick={()=> window.location.reload(false)}>
-                  <RefreshIcon className={classes.block} color="inherit"/>
+                <IconButton onClick={() => window.location.reload(false)}>
+                  <RefreshIcon className={classes.block} color="inherit" />
                 </IconButton>
               </Tooltip>
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
-      <div className={classes.contentWrapper}>
-        {lst}
-      </div>
+      <div className={classes.contentWrapper}>{lst}</div>
     </Paper>
   );
 }
 
-Content.propTypes = {
+Timeline.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    entries: state.entries
-  }
-}
+    entries: state.entries,
+  };
+};
 
-export default connect(mapStateToProps)(withStyles(styles)(Content));
+export default connect(mapStateToProps)(withStyles(styles)(Timeline));

@@ -12,7 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { createEntry } from '../../../../services/EntryServices/entryServices';
 import history from '../../../../services/history';
 
-const styles = theme => ({
+const styles = (theme) => ({
   paper: {
     maxWidth: 936,
     margin: 'auto',
@@ -30,8 +30,8 @@ const styles = theme => ({
   },
   textfield: {
     width: '96%',
-    marginLeft: '2%', //change this 
-    marginRight: '2%'
+    marginLeft: '2%', //change this
+    marginRight: '2%',
   },
   contentWrapper: {
     margin: '40px 16px',
@@ -41,17 +41,27 @@ const styles = theme => ({
 function Entries(props) {
   const { classes } = props;
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
 
   const handleAddEntry = (text) => {
     var tempDate = new Date();
-    var date = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
-    if(localStorage.getItem('uid')) {
+    var date =
+      tempDate.getFullYear() +
+      '-' +
+      (tempDate.getMonth() + 1) +
+      '-' +
+      tempDate.getDate() +
+      ' ' +
+      tempDate.getHours() +
+      ':' +
+      tempDate.getMinutes() +
+      ':' +
+      tempDate.getSeconds();
+    if (localStorage.getItem('uid')) {
       createEntry(localStorage.getItem('uid'), date, text);
       props.onAddEntry(localStorage.getItem('uid'), date, text);
-      history.push('/')
-    }
-    else alert('You are not registered to make a journal entry');
+      history.push('/');
+    } else alert('You are not registered to make a journal entry');
   };
 
   return (
@@ -65,24 +75,28 @@ function Entries(props) {
             label="New Entry"
             multiline
             rows="10"
-            onChange={(event)=> setText(event.target.value)}
+            onChange={(event) => setText(event.target.value)}
           />
         </Grid>
-      </ Grid>
-      <AppBar className={classes.enterBar} position="static" color="default" elevation={0}>
+      </Grid>
+      <AppBar
+        className={classes.enterBar}
+        position="static"
+        color="default"
+        elevation={0}
+      >
         <Toolbar>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
               <Button
-                variant="contained" 
-                color="primary" 
-                onClick={() => handleAddEntry(text)}>
-                  Add entry
+                variant="contained"
+                color="primary"
+                onClick={() => handleAddEntry(text)}
+              >
+                Add entry
               </Button>
-              <Button
-                variant="contained" 
-                onClick={() => history.push('/')}>
-                  Cancel
+              <Button variant="contained" onClick={() => history.push('/')}>
+                Cancel
               </Button>
             </Grid>
           </Grid>
@@ -96,10 +110,14 @@ Entries.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onAddEntry: (uid, dates, entry) => dispatch({type: actionTypes.ADD_ENTRY, val: {uid: uid, dates: dates, entry: entry}})
-  }
-}
+    onAddEntry: (uid, dates, entry) =>
+      dispatch({
+        type: actionTypes.ADD_ENTRY,
+        val: { uid: uid, dates: dates, entry: entry },
+      }),
+  };
+};
 
 export default connect(null, mapDispatchToProps)(withStyles(styles)(Entries));
