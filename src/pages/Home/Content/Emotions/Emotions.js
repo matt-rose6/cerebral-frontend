@@ -11,7 +11,10 @@ import EmotionSlider from './EmotionSlider';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { bdi } from './Survey/Survey'; //can import phq9 as well
-import { createEmotion } from '../../../../services/EmotionServices/emotionServices';
+import {
+  createEmotion,
+  getEmotions,
+} from '../../../../services/EmotionServices/emotionServices';
 import history from '../../../../services/history';
 
 const styles = (theme) => ({
@@ -57,12 +60,20 @@ function Emotions(props) {
       ':' +
       tempDate.getSeconds();
     if (localStorage.getItem('uid')) {
-      createEmotion(localStorage.getItem('uid'), date, emotionState.responses);
-      props.onAddSurvey(
+      createEmotion(
         localStorage.getItem('uid'),
         date,
         emotionState.responses
-      );
+      ).then(() => {
+        getEmotions(localStorage.getItem('uid')).then((res) => {
+          if (res && res.data.length > 0) {
+            res.data.sort(function (a, b) {
+              return new Date(b.dates) - new Date(a.dates);
+            });
+            props.onSetSurveys(res.data);
+          }
+        });
+      });
       history.push('/surveys');
     } else alert('You are not registered to enter a survey');
   };
@@ -132,11 +143,8 @@ Emotions.propTypes = {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddSurvey: (uid, dates, survey) =>
-      dispatch({
-        type: actionTypes.ADD_SURVEY,
-        val: { uid: uid, dates: dates, survey: survey },
-      }),
+    onSetSurveys: (surveys) =>
+      dispatch({ type: actionTypes.SET_SURVEYS, val: surveys }),
   };
 };
 

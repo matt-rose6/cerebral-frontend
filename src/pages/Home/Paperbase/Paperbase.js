@@ -200,7 +200,6 @@ function Paperbase(props) {
       });
       getEntries(localStorage.getItem('uid')).then((res) => {
         if (res && res.data.length > 0) {
-          //reverse the array so most recent entries show up first
           res.data.sort(function (a, b) {
             return new Date(b.dates) - new Date(a.dates);
           });
@@ -209,7 +208,6 @@ function Paperbase(props) {
       });
       getEmotions(localStorage.getItem('uid')).then((res) => {
         if (res && res.data.length > 0) {
-          //reverse the array so most recent entries show up first (I could probably do this in SQL query)
           res.data.sort(function (a, b) {
             return new Date(b.dates) - new Date(a.dates);
           });

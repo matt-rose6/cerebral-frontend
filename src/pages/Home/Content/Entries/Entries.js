@@ -9,7 +9,10 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import { createEntry } from '../../../../services/EntryServices/entryServices';
+import {
+  createEntry,
+  getEntries,
+} from '../../../../services/EntryServices/entryServices';
 import history from '../../../../services/history';
 
 const styles = (theme) => ({
@@ -58,8 +61,16 @@ function Entries(props) {
       ':' +
       tempDate.getSeconds();
     if (localStorage.getItem('uid')) {
-      createEntry(localStorage.getItem('uid'), date, text);
-      props.onAddEntry(localStorage.getItem('uid'), date, text);
+      createEntry(localStorage.getItem('uid'), date, text).then(() => {
+        getEntries(localStorage.getItem('uid')).then((res) => {
+          if (res && res.data.length > 0) {
+            res.data.sort(function (a, b) {
+              return new Date(b.dates) - new Date(a.dates);
+            });
+            props.onSetEntries(res.data);
+          }
+        });
+      });
       history.push('/');
     } else alert('You are not registered to make a journal entry');
   };
@@ -112,11 +123,8 @@ Entries.propTypes = {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddEntry: (uid, dates, entry) =>
-      dispatch({
-        type: actionTypes.ADD_ENTRY,
-        val: { uid: uid, dates: dates, entry: entry },
-      }),
+    onSetEntries: (entries) =>
+      dispatch({ type: actionTypes.SET_ENTRIES, val: entries }),
   };
 };
 
