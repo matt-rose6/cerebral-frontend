@@ -110,6 +110,16 @@ function Header(props) {
             emergency or you feel you can’t keep yourself safe, please proceed
             immediately to your nearest emergency room, call 911, or call your
             local mental health crisis team.
+            <br /> <br />
+            Helpline Phone Numbers: <br />
+            {/* <ul>
+              <li>
+                National Helpline for Mental Health and/or Substance Use
+                1-800-662-HELP (4357){' '}
+              </li>
+              <li>Suicide Prevention Hotline 1-800-273-TALK </li>
+              <li>Crisis Text Line - text START to 741-741</li>
+            </ul> */}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

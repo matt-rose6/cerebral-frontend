@@ -12,7 +12,7 @@ function MyChart(props) {
 
   const series = React.useMemo(
     () => ({
-      showPoints: true,
+      showPoints: true
     }),
     []
   );

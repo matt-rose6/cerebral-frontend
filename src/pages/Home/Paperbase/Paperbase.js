@@ -23,6 +23,8 @@ import {
   About,
   Surveys,
   NotFound,
+  Calendar,
+  Event,
 } from '../Content';
 import { getUser } from '../../../services/UserServices/userServices';
 import { getEntries } from '../../../services/EntryServices/entryServices';
@@ -238,7 +240,9 @@ function Paperbase(props) {
           <Header onDrawerToggle={handleDrawerToggle} />
           <main className={classes.main}>
             <Switch>
-              <Route path="/" exact component={Timeline} />
+              <Route path="/" exact component={Calendar} />
+              <Route path="/event" exact component={Event} />
+              <Route path="/entries" exact component={Timeline} />
               <Route path="/surveys" exact component={Surveys} />
               <Route path="/addEntry" exact component={Entries} />
               <Route path="/addSurvey" exact component={Emotions} />

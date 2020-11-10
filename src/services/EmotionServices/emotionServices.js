@@ -1,6 +1,6 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:3001/api/';
-//axios.defaults.baseURL = 'https://api-dot-cerebral-277223.uc.r.appspot.com/api/'
+//axios.defaults.baseURL = 'http://localhost:3001/api/';
+axios.defaults.baseURL = 'https://api-dot-cerebral-277223.uc.r.appspot.com/api/'
 axios.defaults.headers.common['Authorization'] =
   'Bearer ' + localStorage.getItem('token');
 

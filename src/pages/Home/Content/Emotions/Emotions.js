@@ -9,6 +9,11 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import EmotionSlider from './EmotionSlider';
 import Typography from '@material-ui/core/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogActions from '@material-ui/core/DialogActions';
 import { withStyles } from '@material-ui/core/styles';
 import { bdi } from './Survey/Survey'; //can import phq9 as well
 import {
@@ -43,6 +48,7 @@ function Emotions(props) {
 
   const [emotionState, setEmotionState] = useState({
     responses: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    open: false,
   });
 
   const handleSubmit = () => {
@@ -60,21 +66,40 @@ function Emotions(props) {
       ':' +
       tempDate.getSeconds();
     if (localStorage.getItem('uid')) {
-      createEmotion(
-        localStorage.getItem('uid'),
-        date,
-        emotionState.responses
-      ).then(() => {
-        getEmotions(localStorage.getItem('uid')).then((res) => {
-          if (res && res.data.length > 0) {
-            res.data.sort(function (a, b) {
-              return new Date(b.dates) - new Date(a.dates);
-            });
-            props.onSetSurveys(res.data);
-          }
+      if (emotionState.responses[8] > 1) suicideNotice();
+      //console.log(emotionState.responses);
+      else if (emotionState.responses[8] === 1) {
+        createEmotion(
+          localStorage.getItem('uid'),
+          date,
+          emotionState.responses
+        ).then(() => {
+          getEmotions(localStorage.getItem('uid')).then((res) => {
+            if (res && res.data.length > 0) {
+              res.data.sort(function (a, b) {
+                return new Date(b.dates) - new Date(a.dates);
+              });
+              props.onSetSurveys(res.data);
+            }
+          });
         });
-      });
-      history.push('/surveys');
+        history.push('/');
+      }
+      // createEmotion(
+      //   localStorage.getItem('uid'),
+      //   date,
+      //   emotionState.responses
+      // ).then(() => {
+      //   getEmotions(localStorage.getItem('uid')).then((res) => {
+      //     if (res && res.data.length > 0) {
+      //       res.data.sort(function (a, b) {
+      //         return new Date(b.dates) - new Date(a.dates);
+      //       });
+      //       props.onSetSurveys(res.data);
+      //     }
+      //   });
+      // });
+      // history.push('/surveys');
     } else alert('You are not registered to enter a survey');
   };
 
@@ -82,6 +107,14 @@ function Emotions(props) {
     var temp = [...emotionState.responses];
     temp[index] = rating;
     setEmotionState({ responses: temp });
+  };
+
+  const suicideNotice = () => {
+    setEmotionState({ ...emotionState, open: true });
+  };
+
+  const handleClose = () => {
+    setEmotionState({ ...emotionState, open: false });
   };
 
   return (
@@ -121,7 +154,7 @@ function Emotions(props) {
                 color="primary"
                 onClick={handleSubmit}
               >
-                Submit
+                Submit survey
               </Button>
               <Button
                 variant="contained"
@@ -133,6 +166,37 @@ function Emotions(props) {
           </Grid>
         </Toolbar>
       </AppBar>
+      <Dialog
+        aria-labelledby="simple-dialog-title"
+        aria-describedby="alert-dialog-description"
+        open={emotionState.open}
+        onClose={handleClose}
+      >
+        <DialogTitle id="simple-dialog-title">Notice</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            We noticed you indicated you’re having some thoughts about hurting
+            yourself. We’re sorry you’re struggling right now. If you feel you
+            can’t keep yourself safe, please call 911 or the suicide hotline.
+            Here are some more resources that might be useful:
+            <br /> <br />
+            Helpline Phone Numbers: <br />
+            <ul>
+              <li>
+                National Helpline for Mental Health and/or Substance Use
+                1-800-662-HELP (4357){' '}
+              </li>
+              <li>Suicide Prevention Hotline 1-800-273-TALK </li>
+              <li>Crisis Text Line - text START to 741-741</li>
+            </ul>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            I UNDERSTAND
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Paper>
   );
 }

@@ -1,0 +1,7 @@
+.react-calendar-heatmap .color-empty {
+    fill: #eeeeee;
+  }
+  
+.react-calendar-heatmap .color-filled {
+    fill: #039BE5;
+}

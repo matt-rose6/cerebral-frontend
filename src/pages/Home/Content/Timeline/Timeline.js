@@ -13,9 +13,11 @@ import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
-// import { getEntries } from '../../../../services/EntryServices/entryServices';
 import Post from './Post/EntryPost';
 import history from '../../../../services/history';
+import CalendarHeatmap from 'react-calendar-heatmap';
+import Calendar from '../Calendar/Calendar';
+import '../style.css';
 
 const styles = (theme) => ({
   paper: {
@@ -43,6 +45,7 @@ const styles = (theme) => ({
 
 function Timeline(props) {
   const { classes } = props;
+  let heatObj = [];
 
   let lst =
     props.entries.length === 0 ? (
@@ -51,69 +54,87 @@ function Timeline(props) {
       </Typography>
     ) : (
       props.entries.map((child, index) => {
-        //console.log(child)
+        const heatPoint = {
+          date: new Date(child.dates),
+          count: 1,
+        };
+        heatObj.push(heatPoint);
+
         return <Post text={child.entry} date={child.dates} key={child.dates} />; //deletePost={()=>deletePost(index)}/>
       })
     );
 
+  let heatmap =
+    heatObj.length === 0 ? (
+      <div />
+    ) : (
+      <CalendarHeatmap
+        startDate={new Date('2020-01-01')}
+        endDate={new Date('2021-01-01')}
+        values={heatObj}
+      />
+    );
+
   return (
-    <Paper className={classes.paper}>
-      <AppBar
-        className={classes.entryBar}
-        position="static"
-        color="default"
-        elevation={0}
-      >
-        <Toolbar>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                align="center"
-                onClick={() => {
-                  history.push('/addEntry');
-                }}
-              >
-                New entry
-              </Button>
+    <>
+      <Paper className={classes.paper}>
+        <AppBar
+          className={classes.entryBar}
+          position="static"
+          color="default"
+          elevation={0}
+        >
+          <Toolbar>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  align="center"
+                  onClick={() => {
+                    history.push('/addEntry');
+                  }}
+                >
+                  Write a new entry
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      <AppBar
-        className={classes.searchBar}
-        position="static"
-        color="default"
-        elevation={0}
-      >
-        <Toolbar>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              <SearchIcon className={classes.block} color="inherit" />
+          </Toolbar>
+        </AppBar>
+        <AppBar
+          className={classes.searchBar}
+          position="static"
+          color="default"
+          elevation={0}
+        >
+          <Toolbar>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <SearchIcon className={classes.block} color="inherit" />
+              </Grid>
+              <Grid item xs>
+                <TextField
+                  fullWidth
+                  placeholder="Search by date"
+                  InputProps={{
+                    disableUnderline: true,
+                    className: classes.searchInput,
+                  }}
+                />
+              </Grid>
+              <Grid item>
+                <Tooltip title="Reload">
+                  <IconButton onClick={() => window.location.reload(false)}>
+                    <RefreshIcon className={classes.block} color="inherit" />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
             </Grid>
-            <Grid item xs>
-              <TextField
-                fullWidth
-                placeholder="Search by date"
-                InputProps={{
-                  disableUnderline: true,
-                  className: classes.searchInput,
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Tooltip title="Reload">
-                <IconButton onClick={() => window.location.reload(false)}>
-                  <RefreshIcon className={classes.block} color="inherit" />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      <div className={classes.contentWrapper}>{lst}</div>
-    </Paper>
+          </Toolbar>
+        </AppBar>
+        <div className={classes.contentWrapper}>{lst}</div>
+      </Paper>
+    </>
   );
 }
 

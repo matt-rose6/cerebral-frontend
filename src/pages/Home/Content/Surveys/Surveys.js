@@ -15,6 +15,8 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import Post from './Post/SurveyPost';
 import Button from '@material-ui/core/Button';
 import history from '../../../../services/history';
+import CalendarHeatmap from 'react-calendar-heatmap';
+import '../style.css'
 
 const styles = (theme) => ({
   paper: {
@@ -43,6 +45,8 @@ const styles = (theme) => ({
 function Surveys(props) {
   const { classes } = props;
 
+  let heatObj = []
+
   let lst =
     props.surveys.length === 0 ? (
       <Typography color="textSecondary" align="center">
@@ -50,6 +54,11 @@ function Surveys(props) {
       </Typography>
     ) : (
       props.surveys.map((child, index) => {
+        const heatPoint = {
+          date: new Date(child.dates),
+          count: 1,
+        }
+        heatObj.push(heatPoint);
         return (
           <Post
             text="BDI Response Recorded"
@@ -60,64 +69,79 @@ function Surveys(props) {
       })
     );
 
+    let heatmap = heatObj.length === 0 ? <div /> : 
+    <CalendarHeatmap
+      startDate={new Date('2020-01-01')}
+      endDate={new Date('2021-01-01')}
+      values={heatObj}
+    />
+
   return (
-    <Paper className={classes.paper}>
-      <AppBar
-        className={classes.entryBar}
-        position="static"
-        color="default"
-        elevation={0}
-      >
-        <Toolbar>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                //style={{marginLeft: '45%', marginBottom: '20px'}}
-                onClick={() => {
-                  history.push('/addSurvey');
-                }}
-              >
-                Complete survey
-              </Button>
+    <>
+      <Typography variant="body1" paragraph align="center">
+        {heatObj.length} surveys in the past year
+    </Typography>
+    <div style={{width: "80%", margin: "auto", marginBottom: '20px'}}>
+      {heatmap}
+    </div>
+      <Paper className={classes.paper}>
+        <AppBar
+          className={classes.entryBar}
+          position="static"
+          color="default"
+          elevation={0}
+        >
+          <Toolbar>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  //style={{marginLeft: '45%', marginBottom: '20px'}}
+                  onClick={() => {
+                    history.push('/addSurvey');
+                  }}
+                >
+                  Complete new survey
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      <AppBar
-        className={classes.searchBar}
-        position="static"
-        color="default"
-        elevation={0}
-      >
-        <Toolbar>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              <SearchIcon className={classes.block} color="inherit" />
+          </Toolbar>
+        </AppBar>
+        <AppBar
+          className={classes.searchBar}
+          position="static"
+          color="default"
+          elevation={0}
+        >
+          <Toolbar>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <SearchIcon className={classes.block} color="inherit" />
+              </Grid>
+              <Grid item xs>
+                <TextField
+                  fullWidth
+                  placeholder="Search by date"
+                  InputProps={{
+                    disableUnderline: true,
+                    className: classes.searchInput,
+                  }}
+                />
+              </Grid>
+              <Grid item>
+                <Tooltip title="Reload">
+                  <IconButton onClick={() => window.location.reload(false)}>
+                    <RefreshIcon className={classes.block} color="inherit" />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
             </Grid>
-            <Grid item xs>
-              <TextField
-                fullWidth
-                placeholder="Search by date"
-                InputProps={{
-                  disableUnderline: true,
-                  className: classes.searchInput,
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Tooltip title="Reload">
-                <IconButton onClick={() => window.location.reload(false)}>
-                  <RefreshIcon className={classes.block} color="inherit" />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      <div className={classes.contentWrapper}>{lst}</div>
-    </Paper>
+          </Toolbar>
+        </AppBar>
+        <div className={classes.contentWrapper}>{lst}</div>
+      </Paper>
+    </>
   );
 }
 

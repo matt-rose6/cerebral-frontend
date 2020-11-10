@@ -8,29 +8,51 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import JournalIcon from '@material-ui/icons/Message'
+import JournalIcon from '@material-ui/icons/Message';
 import SettingsIcon from '@material-ui/icons/Settings';
-import SurveyIcon from '@material-ui/icons/Assignment'
+import SurveyIcon from '@material-ui/icons/Assignment';
 import PatternIcon from '@material-ui/icons/AllInclusive';
 import InfoIcon from '@material-ui/icons/DonutSmall';
-import {Link} from 'react-router-dom';
-import {withRouter} from 'react-router';
-import {compose} from 'recompose';
+import HomeIcon from '@material-ui/icons/Home';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
+import { compose } from 'recompose';
 
 const categories = [
   {
-    id: "Menu",
+    id: 'Menu',
     children: [
-      { id: 'Entries', icon: <JournalIcon />, link: '/', sublink: '/addEntry' },
-      { id: 'Surveys', icon: <SurveyIcon />, link: '/surveys', sublink: '/addSurvey'},
-      { id: 'Thought Patterns', icon: <PatternIcon /> , link:'/patterns', sublink: null},
-      { id: 'Account', icon: <SettingsIcon />, link: '/settings', sublink: null},
+      { id: 'Home', icon: <HomeIcon />, link: '/', sublink: '/event' },
+      {
+        id: 'Add Entry',
+        icon: <JournalIcon />,
+        link: '/addEntry',
+        sublink: '/entries',
+      },
+      {
+        id: 'Add Survey',
+        icon: <SurveyIcon />,
+        link: '/addSurvey',
+        sublink: '/surveys',
+      },
+      {
+        id: 'Thought Patterns',
+        icon: <PatternIcon />,
+        link: '/patterns',
+        sublink: null,
+      },
+      {
+        id: 'Account',
+        icon: <SettingsIcon />,
+        link: '/settings',
+        sublink: null,
+      },
       // { id: 'About', icon: <InfoIcon />, link: '/about'}
     ],
   },
 ];
 
-const styles = theme => ({
+const styles = (theme) => ({
   categoryHeader: {
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
@@ -74,18 +96,27 @@ const styles = theme => ({
   },
 });
 
-
-
 function Navigator(props) {
-  const { classes, location:{pathname}, staticContext, ...other } = props;
+  const {
+    classes,
+    location: { pathname },
+    staticContext,
+    ...other
+  } = props;
 
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
-        <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
+        <ListItem
+          className={clsx(classes.firebase, classes.item, classes.itemCategory)}
+        >
           Cerebral
         </ListItem>
-        <ListItem className={clsx(classes.item, classes.itemCategory)} component={Link} to='/about'>
+        <ListItem
+          className={clsx(classes.item, classes.itemCategory)}
+          component={Link}
+          to="/about"
+        >
           <ListItemIcon className={classes.itemIcon}>
             <InfoIcon />
           </ListItemIcon>
@@ -100,24 +131,30 @@ function Navigator(props) {
         {categories.map(({ id, children }) => (
           <React.Fragment key={id}>
             <div className={classes.list}>
-            {children.map(({ id: childId, icon, link, sublink }) => (
-              <ListItem
-                key={childId}
-                button
-                component={Link}
-                to = {link}
-                className={clsx(classes.item, (pathname===link || pathname===sublink) && classes.itemActiveItem)}
-              >
-                <ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
-                <ListItemText
-                  classes={{
-                    primary: classes.itemPrimary,
-                  }}
+              {children.map(({ id: childId, icon, link, sublink }) => (
+                <ListItem
+                  key={childId}
+                  button
+                  component={Link}
+                  to={link}
+                  className={clsx(
+                    classes.item,
+                    (pathname === link || pathname === sublink) &&
+                      classes.itemActiveItem
+                  )}
                 >
-                  {childId}
-                </ListItemText>
-              </ListItem>
-            ))}
+                  <ListItemIcon className={classes.itemIcon}>
+                    {icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    classes={{
+                      primary: classes.itemPrimary,
+                    }}
+                  >
+                    {childId}
+                  </ListItemText>
+                </ListItem>
+              ))}
             </div>
             <Divider className={classes.divider} />
           </React.Fragment>
@@ -131,7 +168,4 @@ Navigator.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default compose(
-  withRouter,
-  withStyles(styles)
-)(Navigator)
+export default compose(withRouter, withStyles(styles))(Navigator);
